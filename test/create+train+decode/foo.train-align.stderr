@@ -1,0 +1,284 @@
+------
+pid:  5563
+------
+
+Conditional objective function
+(No lenmatch)
+# Model FST: all 1  grams
+# Loading feature extraction library 'simple'
+Making model
+Obj. function type: 1
+# Constructing ObjectiveFunctionFst
+# Num params: 732
+# Constructing ObjectiveFunctionFstConditional
+# Data size: 25
+# Num params: 732
+GetNumParameters result: 732
+Found 732 params
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Adding 0.5  (all params)
+Setting eigenvalue maxiter 1000
+Setting new timelimit 500
+Returning x=6.9953102	g=6.9953102	obj=18723.198	[64.00 ms, 201.22 MB]
+Returning x=6.9597039	g=6.9597039	obj=18527.134	[64.00 ms, 201.22 MB]
+Returning x=6.8172789	g=6.8172789	obj=17751.757	[64.00 ms, 201.22 MB]
+Returning x=6.2475787	g=6.2475787	obj=14830.327	[71.00 ms, 201.22 MB]
+Returning x=3.9687782	g=3.9687782	obj=6467.9493	[278.00 ms, 201.22 MB]
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Returning x=-5.1464239	g=0	obj=inf	[14534.00 ms, 201.22 MB]
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Seen 1000 bad eigenvalues. Diverge.
+DIVERGE

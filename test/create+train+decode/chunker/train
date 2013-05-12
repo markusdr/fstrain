@@ -1,0 +1,154 @@
+S confidence/NN in/IN the/DT pound/NN is/VBZ widely/RB expected/VBN to/TO take/VB another/DT sharp/JJ UNK if/IN trade/NN figures/NNS for/IN september/NNP ,/, UNK for/IN UNK UNK ,/, UNK to/TO show/VB a/DT substantial/JJ improvement/NN from/IN july/NNP and/CC august/NNP 's/POS UNK UNK ./. E
+S B_NP B_PP B_NP I_NP B_VP I_VP I_VP I_VP I_VP B_NP I_NP I_NP B_SBAR B_NP I_NP B_PP B_NP O B_ADJP B_PP B_NP B_NP O B_VP I_VP I_VP B_NP I_NP I_NP B_PP B_NP I_NP I_NP B_NP I_NP I_NP O E
+S UNK of/IN the/DT UNK UNK lawson/NNP 's/POS UNK UNK to/TO a/DT firm/NN monetary/JJ policy/NN has/VBZ UNK to/TO UNK a/DT UNK in/IN sterling/NN over/IN the/DT past/JJ week/NN ./. E
+S O B_PP B_NP I_NP B_NP I_NP B_NP I_NP I_NP B_PP B_NP I_NP I_NP I_NP B_VP I_VP I_VP I_VP B_NP I_NP B_PP B_NP B_PP B_NP I_NP I_NP O E
+S but/CC analysts/NNS UNK UNK UNK for/IN sterling/NN has/VBZ UNK UNK by/IN the/DT chancellor/NN 's/POS UNK to/TO UNK any/DT UNK policy/NN UNK in/IN his/PRP$ mansion/NNP house/NNP speech/NN last/JJ thursday/NNP ./. E
+S O B_NP B_VP B_NP I_NP B_PP B_NP B_VP I_VP I_VP B_PP B_NP I_NP B_NP I_NP B_VP I_VP B_NP I_NP I_NP I_NP B_PP B_NP I_NP I_NP I_NP B_NP I_NP O E
+S this/DT has/VBZ UNK the/DT UNK of/IN the/DT government/NN UNK forced/VBN to/TO increase/VB base/NN rates/NNS to/TO 16/CD %/NN from/IN their/PRP$ current/JJ UNK %/NN level/NN to/TO UNK the/DT pound/NN ,/, economists/NNS and/CC foreign/JJ exchange/NN market/NN analysts/NNS say/VBP ./. E
+S B_NP B_VP I_VP B_NP I_NP B_PP B_NP I_NP B_VP I_VP I_VP I_VP B_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP I_NP I_NP I_NP B_VP I_VP B_NP I_NP O B_NP O B_NP I_NP I_NP I_NP B_VP O E
+S ``/`` the/DT UNK for/IN sterling/NN of/IN a/DT bad/JJ trade/NN UNK are/VBP very/RB UNK on/IN the/DT UNK UNK ,/, ''/'' said/VBD UNK dillow/NNP ,/, UNK u.K./NNP economist/NN at/IN UNK UNK institute/NNP ./. E
+S O B_NP I_NP B_PP B_NP B_PP B_NP I_NP I_NP I_NP B_VP B_ADVP I_ADVP B_PP B_NP I_NP I_NP O O B_VP B_NP I_NP O B_NP I_NP I_NP B_PP B_NP I_NP I_NP O E
+S ``/`` if/IN there/EX is/VBZ another/DT bad/JJ trade/NN UNK ,/, there/EX could/MD be/VB an/DT UNK lot/NN of/IN pressure/NN ,/, ''/'' noted/VBD UNK briscoe/NNP ,/, u.K./NNP economist/NN for/IN midland/NNP UNK ,/, a/DT UNK of/IN midland/NNP UNK UNK ./. E
+S O B_SBAR B_NP B_VP B_NP I_NP I_NP I_NP O B_NP B_VP I_VP B_NP I_NP I_NP B_PP B_NP O O B_VP B_NP I_NP O B_NP I_NP B_PP B_NP I_NP O B_NP I_NP B_PP B_NP I_NP I_NP O E
+S UNK for/IN the/DT trade/NN figures/NNS UNK widely/RB ,/, but/CC few/JJ economists/NNS expect/VBP the/DT data/NNS to/TO show/VB a/DT very/RB UNK improvement/NN from/IN the/DT #/# UNK billion/CD UNK $/$ UNK billion/CD UNK deficit/NN in/IN the/DT current/JJ account/NN UNK for/IN august/NNP ./. E
+S B_NP B_PP B_NP I_NP I_NP B_VP B_ADVP O O B_NP I_NP B_VP B_NP I_NP B_VP I_VP B_NP I_NP I_NP I_NP B_PP O O O O O B_ADJP O O O B_NP B_PP B_NP I_NP I_NP B_VP B_PP B_NP O E
+S the/DT august/NNP deficit/NN and/CC the/DT #/# UNK billion/CD gap/NN UNK in/IN july/NNP are/VBP UNK only/RB by/IN the/DT #/# UNK billion/CD deficit/NN of/IN UNK 1988/CD ./. E
+S B_NP I_NP I_NP O B_NP I_NP I_NP I_NP I_NP B_VP B_PP B_NP B_VP I_VP B_ADVP B_PP B_NP I_NP I_NP I_NP I_NP B_PP B_NP I_NP O E
+S UNK UNK ,/, european/JJ economist/NN at/IN UNK UNK UNK UNK ,/, said/VBD there/EX is/VBZ no/DT UNK that/IN UNK 's/POS UNK industry/NN is/VBZ UNK itself/PRP to/TO UNK exports/NNS ./. E
+S B_NP I_NP O B_NP I_NP B_PP B_NP I_NP I_NP I_NP O B_VP B_NP B_VP B_NP I_NP B_SBAR B_NP B_NP I_NP I_NP B_VP I_VP B_NP B_VP I_VP B_NP O E
+S at/IN the/DT UNK UNK ,/, he/PRP remains/VBZ fairly/RB UNK about/IN the/DT UNK for/IN imports/NNS ,/, UNK UNK UNK consumer/NN and/CC UNK goods/NNS UNK ./. E
+S B_PP B_NP I_NP I_NP O B_NP B_VP B_ADJP I_ADJP B_PP B_NP I_NP B_PP B_NP O B_PP B_NP I_NP I_NP I_NP I_NP I_NP I_NP O E
+S he/PRP UNK the/DT current/JJ account/NN deficit/NN will/MD narrow/VB to/TO only/RB #/# UNK billion/CD in/IN september/NNP ./. E
+S B_NP B_VP B_NP I_NP I_NP I_NP B_VP I_VP B_PP B_NP I_NP I_NP I_NP B_PP B_NP O E
+S UNK ,/, mr./NNP dillow/NNP said/VBD he/PRP believes/VBZ that/IN a/DT UNK in/IN UNK UNK UNK by/IN industry/NN could/MD UNK to/TO a/DT sharp/JJ drop/NN in/IN imports/NNS ./. E
+S B_ADVP O B_NP I_NP B_VP B_NP B_VP B_SBAR B_NP I_NP B_PP B_NP I_NP I_NP B_PP B_NP B_VP I_VP B_PP B_NP I_NP I_NP B_PP B_NP O E
+S UNK with/IN at/IN least/JJS some/DT UNK in/IN exports/NNS UNK august/NNP 's/POS UNK decline/NN ,/, the/DT deficit/NN could/MD narrow/VB to/TO as/RB little/JJ as/IN #/# 1.3/CD billion/CD ./. E
+S B_PP B_PP B_ADVP I_ADVP B_NP I_NP B_PP B_NP B_PP B_NP B_NP I_NP I_NP O B_NP I_NP B_VP I_VP B_PP B_NP I_NP I_NP I_NP I_NP I_NP O E
+S mr./NNP briscoe/NNP ,/, who/WP also/RB UNK a/DT #/# 1.3/CD billion/CD current/JJ account/NN gap/NN ,/, UNK that/IN UNK if/IN the/DT trade/NN figures/NNS are/VBP UNK for/IN sterling/NN ,/, the/DT currency/NN wo/MD n't/RB UNK much/JJ because/IN UNK will/MD want/VB to/TO see/VB further/JJ evidence/NN of/IN the/DT UNK UNK UNK UNK ./. E
+S B_NP I_NP O B_NP B_ADVP B_VP B_NP I_NP I_NP I_NP I_NP I_NP I_NP O B_VP B_SBAR B_SBAR I_SBAR B_NP I_NP I_NP B_VP B_ADJP B_PP B_NP O B_NP I_NP B_VP I_VP I_VP B_NP B_SBAR B_NP B_VP I_VP I_VP I_VP B_NP I_NP B_PP B_NP I_NP B_PP B_VP B_NP O E
+S UNK ,/, he/PRP noted/VBD ,/, ``/`` no/DT UNK will/MD want/VB to/TO UNK UNK the/DT trade/NN figures/NNS UNK a/DT UNK UNK ''/'' in/IN the/DT pound/NN ./. E
+S B_ADVP O B_NP B_VP O O B_NP I_NP B_VP I_VP I_VP I_VP B_PP B_NP I_NP I_NP B_PP B_NP I_NP I_NP O B_PP B_NP I_NP O E
+S UNK ,/, UNK evidence/NN on/IN the/DT economy/NN remains/VBZ fairly/RB UNK ./. E
+S B_ADVP O B_NP I_NP B_PP B_NP I_NP B_VP B_ADJP I_ADJP O E
+S in/IN his/PRP$ mansion/NNP house/NNP speech/NN ,/, mr./NNP lawson/NNP UNK that/IN a/DT further/JJ slowdown/NN can/MD be/VB expected/VBN as/IN the/DT UNK of/IN the/DT last/JJ rise/NN in/IN interest/NN rates/NNS UNK this/DT UNK UNK UNK ./. E
+S B_PP B_NP I_NP I_NP I_NP O B_NP I_NP B_VP B_SBAR B_NP I_NP I_NP B_VP I_VP I_VP B_SBAR B_NP I_NP B_PP B_NP I_NP I_NP B_PP B_NP I_NP B_NP I_NP I_NP B_VP B_NP O E
+S UNK base/NN rates/NNS are/VBP at/IN their/PRP$ UNK level/NN in/IN eight/CD years/NNS ./. E
+S B_NP I_NP I_NP B_VP B_PP B_NP I_NP I_NP B_PP B_NP I_NP O E
+S but/CC consumer/NN UNK data/NNS UNK friday/NNP UNK n't/RB UNK that/IN the/DT u.K./NNP economy/NN is/VBZ UNK that/DT UNK ./. E
+S O B_NP I_NP I_NP B_VP B_NP B_VP I_VP I_VP B_SBAR B_NP I_NP I_NP B_VP I_VP B_ADVP I_ADVP O E
+S the/DT figures/NNS show/VBP that/DT spending/NN UNK UNK %/NN in/IN the/DT UNK quarter/NN from/IN the/DT second/JJ quarter/NN and/CC was/VBD up/IN UNK %/NN from/IN a/DT year/NN UNK ./. E
+S B_NP I_NP B_VP O B_NP B_VP B_NP I_NP B_PP B_NP I_NP I_NP B_PP B_NP I_NP I_NP O B_VP B_ADVP B_NP I_NP B_PP B_NP I_NP B_ADVP O E
+S this/DT UNK with/IN a/DT UNK %/NN rise/NN in/IN the/DT UNK from/IN the/DT first/JJ quarter/NN and/CC a/DT UNK %/NN increase/NN from/IN the/DT second/JJ quarter/NN of/IN 1988/CD ./. E
+S B_NP B_VP B_PP B_NP I_NP I_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP I_NP O B_NP I_NP I_NP I_NP B_PP B_NP I_NP I_NP B_PP B_NP O E
+S mr./NNP dillow/NNP said/VBD the/DT data/NNS show/VBP the/DT economy/NN ``/`` is/VBZ still/RB UNK UNK ,/, ''/'' but/CC UNK that/IN much/NN of/IN the/DT spending/NN UNK on/IN UNK UNK than/IN consumer/NN goods/NNS UNK reduce/VB UNK of/IN more/JJR UNK UNK ./. E
+S B_NP I_NP B_VP B_NP I_NP B_VP B_NP I_NP O B_VP B_ADVP B_ADJP I_ADJP O O O B_NP B_SBAR B_NP B_PP B_NP I_NP B_VP B_PP B_NP B_PP I_PP B_NP I_NP B_VP I_VP B_NP B_PP B_NP I_NP I_NP O E
+S UNK ,/, the/DT chancellor/NN has/VBZ UNK it/PRP UNK that/IN he/PRP is/VBZ UNK to/TO increase/VB interest/NN rates/NNS UNK if/IN necessary/JJ to/TO both/DT ensure/VB that/IN a/DT substantial/JJ slowdown/NN does/VBZ take/VB UNK and/CC that/DT sterling/NN does/VBZ n't/RB UNK further/JJ ./. E
+S B_ADVP O B_NP I_NP B_VP I_VP B_NP B_ADJP B_SBAR B_NP B_VP I_VP I_VP I_VP B_NP I_NP B_ADVP B_SBAR B_ADJP B_VP I_VP I_VP B_SBAR B_NP I_NP I_NP B_VP I_VP B_NP O O B_NP B_VP I_VP I_VP B_ADVP O E
+S thursday/NNP ,/, he/PRP UNK his/PRP$ UNK that/IN the/DT government/NN ``/`` can/MD not/RB UNK the/DT necessary/JJ UNK of/IN monetary/JJ policy/NN to/TO be/VB UNK by/IN exchange/NN rate/NN UNK ./. ''/'' E
+S B_NP O B_NP B_VP B_NP I_NP B_SBAR B_NP I_NP O B_VP I_VP I_VP B_NP I_NP I_NP B_PP B_NP I_NP B_VP I_VP I_VP B_PP B_NP I_NP I_NP O O E
+S analysts/NNS UNK there/EX is/VBZ little/JJ UNK sterling/NN firm/NN at/IN the/DT UNK other/JJ than/IN mr./NNP lawson/NNP 's/POS promise/NN that/IN rates/NNS will/MD be/VB UNK higher/JJR if/IN necessary/JJ ./. E
+S B_NP B_VP B_NP B_VP B_NP B_VP B_NP B_ADJP B_PP B_NP I_NP B_ADJP B_PP B_NP I_NP B_NP I_NP B_SBAR B_NP B_VP I_VP I_VP B_ADJP B_SBAR B_ADJP O E
+S and/CC ,/, they/PRP UNK ,/, any/DT further/JJ drop/NN in/IN the/DT government/NN 's/POS UNK could/MD UNK make/VB this/DT promise/NN UNK UNK ./. E
+S O O B_NP B_VP O B_NP I_NP I_NP B_PP B_NP I_NP B_NP I_NP B_VP I_VP I_VP B_NP I_NP B_VP B_ADJP O E
+S UNK was/VBD UNK UNK some/DT signs/NNS of/IN a/DT UNK of/IN confidence/NN in/IN mr./NNP lawson/NNP 's/POS promise/NN friday/NNP ./. E
+S B_NP B_VP I_VP I_VP B_NP I_NP B_PP B_NP I_NP B_PP B_NP B_PP B_NP I_NP B_NP I_NP B_NP O E
+S in/IN european/JJ trading/NN it/PRP declined/VBD to/TO $/$ UNK and/CC UNK marks/NNS from/IN $/$ UNK and/CC UNK marks/NNS late/JJ thursday/NNP ./. E
+S B_PP B_NP I_NP B_NP B_VP B_PP B_NP I_NP O B_NP I_NP B_PP B_NP I_NP O B_NP I_NP B_NP I_NP O E
+S economists/NNS UNK that/IN if/IN the/DT pound/NN UNK much/JJ UNK UNK marks/NNS ,/, the/DT government/NN will/MD be/VB forced/VBN to/TO increase/VB rates/NNS to/TO 16/CD %/NN ,/, both/DT to/TO UNK any/DT further/JJ decline/NN and/CC ensure/VB that/IN the/DT UNK of/IN monetary/JJ policy/NN remains/VBZ UNK ./. E
+S B_NP B_VP B_SBAR B_SBAR B_NP I_NP B_VP B_NP B_PP B_NP I_NP O B_NP I_NP B_VP I_VP I_VP I_VP I_VP B_NP B_PP B_NP I_NP O B_VP I_VP B_VP B_NP I_NP I_NP O B_VP B_SBAR B_NP I_NP B_PP B_NP I_NP B_VP B_ADJP O E
+S friday/NNP 's/POS UNK UNK E
+S B_NP B_NP I_NP I_NP E
+S the/DT dollar/NN UNK UNK in/IN UNK trading/NN as/IN UNK about/IN UNK UNK ./. E
+S B_NP I_NP B_VP B_NP B_PP B_NP I_NP B_SBAR B_NP B_PP B_NP B_VP O E
+S foreign/JJ exchange/NN UNK said/VBD that/IN the/DT currency/NN market/NN has/VBZ begun/VBN to/TO UNK itself/PRP from/IN the/DT UNK stock/NN exchange/NN ,/, which/WDT has/VBZ UNK the/DT market/NN since/IN oct./NNP UNK ,/, when/WRB the/DT UNK UNK UNK UNK UNK more/JJR than/IN UNK UNK ./. E
+S B_NP I_NP I_NP B_VP B_SBAR B_NP I_NP I_NP B_VP I_VP I_VP I_VP B_NP B_PP B_NP I_NP I_NP I_NP O B_NP B_VP I_VP B_NP I_NP B_PP B_NP I_NP O B_ADVP B_NP I_NP I_NP I_NP I_NP B_VP B_NP I_NP I_NP I_NP O E
+S currency/NN analysts/NNS UNK that/IN in/IN the/DT UNK week/NN the/DT foreign/JJ exchange/NN market/NN will/MD UNK its/PRP$ UNK UNK to/TO UNK UNK ,/, UNK a/DT close/NN UNK out/IN for/IN any/DT signs/NNS of/IN monetary/JJ UNK by/IN u.S./NNP UNK UNK ./. E
+S B_NP I_NP B_VP B_SBAR B_PP B_NP I_NP I_NP B_NP I_NP I_NP I_NP B_VP I_VP B_NP I_NP B_ADVP B_PP B_NP I_NP O B_VP B_NP I_NP I_NP B_ADVP B_PP B_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP I_NP O E
+S UNK in/IN the/DT new/NNP york/NNP trading/NN UNK ,/, the/DT dollar/NN was/VBD quoted/VBN at/IN UNK marks/NNS ,/, up/IN from/IN UNK marks/NNS late/JJ thursday/NNP in/IN new/NNP york/NNP ./. E
+S B_ADVP B_PP B_NP I_NP I_NP I_NP I_NP O B_NP I_NP B_VP I_VP B_PP B_NP I_NP O B_ADVP B_PP B_NP I_NP B_NP I_NP B_PP B_NP I_NP O E
+S the/DT u.S./NNP currency/NN was/VBD also/RB UNK UNK at/IN UNK yen/NN ,/, up/IN from/IN UNK yen/NN in/IN new/NNP york/NNP late/JJ thursday/NNP ./. E
+S B_NP I_NP I_NP B_VP I_VP I_VP B_NP B_PP B_NP I_NP O B_ADVP B_PP B_NP I_NP B_PP B_NP I_NP B_NP I_NP O E
+S in/IN tokyo/NNP on/IN monday/NNP ,/, the/DT u.S./NNP currency/NN UNK for/IN trading/NN at/IN UNK yen/NN ,/, up/IN from/IN friday/NNP 's/POS tokyo/NNP close/NN of/IN UNK yen/NN ./. E
+S B_PP B_NP B_PP B_NP O B_NP I_NP I_NP B_VP B_PP B_NP B_PP B_NP I_NP O B_ADVP B_PP B_NP B_NP I_NP I_NP B_PP B_NP I_NP O E
+S on/IN the/DT UNK exchange/NNP in/IN new/NNP york/NNP ,/, gold/NN for/IN current/JJ UNK UNK at/IN $/$ UNK an/DT ounce/NN ,/, up/IN UNK UNK ./. E
+S B_PP B_NP I_NP I_NP B_PP B_NP I_NP O B_NP B_PP B_NP I_NP B_VP B_PP B_NP I_NP B_NP I_NP O B_ADVP B_NP I_NP O E
+S UNK UNK was/VBD a/DT UNK UNK million/CD UNK ./. E
+S B_NP I_NP B_VP B_NP I_NP I_NP I_NP I_NP O E
+S in/IN early/JJ trading/NN in/IN UNK UNK monday/NNP ,/, gold/NN was/VBD quoted/VBN at/IN $/$ UNK an/DT ounce/NN ./. E
+S B_PP B_NP I_NP B_PP B_NP I_NP B_NP O B_NP B_VP I_VP B_PP B_NP I_NP B_NP I_NP O E
+S east/NNP rock/NNP partners/NNP UNK UNK said/VBD it/PRP UNK to/TO UNK a.P./NNP green/NNP UNK inc./NNP for/IN $/$ UNK a/DT share/NN ./. E
+S B_NP I_NP I_NP I_NP I_NP B_VP B_NP B_VP I_VP I_VP B_NP I_NP I_NP I_NP B_PP B_NP I_NP B_NP I_NP O E
+S in/IN an/DT oct./NNP UNK letter/NN to/TO a.P./NNP green/NNP 's/POS UNK ,/, east/NNP rock/NNP said/VBD the/DT UNK is/VBZ UNK to/TO the/DT UNK of/IN a/DT UNK UNK by/IN no/DT UNK than/IN oct./NNP UNK ./. E
+S B_PP B_NP I_NP I_NP I_NP B_PP B_NP I_NP B_NP I_NP O B_NP I_NP B_VP B_NP I_NP B_VP B_ADJP B_PP B_NP I_NP B_PP B_NP I_NP I_NP B_PP B_ADVP I_ADVP B_PP B_NP I_NP O E
+S the/DT letter/NN ,/, UNK to/TO a/DT filing/NN with/IN the/DT UNK and/CC exchange/NNP UNK ,/, said/VBD the/DT UNK is/VBZ also/RB UNK UNK UNK UNK UNK ./. E
+S B_NP I_NP O B_VP B_PP B_NP I_NP B_PP B_NP I_NP I_NP I_NP I_NP O B_VP B_NP I_NP B_VP B_ADVP B_ADJP B_PP B_VP B_NP I_NP O E
+S an/DT a.P./NNP green/NNP official/NN declined/VBD to/TO UNK on/IN the/DT filing/NN ./. E
+S B_NP I_NP I_NP I_NP B_VP I_VP I_VP B_PP B_NP I_NP O E
+S the/DT $/$ UNK UNK UNK the/DT company/NN at/IN about/RB $/$ UNK million/CD ./. E
+S B_NP I_NP I_NP I_NP B_VP B_NP I_NP B_PP B_NP I_NP I_NP I_NP O E
+S a.P./NNP green/NNP UNK has/VBZ UNK shares/NNS UNK ./. E
+S B_NP I_NP B_ADVP B_VP B_NP I_NP B_ADJP O E
+S its/PRP$ stock/NN UNK at/IN $/$ UNK ,/, up/IN $/$ UNK ,/, in/IN national/JJ UNK trading/NN ./. E
+S B_NP I_NP B_VP B_PP B_NP I_NP O B_ADVP B_NP I_NP O B_PP B_NP I_NP I_NP O E
+S the/DT company/NN is/VBZ a/DT UNK ,/, UNK ,/, UNK of/IN UNK UNK ./. E
+S B_NP I_NP B_VP B_NP I_NP I_NP I_NP I_NP I_NP B_PP B_NP I_NP O E
+S east/NNP rock/NNP also/RB said/VBD in/IN the/DT filing/NN that/IN it/PRP UNK its/PRP$ UNK in/IN a.P./NNP green/NNP to/TO UNK %/NN ./. E
+S B_NP I_NP B_ADVP B_VP B_PP B_NP I_NP B_SBAR B_NP B_VP B_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP O E
+S it/PRP now/RB UNK UNK a.P./NNP green/NNP UNK shares/NNS ,/, UNK UNK shares/NNS UNK last/JJ thursday/NNP for/IN $/$ UNK to/TO $/$ UNK a/DT share/NN ./. E
+S B_NP B_ADVP B_VP B_NP I_NP I_NP I_NP I_NP O B_PP B_NP I_NP B_VP B_NP I_NP B_PP B_NP I_NP I_NP I_NP I_NP B_NP I_NP O E
+S new/NNP UNK UNK UNK and/CC robert/NNP UNK UNK east/NNP rock/NNP partners/NNP inc./NNP ,/, the/DT sole/JJ UNK partner/NN of/IN east/NNP rock/NNP partners/NNP UNK ./. E
+S B_NP I_NP I_NP I_NP I_NP I_NP I_NP B_VP B_NP I_NP I_NP I_NP O B_NP I_NP I_NP I_NP B_PP B_NP I_NP I_NP I_NP O E
+S the/DT sole/JJ UNK partner/NN of/IN the/DT UNK is/VBZ westwood/NNP brick/NNP UNK inc./NNP ,/, an/DT UNK UNK of/IN westwood/NNP group/NNP UNK ./. E
+S B_NP I_NP I_NP I_NP B_PP B_NP I_NP B_VP B_NP I_NP I_NP I_NP O B_NP I_NP I_NP B_PP B_NP I_NP I_NP O E
+S both/DT westwood/NNP brick/NNP and/CC westwood/NNP group/NNP are/VBP UNK in/IN UNK ./. E
+S B_NP B_NP I_NP O B_NP I_NP B_VP I_VP B_PP B_NP O E
+S freight/NN rates/NNS ,/, UNK for/IN UNK of/IN the/DT UNK because/IN of/IN competition/NN UNK by/IN deregulation/NN ,/, are/VBP UNK out/IN ,/, UNK UNK and/CC UNK to/TO UNK inflation/NN ./. E
+S B_NP I_NP O B_VP B_PP B_NP B_PP B_NP I_NP B_PP I_PP B_NP B_VP B_PP B_NP O B_VP I_VP B_PRT O B_VP B_ADVP O B_VP I_VP I_VP B_NP O E
+S UNK ,/, UNK and/CC UNK companies/NNS have/VBP announced/VBN rate/NN increases/NNS ,/, UNK for/IN this/DT UNK or/CC early/JJ next/JJ year/NN ,/, UNK higher/JJR costs/NNS and/CC UNK demand/NN for/IN freight/NN transport/NN ./. E
+S B_NP I_NP I_NP I_NP I_NP I_NP B_VP I_VP B_NP I_NP O B_VP B_PP B_NP I_NP O B_NP I_NP I_NP O B_VP B_NP I_NP O B_NP I_NP B_PP B_NP I_NP O E
+S UNK shippers/NNS say/VBP they/PRP expect/VBP freight/NN rates/NNS to/TO rise/VB at/IN least/JJS as/RB UNK as/IN inflation/NN and/CC UNK UNK in/IN the/DT next/JJ few/JJ years/NNS ./. E
+S B_NP I_NP B_VP B_NP B_VP B_NP I_NP B_VP I_VP B_ADVP I_ADVP B_ADVP I_ADVP B_PP B_NP B_ADVP I_ADVP B_ADVP B_PP B_NP I_NP I_NP I_NP O E
+S that/DT 's/VBZ a/DT UNK UNK from/IN UNK years/NNS when/WRB freight/NN UNK was/VBD a/DT UNK UNK for/IN u.S./NNP UNK ,/, UNK to/TO UNK inflation/NN and/CC make/VB u.S./NNP industry/NN more/RBR UNK UNK ./. E
+S B_NP B_VP B_NP I_NP I_NP B_PP B_NP I_NP B_ADVP B_NP I_NP B_VP B_NP I_NP I_NP B_PP B_NP I_NP O B_VP I_VP I_VP B_NP O B_VP B_NP I_NP B_ADJP I_ADJP B_ADVP O E
+S ``/`` demand/NN has/VBZ UNK up/IN with/IN the/DT UNK of/IN UNK UNK of/IN freight/NN transportation/NN ,/, and/CC rates/NNS are/VBP starting/VBG to/TO UNK up/IN ''/'' at/IN a/DT rate/NN ``/`` UNK to/TO or/CC UNK more/JJR than/IN the/DT inflation/NN rate/NN ,/, ''/'' said/VBD UNK UNK ,/, UNK of/IN logistics/NNS at/IN UNK UNK UNK ./. E
+S O B_NP B_VP I_VP B_PRT B_PP B_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP O O B_NP B_VP I_VP I_VP I_VP B_ADVP O B_PP B_NP I_NP O B_ADJP B_PP O B_ADJP I_ADJP B_PP B_NP I_NP I_NP O O B_VP B_NP I_NP O B_NP B_PP B_NP B_PP B_NP I_NP I_NP O E
+S shippers/NNS UNK UNK by/IN ohio/NNP state/NNP UNK said/VBD they/PRP expect/VBP their/PRP$ freight_transport/JJ ,/, UNK and/CC UNK costs/NNS to/TO rise/VB about/IN UNK %/NN this/DT year/NN ./. E
+S B_NP B_VP B_ADVP B_PP B_NP I_NP I_NP B_VP B_NP B_VP B_NP I_NP I_NP I_NP I_NP I_NP I_NP B_VP I_VP B_NP I_NP I_NP B_NP I_NP O E
+S only/RB UNK %/NN of/IN the/DT UNK shippers/NNS UNK expected/VBN their/PRP$ freight_transport/JJ costs/NNS to/TO UNK ,/, UNK with/IN UNK %/NN who/WP UNK UNK to/TO UNK transport/NN to/TO reduce/VB costs/NNS in/IN past/JJ years/NNS ./. E
+S B_NP I_NP I_NP B_PP B_NP I_NP I_NP B_VP B_VP B_NP I_NP I_NP B_VP I_VP O B_PP B_PP B_NP I_NP B_NP B_VP I_VP B_PP B_NP I_NP B_VP I_VP B_NP B_PP B_NP I_NP O E
+S ``/`` this/DT is/VBZ the/DT first/JJ year/NN since/IN transportation/NN deregulation/NN in/IN 1980/CD that/IN we/PRP have/VBP UNK UNK a/DT UNK and/CC UNK UNK in/IN UNK transportation/NN rates/NNS ,/, ''/'' said/VBD UNK laLonde/NNP ,/, a/DT transportation/NN logistics/NNS UNK at/IN ohio/NNP state/NNP in/IN UNK ./. E
+S O B_NP B_VP B_NP I_NP I_NP B_PP B_NP I_NP B_PP B_NP B_ADVP B_NP B_VP I_VP B_NP I_NP I_NP I_NP I_NP I_NP B_PP B_NP I_NP I_NP O O B_VP B_NP I_NP O B_NP I_NP I_NP I_NP B_PP B_NP I_NP B_PP B_NP O E
+S the/DT deregulation/NN of/IN UNK and/CC UNK companies/NNS that/WDT UNK in/IN 1980/CD UNK shippers/NNS to/TO UNK for/IN transportation/NN ./. E
+S B_NP I_NP B_PP B_NP I_NP I_NP I_NP B_NP B_VP B_PP B_NP B_VP B_NP B_VP I_VP B_PP B_NP O E
+S UNK could/MD UNK their/PRP$ equipment/NN more/RBR UNK ,/, UNK to/TO UNK they/PRP were/VBD UNK to/TO UNK ./. E
+S B_NP B_VP I_VP B_NP I_NP B_ADVP I_ADVP O B_VP B_PP B_NP B_NP B_VP B_ADJP B_VP I_VP O E
+S shippers/NNS UNK about/RB $/$ UNK billion/CD from/IN their/PRP$ UNK ,/, UNK truck/NN and/CC rail/NN costs/NNS ,/, to/TO about/RB $/$ UNK billion/CD ,/, or/CC about/IN UNK %/NN of/IN UNK national/JJ UNK ,/, UNK from/IN UNK %/NN of/IN UNK in/IN UNK ./. E
+S B_NP B_VP B_NP I_NP I_NP I_NP B_PP B_NP I_NP I_NP I_NP I_NP I_NP I_NP I_NP O B_PP B_NP I_NP I_NP I_NP O O B_NP I_NP I_NP B_PP B_NP I_NP I_NP O B_ADVP B_PP B_NP I_NP B_PP B_NP B_PP B_NP O E
+S but/CC with/IN much/NN of/IN the/DT UNK UNK out/IN of/IN the/DT freight_transport/JJ UNK ,/, UNK costs/NNS are/VBP likely/JJ to/TO be/VB UNK UNK in/IN higher/JJR freight/NN rates/NNS ./. E
+S O B_PP B_NP B_PP B_NP I_NP B_VP B_PP B_PP B_NP I_NP I_NP O B_NP I_NP B_VP B_ADJP B_VP I_VP I_VP B_ADVP B_PP B_NP I_NP I_NP O E
+S ``/`` shippers/NNS are/VBP UNK UNK the/DT UNK 's/POS over/IN ,/, UNK ''/'' said/VBD mr./NNP laLonde/NNP ./. E
+S O B_NP B_VP I_VP O B_NP I_NP B_VP B_ADJP O O O B_VP B_NP I_NP O E
+S ``/`` shippers/NNS wo/MD n't/RB be/VB UNK to/TO UNK for/IN UNK UNK as/IN they/PRP have/VBP for/IN the/DT last/JJ eight/CD or/CC UNK years/NNS ./. E
+S O B_NP B_VP I_VP I_VP B_ADJP B_VP I_VP B_PP B_NP I_NP B_SBAR B_NP B_VP B_PP B_NP I_NP I_NP I_NP I_NP I_NP O E
+S transport/NN rates/NNS wo/MD n't/RB be/VB an/DT UNK for/IN UNK UNK increases/NNS in/IN other/JJ UNK of/IN the/DT economy/NN ./. ''/'' E
+S B_NP I_NP B_VP I_VP I_VP B_NP I_NP B_PP B_VP B_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP O O E
+S robert/NNP UNK ,/, a/DT UNK at/IN UNK UNK UNK inc./NNP ,/, UNK ,/, UNK ,/, said/VBD ``/`` we/PRP UNK UNK UNK the/DT UNK of/IN deregulation/NN in/IN UNK UNK ./. E
+S B_NP I_NP O B_NP I_NP B_PP B_NP I_NP I_NP I_NP O B_NP O B_NP O B_VP O B_NP B_VP I_VP B_NP I_NP I_NP B_PP B_NP B_PP B_NP I_NP O E
+S now/RB we/PRP are/VBP starting/VBG to/TO see/VB UNK UNK increases/NNS as/IN carriers/NNS UNK equipment/NN ,/, pay/VB higher/JJR UNK costs/NNS and/CC pay/VB more/JJR for/IN UNK ./. E
+S B_ADVP B_NP B_VP I_VP I_VP I_VP B_NP I_NP I_NP B_SBAR B_NP B_VP B_NP O B_VP B_NP I_NP I_NP O B_VP B_NP B_PP B_NP O E
+S UNK UNK see/VB carriers/NNS UNK to/TO UNK some/DT of/IN the/DT UNK UNK that/WDT UNK UNK ./. ''/'' E
+S B_NP B_VP I_VP B_NP B_VP I_VP I_VP B_NP B_PP B_NP I_NP I_NP B_NP B_VP B_ADVP O O E
+S not/RB UNK believes/VBZ that/IN the/DT UNK UNK are/VBP over/IN for/IN shippers/NNS ./. E
+S B_NP I_NP B_VP B_SBAR B_NP I_NP I_NP B_VP B_ADJP B_PP B_NP O E
+S ``/`` there/EX 's/VBZ still/RB a/DT lot/NN of/IN pressure/NN on/IN rates/NNS in/IN both/DT rail/NN and/CC truck/NN ,/, ''/'' said/VBD UNK UNK ,/, UNK in/IN transportation/NN at/IN UNK institute/NNP of/IN UNK ./. E
+S O B_NP B_VP B_ADVP B_NP I_NP B_PP B_NP B_PP B_NP B_PP B_NP I_NP I_NP I_NP O O B_VP B_NP I_NP O B_NP B_PP B_NP B_PP B_NP I_NP B_PP B_NP O E
+S less_than_truckload/JJ companies/NNS ,/, which/WDT UNK the/DT freight/NN of/IN UNK shippers/NNS in/IN UNK truck/NN UNK ,/, UNK UNK a/DT UNK %/NN rate/NN increase/NN UNK last/JJ UNK ./. E
+S B_NP I_NP O B_NP B_VP B_NP I_NP B_PP B_NP I_NP B_PP B_NP I_NP I_NP O B_VP B_ADVP B_NP I_NP I_NP I_NP I_NP B_VP B_NP I_NP O E
+S the/DT carriers/NNS were/VBD UNK UNK for/IN market/NN share/NN ./. E
+S B_NP I_NP B_VP I_VP B_ADVP B_PP B_NP I_NP O E
+S UNK increases/NNS are/VBP likely/JJ to/TO be/VB UNK by/IN UNK UNK UNK and/CC UNK competition/NN for/IN freight/NN from/IN UNK ./. E
+S B_NP I_NP B_VP B_ADJP B_VP I_VP I_VP B_PP B_NP I_NP I_NP O B_NP I_NP B_PP B_NP B_PP B_NP O E
+S an/DT official/NN at/IN consolidated/NNP freightways/NNP inc./NNP ,/, a/DT UNK UNK ,/, UNK ,/, less_than_truckload/JJ UNK ,/, said/VBD rate/NN UNK in/IN that/DT industry/NN has/VBZ begun/VBN to/TO ``/`` UNK ./. ''/'' E
+S B_NP I_NP B_PP B_NP I_NP I_NP O B_NP I_NP I_NP I_NP I_NP I_NP I_NP I_NP O B_VP B_NP I_NP B_PP B_NP I_NP B_VP I_VP I_VP O B_VP O O E
+S consolidated/NNP freightways/NNP UNK to/TO UNK its/PRP$ rates/NNS UNK %/NN late/JJ this/DT year/NN or/CC early/JJ next/JJ year/NN ,/, and/CC at/IN least/JJS UNK UNK have/VBP announced/VBN UNK increases/NNS ./. E
+S B_NP I_NP B_VP I_VP I_VP B_NP I_NP B_NP I_NP B_NP I_NP I_NP O B_NP I_NP I_NP O O B_NP I_NP I_NP I_NP B_VP I_VP B_NP I_NP O E

@@ -1,0 +1,168 @@
+c-mdreyer
+Sat Mar 10 18:16:26 PST 2012
+Options:
+$build.dir
+[1] "./build"
+
+$sym.threshold
+[1] "1"
+
+$memory.limit
+[1] "-1"
+
+$max.insertions
+[1] "-1"
+
+$num.threads
+[1] "1"
+
+$eigenvalue.maxiter
+[1] "1000"
+
+$openfst.delta
+[1] "1e-06"
+
+$timelimit
+[1] "500"
+
+$ngram.order
+[1] "3"
+
+$isymbols
+[1] "test/create+train+decode/ascii.syms"
+
+$osymbols
+[1] "test/create+train+decode/ascii.syms"
+
+$train.data
+[1] "test/create+train+decode/1.train"
+
+$variance
+[1] "1"
+
+$force.convergence
+[1] TRUE
+
+$random.range
+[1] "0.01"
+
+$output
+[1] "test/create+train+decode/foo"
+
+$lbfgs.max.iterations
+[1] "50"
+
+$align.fst
+[1] "test/create+train+decode/foo-align.fst"
+
+$features
+[1] "simple+len"
+
+$lenpenalty.features
+[1] TRUE
+
+$init.weights
+[1] "test/create+train+decode/foo-align.feat-weights"
+
+$init.names
+[1] "test/create+train+decode/foo-align.feat-names"
+
+[[1]]
+[1] -1
+
+[[1]]
+[1] 1
+
+[[1]]
+[1] ""
+
+[[1]]
+[1] 1000
+
+[[1]]
+[1] 1
+
+[[2]]
+[1] 3
+
+[[3]]
+[1] -1
+
+[[4]]
+[1] 0
+
+[[5]]
+[1] 0
+
+[[6]]
+[1] "test/create+train+decode/foo-align.fst"
+
+[[7]]
+[1] 0
+
+[[8]]
+[1] 0
+
+[[9]]
+[1] 100
+
+[[10]]
+[1] "test/create+train+decode/1.train"
+
+[[11]]
+[1] "test/create+train+decode/ascii.syms"
+
+[[12]]
+[1] "test/create+train+decode/ascii.syms"
+
+[[13]]
+[1] "simple+len"
+
+[[14]]
+[1] "test/create+train+decode/foo-align.feat-names"
+
+[[15]]
+[1] 1
+
+Reading test/create+train+decode/foo-align.feat-weights
+[[1]]
+[1] 1e-06
+
+[[1]]
+[1] 500
+
+[[1]]
+[1] 1
+
+iter    0 value 99.851076
+iter    1 value 99.826135
+iter    2 value 99.816013
+iter    3 value 99.804360
+iter    4 value 99.730893
+iter    5 value 99.693603
+iter    6 value 99.653040
+iter    7 value 99.583525
+iter    8 value 99.571858
+iter    9 value 99.569153
+iter   10 value 99.563531
+iter   11 value 99.562280
+iter   12 value 99.561106
+iter   13 value 99.560724
+iter   14 value 99.560454
+iter   15 value 99.560330
+iter   16 value 99.560229
+iter   17 value 99.560220
+iter   18 value 99.560180
+iter   19 value 99.560168
+iter   20 value 99.560167
+iter   21 value 99.560165
+iter   22 value 99.560164
+iter   23 value 99.560164
+iter   24 value 99.560164
+final  value 99.560164 
+converged
+[[1]]
+[1] "test/create+train+decode/foo.fst"
+
+Sat Mar 10 19:09:46 PST 2012
+list()

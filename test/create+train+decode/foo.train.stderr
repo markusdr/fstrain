@@ -1,0 +1,511 @@
+------
+pid:  9620
+------
+
+Conditional objective function
+(No lenmatch)
+# Model FST from aligning test/create+train+decode/1.train using FST test/create+train+decode/foo-align.fst , then getting  3 grams
+Calling Init_FromAlignment
+# Using 199.219 MB.
+InitFeatureNamesTable(test/create+train+decode/foo-align.feat-names)
+# Using 199.219 MB after storing feature names.
+# Loading feature extraction library 'simple+len'
+DATA 0
+DATA 1
+DATA 2
+DATA 3
+DATA 4
+DATA 5
+DATA 6
+DATA 7
+DATA 8
+DATA 9
+DATA 10
+DATA 11
+DATA 12
+DATA 13
+DATA 14
+DATA 15
+DATA 16
+DATA 17
+DATA 18
+DATA 19
+DATA 20
+DATA 21
+DATA 22
+DATA 23
+DATA 24
+Done creating trie [497.00 ms, 201.73 MB]
+Making model
+Done converting to model FST [33284.00 ms, 2100.30 MB]
+Obj. function type: 1
+# Using 2099.79 MB before creating obj function.
+# Constructing ObjectiveFunctionFst
+# Num params: 2917932
+# Constructing ObjectiveFunctionFstConditional
+# Data size: 25
+# Num params: 2917932
+# Using 2099.79 MB after creating obj function.
+GetNumParameters result: 2917932
+Found 2917932 params
+Read 732 items
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Adding 0.5
+Setting eigenvalue maxiter 1000
+Setting new timelimit 500
+Returning x=4.0003947	g=3.9992852	obj=766.57371	[7778.00 ms, 2622.98 MB]
+Returning x=3.9670959	g=3.9747823	obj=670.48466	[8093.00 ms, 2667.59 MB]
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Returning x=3.4984197	g=0	obj=inf	[1311255.00 ms, 2734.38 MB]
+Returning x=3.9242096	g=3.9352197	obj=628.89672	[8198.00 ms, 2801.16 MB]
+Returning x=3.7073832	g=3.7507843	obj=582.95117	[10594.00 ms, 2845.69 MB]
+Returning x=3.8431421	g=3.849131	obj=574.15848	[8589.00 ms, 2801.16 MB]
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Timeout.
+Timeout.
+500 ms reached.
+Setting eigenvalue maxiter 1000
+Convergence test, iteration 999 ...
+Reached max iter 1000
+Returning divergence.
+DIVERGE
+Returning x=3.3838136	g=0	obj=inf	[1310229.00 ms, 2867.95 MB]
+Returning x=3.8227231	g=3.8301259	obj=566.59814	[8662.00 ms, 2823.43 MB]
+Returning x=3.6322747	g=3.6606679	obj=542.51806	[10032.00 ms, 2934.73 MB]
+Returning x=3.5943879	g=3.6045488	obj=510.14285	[9200.00 ms, 2801.16 MB]
+Returning x=3.2445668	g=3.2560277	obj=438.58307	[8891.00 ms, 2979.26 MB]
+Returning x=1.8452828	g=1.8462744	obj=416.87035	[8358.00 ms, 2979.26 MB]
+Returning x=2.5457469	g=2.54586	obj=370.60004	[8576.00 ms, 3001.52 MB]
+Returning x=1.5391264	g=1.5385287	obj=325.37349	[8377.00 ms, 3001.52 MB]
+Returning x=-0.19065011	g=-0.19452465	obj=287.2173	[8771.00 ms, 2934.73 MB]
+Returning x=0.32049498	g=0.32634221	obj=239.11025	[9222.00 ms, 3001.52 MB]
+Returning x=0.57427121	g=0.61985191	obj=284.42359	[10830.00 ms, 2867.95 MB]
+Returning x=0.39095053	g=0.39693264	obj=232.56712	[9459.00 ms, 2979.26 MB]
+Returning x=0.38416913	g=0.38868442	obj=231.10086	[9239.00 ms, 2890.21 MB]
+Returning x=0.17411962	g=0.18142864	obj=228.11132	[9337.00 ms, 3001.52 MB]
+Returning x=-0.038391696	g=-0.033315674	obj=228.30299	[9541.00 ms, 3046.05 MB]
+Returning x=0.075999932	g=0.08199578	obj=227.45629	[9406.00 ms, 3046.05 MB]
+Returning x=0.023812647	g=0.029795934	obj=226.84533	[9338.00 ms, 2867.95 MB]
+Returning x=0.0099646682	g=0.015946355	obj=226.64714	[9323.00 ms, 3046.05 MB]
+Returning x=0.01343042	g=0.019165694	obj=226.50723	[9317.00 ms, 3046.05 MB]
+Returning x=0.015848321	g=0.022237183	obj=226.44319	[9369.00 ms, 3068.31 MB]
+Returning x=0.014535259	g=0.020567115	obj=226.39121	[9317.00 ms, 2890.21 MB]
+Returning x=0.013199326	g=0.019235609	obj=226.38634	[9322.00 ms, 3046.05 MB]
+Returning x=0.0031845148	g=0.0092005093	obj=226.36562	[9322.00 ms, 3046.05 MB]
+Returning x=-0.001399517	g=0.0046060894	obj=226.35962	[9335.00 ms, 3046.05 MB]
+Returning x=-0.012089861	g=-0.006109952	obj=226.42593	[9335.00 ms, 3046.05 MB]
+Returning x=-0.0024581379	g=0.0035523847	obj=226.35881	[9333.00 ms, 3046.05 MB]
+Returning x=-0.0032876451	g=0.0027380733	obj=226.35809	[9344.00 ms, 3046.05 MB]
+Returning x=-0.0049057092	g=0.0011276712	obj=226.35769	[9332.00 ms, 3046.05 MB]
+Returning x=-0.004400645	g=0.0016378099	obj=226.35736	[9336.00 ms, 3046.05 MB]
+Returning x=-0.004505068	g=0.0015305689	obj=226.35729	[9332.00 ms, 3046.05 MB]
+Convergence:  0
+Message:  CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH
+Writing test/create+train+decode/foo.feat-weights
+Writing test/create+train+decode/foo.feat-names
+# Enter Save(), using 3046.0469 MB.
+# Exit Save(), using 3046.0469 MB.

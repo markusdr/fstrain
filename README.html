@@ -1,0 +1,281 @@
+<head>
+<title>fstrain - Software for training finite-state models</title>
+</head>
+
+<body>
+
+  <h1>fstrain</h1>
+
+  <h2>Introduction</h2>
+
+  <p>Fstrain is a toolkit for training finite-state models from data. It
+    is an extension of OpenFst and implements the expectation semiring to
+    represent and manipulate finite-state machines with (log-linear)
+    features. It uses R for parameter optimization and can handle
+    potentially divergent objective functions.</p>
+
+  <p>Fstrain can be used to train globally normalized sequence models,
+    e.g. for part-of-speech (POS) tagging or named-entity recognition
+    (NER), or string-to-string transductions that may include deletions
+    and insertions (e.g. for lemmatization or spelling correction), or
+    train simple maxent classifiers.
+  </p>
+
+  <p>It allows composing several smaller models and training them
+    jointly, e.g. for a factorial CRF.
+  </p>
+
+  <h2>Build Instructions</h2>
+
+  To build the code, please follow the instructions in the
+  <code>INSTALL</code> file.
+
+  <h2>Fstrain as C++ library</h2>
+
+  <p>Fstrain can be used as a C++ library. It is actually a collection
+    of four libraries:
+    <ul>
+      <li><em>fstrain-core</em> - This library contains the
+	expectation semiring (<code>expectation-weight.h</code>) and a
+	class to represent and compute with negative or positive
+	numbers in log space
+	(<code>neg-log-of-signed-num.h</code>). </li>
+      <li><em>fstrain-create</em> - This library contains code to
+	create finite-state topologies and place features on the
+	transition arcs, whose weights can then be trained.</li>
+      <li><em>fstrain-train</em> - This library contains code for
+	training of feature weights, different objective functions
+	(which compute gradients and function value for a given
+	parameter vector), code to update the weights in a
+	finite-state machine, etc.</li>
+      <li><em>fstrain-util</em> - This library contains miscellaneous
+	code, to check if the cycles in an FST numerically converge
+	(<code>check-convergence,h</code>), to approximately
+	determinize an FST (<code>approx-determinize.h</code>), to
+	convert a string to a one-line FST, etc.</li>
+    </ul>
+  </p>
+
+  <p>For example, just using the <em>fstrain-core</em> library, you
+  can write C++ code to create or load FSTs with features, using the
+  expectation semiring:</p>
+
+  <pre>
+    #include "fstrain/core/expectation-arc.h"
+    
+    fst::MutableFst&lt;fst::ExpectationArc&gt;* f1 = fst::VectorFst&lt;fst::ExpectationArc&gt;::Read(filename);
+
+    fst::VectorFst<fst::ExpectationArc> f2;
+    typedef fst::ExpectationArc::StateId StateId;
+    StateId s = f2.AddState();
+    f2.SetStart(s);
+    f2.SetFinal(s, fst::ExpectationWeight::One());
+    fst::ExpectationWeight w(-log(0.8));
+    w.GetExpectations().insert(0, -log(0.8)); // feature 0 fires once
+    w.GetExpectations().insert(1, -log(0.8)); // feature 1 fires once
+    f2.AddArc(s, fst::ExpectationArc(ilabel, olabel, w, s));
+  </pre>
+
+The standard text file format for reading and writing FSTs is used,
+with an added feature vector in each arc weight. Example:
+
+  <pre>
+    0 1 ilabel olabel 0.2231436[0=0.2231436,1=0.2231436]
+    ...
+  </pre>
+
+  where the feature vector contains key-value
+  pairs <code>[key1=val1,...,keyn=valn]</code>, one for each feature that
+  fires on the arc.
+
+  You can run all FST operations on an FST with features, such as
+  composition, determinization, minimization etc. The semiring
+  operations will keep track of feature expectations in the resulting
+  machines. For details about the semiring, see Eisner (2004).
+  
+  To train the weights for a given FST, see
+  <code>fstrain/train/obj-func-fst-factory.h</code>, which contains an
+  objective function factory that can create an objective function
+  that takes an FST and uses it to compute gradients etc. for a given
+  training corpus. The command-line tools, described in the next
+  section, make use of that code. They are sufficient for some
+  standard scenarios.
+
+  <h2>Command-line tools</h2>
+  
+  Fstrain contains command-line tools for training a model from data
+  and applying a trained model to new data.
+
+  <h3>Training</h3>
+
+  The script <code>scripts/train.R</code> is used for training. It
+  calls code to construct an FST topology (unless the user provides
+  one) and to train the weights from data.
+
+  <h4>Scenario 1: Train weighted Levenshtein distance</h4>
+
+  <pre>
+    ./scripts/train.R \
+      --isymbols=test/create+train+decode/letters/syms \
+      --osymbols=test/create+train+decode/letters/syms \
+      --train-data=test/create+train+decode/letters/train \
+      --ngram-order=1 \
+      --force-convergence --lenpenalty-features \
+      --output=test/create+train+decode/letters/out
+  </pre>
+
+  The example training data <code>train</code> contains input-output
+  pairs. There is always one input on one line and the corresponding
+  output on the next:
+  <pre>
+    S b r i t t a n y _ s p a e r s E
+    S b r i t n e y _ s p e a r s E
+    S b r i n t y _ s p e a r s E
+    S b r i t n e y _ s p e a r s E
+  </pre>
+
+  <p>The <code>syms</code> file contains all symbols of the latin
+  alphabet plus the space symbol used above to encode a blank and
+  start and end symbols. </p>
+
+  <p>The options <code>--force-convergence --lenpenalty-features</code>
+  have the effect that a length penalty is increased before training
+  until the initial parameter values result in a convergent model,
+  i.e. a model on which the forward algorithm can be run without
+  infinite loops.</p>
+
+  <p>The option <code>--ngram-order</code> specifies the ngram order
+  of the ngram model over alignment characters. Levenshtein distance
+  is a unigram model, changes are independent of the context. Note
+  that it is very expensive to specify values greater than 1 without
+  doing any feature selection. See "Scenario 2" for a way to do
+  that.</p>
+
+  <p>The training will write 3 output files
+  in <code>test/create+train+decode/letters</code>:
+  <ul>
+    <li><code>out.feat-names</code>
+    <li><code>out.feat-weights</code>
+    <li><code>out.fst</code>
+  </ul></p> where <code>out.fst</code> is the trained model FST and
+  the other two files contain the features and their trained
+  weights. (They can be used to initialize the weights when training
+  subsequent models, see below.)
+
+  <h4>Scenario 2: Train string trandsuction model with wider
+  context windows</h4>
+
+  If models higher than unigrams are used then the space of possible
+  alignment ngrams needs to be reduced. The default way to do that is
+  currently to align the input and output sides of each training
+  example, using a cheap alignment model, and extract the alignment
+  characters used in the 1-best alignment. Then, using the pruned
+  alignment alphabet, extract all alignment ngrams (up to the
+  specified ngram length) in all alignments that are valid under the
+  reduced alignment alphabet
+  (see <code>fstrain/create/count-ngrams-in-data.h</code>).
+
+  Using the <code>train.R</code> script, this is done with the
+  following command:
+
+  <pre>
+    ./scripts/train.R \
+      --isymbols=test/create+train+decode/letters/syms \
+      --osymbols=test/create+train+decode/letters/syms \
+      --train-data=test/create+train+decode/letters/train \
+      --ngram-order=2 \
+      --force-convergence --lenpenalty-features \
+      --align-fst=test/create+train+decode/letters/out.fst \
+      --init-weights=test/create+train+decode/letters/out.feat-weights \
+      --init-names=test/create+train+decode/letters/out.feat-names \
+      --output=test/create+train+decode/letters/out2
+  </pre>
+
+  The cheap alignment model is specified as a transducer; here we use
+  the simple unigram transducer trained in Scenario 1
+  above: <code>--align-fst=test/create+train+decode/letters/out.fst</code>. We
+  also initialize the features from that training run above
+  (see <code>init-weights</code> and <code>init-names</code>).
+
+  <h4>Scenario 3: Train simple CRF tagger</h4>
+
+  Fstrain can also be used to train simple taggers, e.g. a POS tagger
+  or a chunker that assigns an <code>I</code>, <code>O</code>
+  or <code>B</code> tag to each input symbol. This is a much simpler
+  case than the above two scenarios because there are no insertions
+  and deletions and therefore no ambiguous alignments; every input
+  symbol is deterministically aligned with its output symbol.
+
+  The following command trains a chunking model:
+  
+  <pre>
+    ./scripts/train.R \
+      --isymbols=test/create+train+decode/chunker/isyms \
+      --osymbols=test/create+train+decode/chunker/osyms \
+      --train-data=test/create+train+decode/chunker/train \
+      --ngram-order=2 \
+      --align-fst=simple \
+      --output=test/create+train+decode/chunker/out
+  </pre>
+
+  Here we also prune the space of allowed ngrams, but we do not need
+  to specify an actual FST with <code>--align-fst</code>; instead we
+  use the reserved word <code>simple</code>, which specifies that the
+  alignment between input and output symbols is simply one-to-one.
+
+  The training data has the same format as before, but here, word/POS
+  combinations are used in the input and tags in the output:
+  
+  <pre>
+    $ head test/create+train+decode/chunker/train
+    S confidence/NN in/IN the/DT pound/NN is/VBZ widely/RB expected/VBN to/TO take/VB another/DT sharp/JJ UNK if/IN trade/NN figures/NNS ...
+    S B_NP B_PP B_NP I_NP B_VP I_VP I_VP I_VP I_VP B_NP I_NP I_NP B_SBAR B_NP I_NP  ...
+  </pre>
+
+  There is an additional command line option <code>--features</code>,
+  which specifies which feature set should be used in the FST
+  topology. However, it is currently not implemented, and without
+  hacking the source the only features used are complete ngram windows
+  (of various sizes up the the specified ngram max length), such as
+  the bigram feature "<code>the/DT|B_NP
+  necessary/JJ|I_NP</code>". Stay tuned for upcoming versions of
+  fstrain! (If you want to specify your own features in the current
+  version, take a look
+  at <code>fstrain/create/trie-insert-features.h</code>.)
+
+  <h4>Scenario 4: Train the weights of any FST</h4>
+  
+  You can also create the model FST yourself, specifying all
+  transitions that are allowed under your model, together with the
+  features that fire. In that case, you can simply train its feature
+  weights with the following command:
+
+  <pre>
+    ./scripts/train.R \
+      --isymbols=<i>input-symbols</i> \
+      --osymbols=<i>output-symbols</i> \
+      --train-data=<i>train</i> \
+      --fst=<i>fst</i> \
+      --output=<i>output-stem</i>
+  </pre>
+
+
+  <h3>Decoding</h3>
+
+  A simple decoder called <code>transducer-decode</code> is
+  available. It can be called like this, where the FST is the one
+  trained with the training command above, see Scenario 3:
+
+  <pre>
+    ./build/transducer-decode \
+      --isymbols=test/create+train+decode/chunker/isyms \
+      --osymbols=test/create+train+decode/chunker/osyms \
+      --fst=test/create+train+decode/chunker/out.fst \
+      test/create+train+decode/chunker/test
+  </pre>
+
+  Please keep in mind that this software is in beta version.
+
+  <div align="right">Markus Dreyer, March 2010</div>
+
+</body>

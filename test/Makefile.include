@@ -1,0 +1,6 @@
+BIN_DIR=$(ROOT)/build
+SCRIPT_DIR=$(ROOT)/scripts
+
+TEST_START = @echo === START TEST: $@ ===
+TEST_END = @echo === END TEST: $@ ===; echo 
+

@@ -1,0 +1,6 @@
+Markus Dreyer
+March 9, 2009
+
+A simple bigram tagger. The names for the features are in model.feat-names.
+
+See ../../Makefile, target test-tagger on how to do supervised training.
