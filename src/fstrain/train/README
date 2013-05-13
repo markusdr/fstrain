@@ -1,3 +1,0 @@
-This directory is for code that *trains* finite-state machines
-(computes gradients, etc.). The code may use core/ and util/, but must
-not use create/.

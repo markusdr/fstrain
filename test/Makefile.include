@@ -1,4 +1,4 @@
-BIN_DIR=$(ROOT)/build
+BIN_DIR=$(ROOT)/Release
 SCRIPT_DIR=$(ROOT)/scripts
 
 TEST_START = @echo === START TEST: $@ ===

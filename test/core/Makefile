@@ -1,16 +1,18 @@
 ROOT=$(shell cd ../..; pwd)
 include ../Makefile.include
 
-TESTS=construct neg-log-of-signed-num construct-fstprint fst-bin
+TESTS=construct neglog-of-signed-num construct-fstprint fst-bin
 
 all: $(TESTS)
 
 fst-bin:
 	$(TEST_START)
-	$(MAKE) -C $(BIN_DIR) expectation-arc.so
-	fstcompile --acceptor --arc_type=expectation expectation-arc-fire1+1+1+1+1.fst.txt \
+	$(MAKE) -C $(BIN_DIR) core/expectation-arc.so
+	fstcompile --acceptor --arc_type=expectation \
+	  expectation-arc-fire1+1+1+1+1.fst.txt \
 	  > expectation-arc-fire1+1+1+1+1.fst
-	fstcompile --acceptor --arc_type=expectation expectation-arc-fire2+2+1.fst.txt \
+	fstcompile --acceptor --arc_type=expectation \
+	  expectation-arc-fire2+2+1.fst.txt \
 	  > expectation-arc-fire2+2+1.fst
 	fstcompile --acceptor --arc_type=expectation expectation-arc-fire2+3.fst.txt \
 	  > expectation-arc-fire2+3.fst
@@ -24,20 +26,20 @@ fst-bin:
 
 construct: 
 	$(TEST_START)
-	$(MAKE) -C $(BIN_DIR) test-construct
-	$(BIN_DIR)/test-construct > construct.fst
+	$(MAKE) -C $(BIN_DIR) core/test-construct
+	$(BIN_DIR)/core/test-construct > construct.fst
 	$(TEST_END)
 
 construct-fstprint: construct 
 	$(TEST_START)
-	$(MAKE) -C $(BIN_DIR) expectation-arc.so
+	$(MAKE) -C $(BIN_DIR) core/expectation-arc.so
 	fstprint construct.fst > construct.stdout
 	diff construct.stdout construct.stdout-expected && echo OK
 	$(TEST_END)
 
-neg-log-of-signed-num: 
+neglog-of-signed-num: 
 	$(TEST_START)
-	$(MAKE) -C $(BIN_DIR) test-neg-log-of-signed-num
-	$(BIN_DIR)/test-neg-log-of-signed-num
+	$(MAKE) -C $(BIN_DIR) test-neglog-of-signed-num
+	$(BIN_DIR)/core/test-neglog-of-signed-num
 	$(TEST_END)
 
