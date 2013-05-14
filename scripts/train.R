@@ -250,7 +250,7 @@ if(!is.null(programOptions$build.dir)) {
 DYNLIB.PATH <- paste(buildDir, sep=.Platform$file.sep)
 OBJECTIVE.FUNCTION.SO <-
   paste(DYNLIB.PATH, .Platform$file.sep,
-        "create+train-r-interface2",
+        "glue/create+train-r-interface2",
         .Platform$dynlib.ext,
         sep="")
 dyn.load(OBJECTIVE.FUNCTION.SO)

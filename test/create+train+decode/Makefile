@@ -39,7 +39,8 @@ letters:
           --force-convergence \
           --output=test/create+train+decode/letters/out
 	$(BIN_DIR)/transducer-decode \
-	  --fst=letters/out.fst --isymbols=letters/syms --osymbols=letters/syms letters/train \
+	  --fst=letters/out.fst \
+	  --isymbols=letters/syms --osymbols=letters/syms letters/train \
 	  > letters/out.decoded
 	diff letters/out.decoded letters/out.decoded-expected && echo OK
 	cd $(ROOT); \
@@ -56,7 +57,8 @@ letters:
           --output=test/create+train+decode/letters/out2
 
 	$(BIN_DIR)/transducer-decode \
-	  --fst=letters/out2.fst --isymbols=letters/syms --osymbols=letters/syms letters/train \
+	  --fst=letters/out2.fst \
+	  --isymbols=letters/syms --osymbols=letters/syms letters/train \
 	  > letters/out2.decoded
 	diff letters/out2.decoded letters/out2.decoded-expected && echo OK
 	$(TEST_END)
@@ -72,7 +74,8 @@ chunker:
           --align-fst=simple \
           --output=test/create+train+decode/chunker/out
 	$(BIN_DIR)/transducer-decode \
-	  --fst=chunker/out.fst --evaluate=false --isymbols=chunker/isyms --osymbols=chunker/osyms chunker/train \
+	  --fst=chunker/out.fst --evaluate=false \
+	  --isymbols=chunker/isyms --osymbols=chunker/osyms chunker/train \
 	  > chunker/out.decoded
 	diff chunker/out.decoded chunker/out.decoded-expected && echo OK
 	$(TEST_END)

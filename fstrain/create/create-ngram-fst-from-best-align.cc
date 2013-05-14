@@ -63,7 +63,7 @@ struct Comp2nd {
 void AddIdentitySymbols(const fst::SymbolTable& input_table,
                         fst::SymbolTable* output_table) {
   fst::SymbolTableIterator it(input_table);
-  it.Next(); // ignore eps 
+  it.Next(); // ignore eps
   for(; !it.Done(); it.Next()) {
     const std::string symbol = it.Symbol();
     std::size_t sep_pos = symbol.find("|"); // e.g. in "a|x"
@@ -72,7 +72,7 @@ void AddIdentitySymbols(const fst::SymbolTable& input_table,
     }
     std::string input_sym = symbol.substr(0, sep_pos); // e.g. "a"
     std::string id_sym = input_sym + "|" + input_sym;  // e.g. "a|a"
-    const bool is_identity_sym = 
+    const bool is_identity_sym =
         symbol.substr(0, id_sym.length()) == id_sym;
     if(is_identity_sym) {
       output_table->AddSymbol(it.Symbol(), it.Value());
@@ -105,14 +105,14 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
   VectorFst<StdArc> proj_up;
   VectorFst<StdArc> proj_down;
   VectorFst<StdArc> wellformed_fst;
-  v3::GetProjAndWellformed(isymbols, osymbols, 
+  v3::GetProjAndWellformed(isymbols, osymbols,
                            max_insertions, num_conjugations, num_change_regions,
                            &proj_up, &proj_down, &wellformed_fst);
   const SymbolTable* align_syms = proj_up.OutputSymbols()->Copy();
 
   fst::VectorFst<fst::LogArc> counts_trie;
   const bool wellformed_has_latent = num_conjugations > 0 || num_change_regions > 0;
-  v3::AlignDataAndExtractNgramCounts(lit, ngram_order, 
+  v3::AlignDataAndExtractNgramCounts(lit, ngram_order,
                                      wellformed_fst, wellformed_has_latent,
                                      &counts_trie);
 
@@ -121,26 +121,26 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
   if(util::options.has("sym-cond-prob-threshold")) {
     sym_cond_prob_threshold = util::options.get<double>("sym-cond-prob-threshold");
   }
-  fstrain::create::v3::ExtractEssentialAlignSyms(counts_trie, *align_syms, 
+  fstrain::create::v3::ExtractEssentialAlignSyms(counts_trie, *align_syms,
                                                  sym_cond_prob_threshold, &pruned_syms);
-  fstrain::create::v3::AddIdentitySyms(*align_syms, &pruned_syms);  
+  fstrain::create::v3::AddIdentitySyms(*align_syms, &pruned_syms);
 
-  AddUnobservedUnigrams(pruned_syms, LogArc::Weight::One(), 
-                        &counts_trie);  
-  // AddUnobservedUnigrams(*align_syms, MDExpectationArc::Weight::One(), result); 
+  AddUnobservedUnigrams(pruned_syms, LogArc::Weight::One(),
+                        &counts_trie);
+  // AddUnobservedUnigrams(*align_syms, MDExpectationArc::Weight::One(), result);
 
   FSTR_CREATE_DBG_EXEC(10,
                        std::cerr << "Trie 2:" << std::endl;
-                       util::printTransducer(&counts_trie, align_syms, align_syms, std::cout);); 
+                       util::printTransducer(&counts_trie, align_syms, align_syms, std::cout););
 
   Map(&counts_trie, RmWeightMapper<LogArc>());
   timer.stop();
-  fprintf(stderr, "Done creating trie [%2.2f ms, %2.2f MB]\n", 
-          timer.get_elapsed_time_millis(), 
+  fprintf(stderr, "Done creating trie [%2.2f ms, %2.2f MB]\n",
+          timer.get_elapsed_time_millis(),
           util::MemoryInfo::instance().getSizeInMB());
 
   typedef WeightConvertMapper<LogArc, MDExpectationArc> Map_LE;
-  MapFst<LogArc, MDExpectationArc, Map_LE>* tmp = 
+  MapFst<LogArc, MDExpectationArc, Map_LE>* tmp =
       new MapFst<LogArc, MDExpectationArc, Map_LE>(counts_trie, Map_LE());
   *result = *tmp;
   delete tmp;
@@ -158,8 +158,8 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
     features::ExtractFeaturesFct::Ptr backoff_feats_fct = boost::get<1>(backoff[i]);
     std::size_t backoff_ngram_order = boost::get<2>(backoff[i]);
     MutableFst<MDExpectationArc>* backoff_model_fst = new VectorFst<MDExpectationArc>();
-    fstrain::create::CreateBackoffModel(*result, 
-                                        all_align_syms, 
+    fstrain::create::CreateBackoffModel(*result,
+                                        all_align_syms,
                                         feature_names,
                                         *backoff_syms_fct,
                                         *backoff_feats_fct,
@@ -167,7 +167,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
                                         wellformed_fst,
                                         backoff_model_fst);
     backoff_model_fsts.push_back(backoff_model_fst);
-  }  
+  }
 
   if(max_insertions > -1) {
     MutableFst<MDExpectationArc>* limit_fst = new VectorFst<MDExpectationArc>();
@@ -179,7 +179,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
 
   MutableFst<MDExpectationArc>* combined_backoff_model = NULL;
   if(!backoff_model_fsts.empty()) {
-    fprintf(stderr, "Adding backoff / insertion limit [%2.2f MB]\n", 
+    fprintf(stderr, "Adding backoff / insertion limit [%2.2f MB]\n",
             util::MemoryInfo::instance().getSizeInMB());
     combined_backoff_model = new VectorFst<MDExpectationArc>();
     util::Intersect_vec(backoff_model_fsts, combined_backoff_model, false);
@@ -188,7 +188,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
     }
     ArcSort(combined_backoff_model, ILabelCompare<MDExpectationArc>());
   }
-  
+
   FSTR_CREATE_DBG_EXEC(10,
                        std::cerr << "FEATURES:" << std::endl;
                        for(SymbolTableIterator sit(*feature_names); !sit.Done(); sit.Next()) {
@@ -197,12 +197,12 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
 
   util::Timer fst_timer;
 
-  NgramFsaInsertFeaturesFct insert_feats_fct(*align_syms, feature_names, 
+  NgramFsaInsertFeaturesFct insert_feats_fct(*align_syms, feature_names,
                                              extract_features_fct, "");
 
   // this will create a scoring FST (phi is used to add arcs to
   // states, but the result will not have phi)
-  CreateScoringFstFromTrie(result, all_align_syms, 
+  CreateScoringFstFromTrie(result, all_align_syms,
                            pruned_syms,
                            *isymbols, *osymbols, ngram_order,
                            &proj_up,
@@ -210,13 +210,13 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
                            &wellformed_fst,
                            insert_feats_fct,
                            combined_backoff_model);
-  delete combined_backoff_model;    
+  delete combined_backoff_model;
   delete align_syms;
   ArcSort(result, ILabelCompare<fst::MDExpectationArc>());
 
   fst_timer.stop();
-  fprintf(stderr, "Done converting to model FST [%2.2f ms, %2.2f MB]\n", 
-          fst_timer.get_elapsed_time_millis(), 
+  fprintf(stderr, "Done converting to model FST [%2.2f ms, %2.2f MB]\n",
+          fst_timer.get_elapsed_time_millis(),
           util::MemoryInfo::instance().getSizeInMB());
 }
 

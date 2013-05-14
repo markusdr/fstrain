@@ -20,24 +20,24 @@
 namespace fstrain { namespace util {
 
 class Timer{
-public:
+ public:
 
-	Timer();
-	~Timer();
+  Timer();
+  ~Timer();
 
-	void start();
-	void stop();
-	double get_elapsed_time_millis();
-	double get_elapsed_time_seconds();
+  void start();
+  void stop();
+  double get_elapsed_time_millis();
+  double get_elapsed_time_seconds();
 
-private:
+ private:
   struct timeval startTime;
   struct timeval stopTime; // start and stop times structures
   long elapsedTime;
   bool running;
- 
+
 };
 
-} } // end namespaces 
+} } // end namespaces
 
 #endif // TIMER_H

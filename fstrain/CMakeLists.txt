@@ -4,6 +4,8 @@ project (fstrain)
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
 message (${CMAKE_MODULE_PATH})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") 
+
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release
     CACHE STRING "Choose the type of build: None Debug Release."
@@ -22,6 +24,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost ${Boost_find_version} REQUIRED COMPONENTS
   program_options
   filesystem
+  unit_test_framework
   system
   )
 

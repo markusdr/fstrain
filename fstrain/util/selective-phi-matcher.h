@@ -1,6 +1,8 @@
 #ifndef FSTRAIN_UTIL_SELECTIVE_PHI_MATCHER_H
 #define FSTRAIN_UTIL_SELECTIVE_PHI_MATCHER_H
 
+#include "fst/matcher.h"
+
 namespace fst {
 
 /**
@@ -62,7 +64,7 @@ class SelectivePhiMatcher {
   virtual uint32 Flags() const {
     if (phi_label_ == kNoLabel || match_type_ == MATCH_NONE)
       return matcher_->Flags();
-    return matcher_->Flags() | kRequireMatch;
+    return matcher_->Flags() | fst::kRequireMatch;
   }
 
   virtual SelectivePhiMatcher<M> *Copy(bool safe = false) const {

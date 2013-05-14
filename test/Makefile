@@ -1,4 +1,4 @@
-.PHONY: core train create+train+decode
+.PHONY: core create train create+train+decode
 
 all: core create train create+train+decode
 

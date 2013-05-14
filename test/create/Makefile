@@ -5,14 +5,22 @@ include ../Makefile.include
 
 all: test-create-1 test-backoff
 
-test-create-1: $(BIN_DIR)/test-create-1 # $(BIN_DIR)/features
-	$(BIN_DIR)/test-create-1 
+test-create-1:
+	$(TEST_START)
+	make -C $(BIN_DIR) create/test-create-1
+	$(BIN_DIR)/create/test-create-1 
+#	make -C $(BIN_DIR) create/features
 #	$(BIN_DIR)/features
 
-test-backoff: $(BIN_DIR)/test-backoff
-	fstcompile --isymbols=backoff/ngrams1.syms --acceptor --arc_type=expectation backoff/ngrams1.fst.txt > backoff/ngrams1.fst 
-	fstcompile --arc_type=expectation backoff/ngrams2.fst.txt > backoff/ngrams2.fst 
-	$(BIN_DIR)/test-backoff --symbols=backoff/ngrams2.syms --fst=backoff/ngrams2.fst 
+test-backoff:
+	make -C $(BIN_DIR) create/test-backoff
+	fstcompile --isymbols=backoff/ngrams1.syms --acceptor \
+	  --arc_type=expectation backoff/ngrams1.fst.txt \
+	  > backoff/ngrams1.fst 
+	fstcompile --arc_type=expectation backoff/ngrams2.fst.txt \
+	  > backoff/ngrams2.fst 
+	$(BIN_DIR)/create/test-backoff --symbols=backoff/ngrams2.syms \
+	  --fst=backoff/ngrams2.fst 
 
 test-custom-phi: $(BIN_DIR)/test-custom-phi-matcher
 	$(TEST_START)

@@ -19,34 +19,34 @@
 namespace fstrain { namespace util {
 
 Timer::Timer(){
-	start();
+  start();
 }
 Timer::~Timer(){}
 
 void Timer::start(){
-	gettimeofday(&startTime, NULL);
-	running = true;
+  gettimeofday(&startTime, NULL);
+  running = true;
 }
 
 void Timer::stop(){
-	if(running){
-		gettimeofday(&stopTime, NULL);
-		running = false;
-		
-		elapsedTime =
-			(stopTime.tv_sec - startTime.tv_sec)*1000 + (stopTime.tv_usec - startTime.tv_usec)/1000;
-	}else{
-	  std::cerr << "Called stop() before start() on Timer object";
-	}	
+  if(running){
+    gettimeofday(&stopTime, NULL);
+    running = false;
 
+    elapsedTime =
+        (stopTime.tv_sec - startTime.tv_sec)*1000
+        + (stopTime.tv_usec - startTime.tv_usec)/1000;
+  }else{
+    std::cerr << "Called stop() before start() on Timer object";
+  }
 }
 
 double Timer::get_elapsed_time_millis(){
-	return (double)elapsedTime;
+  return (double)elapsedTime;
 }
 
 double Timer::get_elapsed_time_seconds(){
-	return elapsedTime / 1000.0;
+  return elapsedTime / 1000.0f;
 }
 
 } } // end namespaces

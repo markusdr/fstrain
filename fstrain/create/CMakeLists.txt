@@ -17,7 +17,44 @@ add_library(${PROJECT_NAME}
   ${PROJECT_SOURCE_DIR}/wfutil.cc
   )
 
-set(LINK_DEPENDENCIES ${OPENFST_LIB})
+set(LINK_DEPENDENCIES ${OPENFST_LIB} ${Boost_LIBRARIES} util core)
 
 target_link_libraries(${PROJECT_NAME} ${LINK_DEPENDENCIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "libfstrain-")
+
+set(feature_libs
+  simple
+  add-collapsed
+  simple+len
+  simple+len+insdel
+  simple+tlm
+  la
+  la1)
+foreach(name ${feature_libs})
+  add_library(${name} SHARED ${PROJECT_SOURCE_DIR}/features/${name}.cc)
+  target_link_libraries(${name} ${LINK_DEPENDENCIES})
+  set_target_properties(${name} PROPERTIES PREFIX "")
+endforeach()
+
+###
+
+# file(GLOB tests "${PROJECT_SOURCE_DIR}/test/*.cc")
+set(tests
+  test-approx-dist
+  test-backoff
+  test-create-1
+  test-create-2
+  test-create-3
+  test-create-from-align2
+  test-create-ngram-fst-from-best-align
+  test-create-scoring-fsa-from-data
+  test-custom-phi-matcher
+  test-features
+  test-la
+  test-matrix-mult
+  )
+
+foreach(test ${tests})
+  add_executable(${test} ${PROJECT_SOURCE_DIR}/test/${test}.cc)
+  target_link_libraries(${test} ${LINK_DEPENDENCIES} create)
+endforeach()

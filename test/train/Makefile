@@ -9,7 +9,7 @@ all: $(TESTS)
 
 tagger:
 	$(TEST_START)
-	$(MAKE) -C $(BIN_DIR) expectation-arc.so
+	$(MAKE) -C $(BIN_DIR) core/expectation-arc.so
 	fstcompile --arc_type=expectation \
 	  --isymbols=tagger/in.syms --osymbols=tagger/out.syms \
 	  tagger/model.fst.txt > tagger/model.fst
