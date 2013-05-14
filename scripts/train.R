@@ -242,7 +242,7 @@ if(!is.null(programOptions$prune.state.factor)) {
   pruneStateFactor <- as.double(programOptions$prune.state.factor)
 }
 
-buildDir<-paste(Sys.getenv("FSTRAIN_HOME"), "build", sep=.Platform$file.sep)
+buildDir<-paste(Sys.getenv("FSTRAIN_HOME"), "Release", sep=.Platform$file.sep)
 if(!is.null(programOptions$build.dir)) {
   buildDir <- programOptions$build.dir;
 }

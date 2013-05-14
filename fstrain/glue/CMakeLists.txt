@@ -21,7 +21,6 @@ set(feature_libs
   create+train-r-interface3
 )
 foreach(name ${feature_libs})
-  message(${name})
   add_library(${name} SHARED ${PROJECT_SOURCE_DIR}/${name}.cc)
   target_link_libraries(${name} ${LINK_DEPENDENCIES})
   set_target_properties(${name} PROPERTIES PREFIX "")

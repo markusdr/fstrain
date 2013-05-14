@@ -15,16 +15,16 @@
 #ifndef FSTRAIN_CORE_EXPECTATION_WEIGHT_H
 #define FSTRAIN_CORE_EXPECTATION_WEIGHT_H
 
-#include "fst/float-weight.h"
 #include <stdexcept>
 #include <string>
+#include <boost/functional/hash.hpp>
+#include "fst/float-weight.h"
 #include "fstrain/core/expectations.h"
 #include "fstrain/core/neg-log-of-signed-num.h"
 #include "fstrain/core/util.h"
 #include "fstrain/core/debug.h"
 #include "fstrain/util/add-maps.h"
 #include "fstrain/util/multiplied-map.h"
-#include <boost/functional/hash.hpp>
 
 namespace fst {
 
@@ -319,6 +319,37 @@ inline bool ApproxEqual(const MDExpectationWeight& w1,
       && fstrain::core::ApproxEqual(w1.GetMDExpectations(), w2.GetMDExpectations(), delta);
 }
 
-}  // end namespace
+template <>
+struct WeightConvert<Log64Weight, MDExpectationWeight> {
+  MDExpectationWeight operator()(Log64Weight w) const { return w.Value(); }
+};
+
+template <>
+struct WeightConvert<MDExpectationWeight, Log64Weight> {
+  Log64Weight operator()(MDExpectationWeight w) const { return w.Value(); }
+};
+
+template <>
+struct WeightConvert<LogWeight, MDExpectationWeight> {
+  MDExpectationWeight operator()(LogWeight w) const { return w.Value(); }
+};
+
+template <>
+struct WeightConvert<MDExpectationWeight, LogWeight> {
+  LogWeight operator()(MDExpectationWeight w) const { return w.Value(); }
+};
+
+template <>
+struct WeightConvert<TropicalWeight, MDExpectationWeight> {
+  MDExpectationWeight operator()(TropicalWeight w) const { return w.Value(); }
+};
+
+template <>
+struct WeightConvert<MDExpectationWeight, TropicalWeight> {
+  TropicalWeight operator()(MDExpectationWeight w) const { return w.Value(); }
+};
+
+}  // end namespace fst
+
 
 #endif

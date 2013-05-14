@@ -17,7 +17,7 @@ add_library(${PROJECT_NAME}
   ${PROJECT_SOURCE_DIR}/wfutil.cc
   )
 
-set(LINK_DEPENDENCIES ${OPENFST_LIB} ${Boost_LIBRARIES} util core)
+set(LINK_DEPENDENCIES dl ${OPENFST_LIB} ${Boost_LIBRARIES} util core)
 
 target_link_libraries(${PROJECT_NAME} ${LINK_DEPENDENCIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "libfstrain-")

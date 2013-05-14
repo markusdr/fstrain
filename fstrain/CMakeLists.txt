@@ -26,14 +26,18 @@ find_package(Boost ${Boost_find_version} REQUIRED COMPONENTS
   filesystem
   unit_test_framework
   system
+  thread
   )
 
 find_package(OpenFst)
 
-add_subdirectory(core)
-add_subdirectory(util)
-add_subdirectory(create)
-add_subdirectory(train)
-add_subdirectory(glue)
-add_subdirectory(drivers)
-
+foreach(dir
+    core
+    util
+    create
+    train
+    glue
+    drivers
+    )
+  add_subdirectory(${dir})
+endforeach()

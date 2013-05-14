@@ -38,7 +38,7 @@ letters:
 	  --features=simple \
           --force-convergence \
           --output=test/create+train+decode/letters/out
-	$(BIN_DIR)/transducer-decode \
+	$(BIN_DIR)/drivers/transducer-decode \
 	  --fst=letters/out.fst \
 	  --isymbols=letters/syms --osymbols=letters/syms letters/train \
 	  > letters/out.decoded

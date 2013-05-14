@@ -28,11 +28,12 @@ tagger:
 
 lenmatch1:
 	$(TEST_START)
+	make -C $(BIN_DIR) train/test-lenmatch
 	fstcompile --arc_type=expectation lenmatch/len1.fst.txt \
 	  > lenmatch/len1.fst
 	fstcompile --arc_type=expectation lenmatch/len2.fst.txt \
 	  > lenmatch/len2.fst
-	$(BIN_DIR)/test-lenmatch lenmatch/len2.fst > lenmatch/1.stdout
+	$(BIN_DIR)/train/test-lenmatch lenmatch/len2.fst > lenmatch/1.stdout
 	diff lenmatch/1.stdout lenmatch/1.stdout-expected && echo OK
 	$(TEST_END)
 
@@ -52,22 +53,29 @@ lenmatch2:
 
 insert-feature-weights:
 	$(TEST_START)
+	make -C $(BIN_DIR) train/test-insert-feature-weights
 	fstcompile --arc_type=expectation insert-feature-weights/1.fst.txt \
 	  > insert-feature-weights/1.fst
 	fstcompile --arc_type=expectation insert-feature-weights/2.fst.txt \
 	  > insert-feature-weights/2.fst
-	$(BIN_DIR)/test-insert-feature-weights \
+	$(BIN_DIR)/train/test-insert-feature-weights \
 	  insert-feature-weights/1.fst insert-feature-weights/2.fst 
 	$(TEST_END)
 
 lenmatch-condother:
 	$(TEST_START)
-	fstcompile --isymbols=lenmatch-condother/0.syms --osymbols=lenmatch-condother/1.syms \
-	  --arc_type=log lenmatch-condother/01.fst.txt > lenmatch-condother/01.fst
-	fstcompile --isymbols=lenmatch-condother/0.syms --osymbols=lenmatch-condother/2.syms \
-	  --arc_type=log lenmatch-condother/02.fst.txt > lenmatch-condother/02.fst
-	fstcompile --isymbols=lenmatch-condother/1.syms --osymbols=lenmatch-condother/2.syms \
-	  --arc_type=expectation lenmatch-condother/12.fst.txt > lenmatch-condother/12.fst
+	fstcompile \
+	  --isymbols=lenmatch-condother/0.syms --osymbols=lenmatch-condother/1.syms \
+	  --arc_type=log lenmatch-condother/01.fst.txt \
+	  > lenmatch-condother/01.fst
+	fstcompile \
+	  --isymbols=lenmatch-condother/0.syms --osymbols=lenmatch-condother/2.syms \
+	  --arc_type=log lenmatch-condother/02.fst.txt \
+	  > lenmatch-condother/02.fst
+	fstcompile \
+	  --isymbols=lenmatch-condother/1.syms --osymbols=lenmatch-condother/2.syms \
+	  --arc_type=expectation lenmatch-condother/12.fst.txt \
+	  > lenmatch-condother/12.fst
 	$(ROOT)/scripts/train-condother.R \
 	  --other-syms=lenmatch-condother/0.syms \
 	  --other-other2in=lenmatch-condother/01.fst \
