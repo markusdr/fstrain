@@ -29,6 +29,11 @@ small:
 
 letters:
 	$(TEST_START)
+#	fstcompile \
+#          --isymbols=test/create+train+decode/letters/syms \
+#          --osymbols=test/create+train+decode/letters/syms \
+#	  test/create+train+decode/letters/out.fst.txt \
+#	  > test/create+train+decode/letters/out.fst
 	cd $(ROOT); \
 	./scripts/train.R \
           --isymbols=test/create+train+decode/letters/syms \

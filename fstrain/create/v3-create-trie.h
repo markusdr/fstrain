@@ -45,7 +45,7 @@ std::string GetInputSym(const std::string align_sym) {
 struct Comp2ndAsWeight {
   // want a first if it has greater count (i.e. smaller neglog weight)
   template<class T>
-  bool operator()(const T& a,  
+  bool operator()(const T& a,
                   const T& b) const {
     return a.second.Value() < b.second.Value();
   }
@@ -72,17 +72,17 @@ void ExtractEssentialAlignSyms(const fst::Fst<Arc>& counts_trie,
 
   StateId s = counts_trie.Start();
 
-  for (fst::ArcIterator<fst::Fst<Arc> > ait(counts_trie, s); 
+  for (fst::ArcIterator<fst::Fst<Arc> > ait(counts_trie, s);
        !ait.Done(); ait.Next()) {
     const Arc& arc = ait.Value();
     const Label label = arc.ilabel; // e.g. "a|x"
     const std::string align_sym = syms.Find(label);
     if (align_sym == "") {
-      FSTR_CREATE_EXCEPTION("could not find label " << label 
+      FSTR_CREATE_EXCEPTION("could not find label " << label
                             << " in symbol table");
     }
     std::string input_sym = GetInputSym(align_sym);  // e.g. "a|x" => "a"
-    const Weight count = fst::Times(arc.weight, 
+    const Weight count = fst::Times(arc.weight,
                                     counts_trie.Final(arc.nextstate));
     labels[input_sym].push_back( std::make_pair(label, count) );
   }
@@ -96,17 +96,17 @@ void ExtractEssentialAlignSyms(const fst::Fst<Arc>& counts_trie,
     for (typename LabelWeightVec::const_iterator it = labels.begin();
          it != labels.end(); ++it) {
       sum = fst::Plus(sum, it->second);
-    }    
+    }
     Weight accumulated = Weight::One();
     Weight limit = Times(sum, Weight(-log(threshold)));
     double limit_val = limit.Value(); // e.g. -log(4 * 0.99)
-    FSTR_CORE_DBG_MSG(10, "Sym '"<<input_sym<<"', Limit: " << limit_val << " (-log("<<exp(-limit_val)<<"))" 
+    FSTR_CREATE_DBG_MSG(10, "Sym '"<<input_sym<<"', Limit: " << limit_val << " (-log("<<exp(-limit_val)<<"))"
                       << std::endl);
     for (typename LabelWeightVec::const_iterator it = labels.begin();
          it != labels.end(); ++it) {
       Label label = it->first; // e.g. label of "a|x"
-      const std::string& sym = syms.Find(label); // "a|x" 
-      pruned_syms->AddSymbol(sym, label); 
+      const std::string& sym = syms.Find(label); // "a|x"
+      pruned_syms->AddSymbol(sym, label);
       FSTR_CREATE_DBG_MSG(10, "Added " << sym << std::endl);
       accumulated = fst::Plus(accumulated, it->second); // e.g. -log(2)=-0.69
       // std::cerr << "accumulated: " << accumulated << " (-log("<<exp(-accumulated.Value())<<"))" << std::endl;
@@ -114,14 +114,14 @@ void ExtractEssentialAlignSyms(const fst::Fst<Arc>& counts_trie,
         break;
       }
     }
-  }  
+  }
 }
 
 /**
  * @brief Adds all identity symbols (a|a, b|b, ...) from align_sym to
  * the result (using the original labels).
  */
-void AddIdentitySyms(const fst::SymbolTable& align_syms, 
+void AddIdentitySyms(const fst::SymbolTable& align_syms,
                      fst::SymbolTable* result) {
   static std::string sep = "|";
   fst::SymbolTableIterator it(align_syms);
@@ -146,17 +146,17 @@ void AddIdentitySyms(const fst::SymbolTable& align_syms,
  */
 void GetProjAndWellformed(const fst::SymbolTable* isymbols,
                           const fst::SymbolTable* osymbols,
-                          std::size_t max_insertions, 
-                          std::size_t num_conjugations, 
+                          std::size_t max_insertions,
+                          std::size_t num_conjugations,
                           std::size_t num_change_regions,
                           fst::MutableFst<fst::StdArc>* proj_up,
                           fst::MutableFst<fst::StdArc>* proj_down,
                           fst::MutableFst<fst::StdArc>* wellformed) {
-  v3::GetFirstAndLast(isymbols, osymbols, 
+  v3::GetFirstAndLast(isymbols, osymbols,
                       proj_up, proj_down,
                       num_conjugations, num_change_regions);
 
-  getWellFormed(wellformed, proj_up->OutputSymbols(), 
+  getWellFormed(wellformed, proj_up->OutputSymbols(),
                 max_insertions, num_conjugations, num_change_regions);
 }
 
@@ -166,8 +166,8 @@ void GetProjAndWellformed(const fst::SymbolTable* isymbols,
  * annotations (e.g. "a|x-c2-g1").
  */
 template<class Arc>
-void CreateNolaToLaFst(const fst::SymbolTable* la_syms, 
-                       fst::SymbolTable* nola_syms, 
+void CreateNolaToLaFst(const fst::SymbolTable* la_syms,
+                       fst::SymbolTable* nola_syms,
                        fst::MutableFst<Arc>* result) {
   using namespace fst;
   typedef typename Arc::Weight Weight;
@@ -184,13 +184,13 @@ void CreateNolaToLaFst(const fst::SymbolTable* la_syms,
     std::string la_sym = it.Symbol();
     int64 la_val = it.Value();
     // e.g. splits into "a|x" and "c2-g1"
-    std::pair<std::string,std::string> split_sym = 
+    std::pair<std::string,std::string> split_sym =
         features::SplitMainFromLatentAnnotations(la_sym, '-');
     std::string nola_sym = split_sym.first;
     int64 nola_val = nola_syms->AddSymbol(nola_sym);
     assert(nola_val != -1);
     result->AddArc(s, Arc(nola_val, la_val, Weight::One(), s));
-  }    
+  }
 }
 
 /**
@@ -201,10 +201,10 @@ void CreateNolaToLaFst(const fst::SymbolTable* la_syms,
  */
 template<class Arc>
 void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> lattices_iter,
-                                    std::size_t ngram_order, 
+                                    std::size_t ngram_order,
                                     const fst::Fst<fst::StdArc>& wellformed_fst,
                                     const bool wellformed_has_latent_annotations,
-                                    fst::MutableFst<Arc>* result_trie) {  
+                                    fst::MutableFst<Arc>* result_trie) {
   using namespace fst;
 
   const fst::SymbolTable* isymbols = lattices_iter.InputSymbols();
@@ -221,7 +221,7 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     align_syms_nola = new fst::SymbolTable("align-syms-nola");
     proj_nola_to_la = new fst::VectorFst<StdArc>();
     // a|x => a|x-c1, a|x-c2, ...
-    CreateNolaToLaFst(wellformed_fst.InputSymbols(), 
+    CreateNolaToLaFst(wellformed_fst.InputSymbols(),
                       align_syms_nola, proj_nola_to_la);
     proj_nola_to_la->SetInputSymbols(align_syms_nola);
   }
@@ -234,8 +234,8 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     std::cerr << "DATA " << cnt << std::endl;
     typedef typename v3::AlignmentLatticesIterator<StdArc>::FstPtr FstPtr;
     FstPtr aligned = lattices_iter.Value();
-    Map(aligned.get(), 
-        util::SymbolsMapper_InOutToAlign<StdArc>(*isymbols, *osymbols, 
+    Map(aligned.get(),
+        util::SymbolsMapper_InOutToAlign<StdArc>(*isymbols, *osymbols,
                                                  *align_syms_nola));
     aligned->SetInputSymbols(align_syms_nola);
     aligned->SetOutputSymbols(align_syms_nola);
@@ -244,8 +244,8 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     if(wellformed_has_latent_annotations) {
       ComposeFst<StdArc> tmp(*aligned, *proj_nola_to_la);
       Compose(tmp,
-              wellformed_fst, 
-              &aligned2);      
+              wellformed_fst,
+              &aligned2);
       Project(&aligned2, PROJECT_OUTPUT);
     }
     else {
@@ -254,13 +254,13 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     aligned2.SetInputSymbols(NULL);
     aligned2.SetOutputSymbols(NULL);
 
-    VectorFst<Arc> aligned3;    
+    VectorFst<Arc> aligned3;
     Map(aligned2, &aligned3, Map_SA());
     util::Normalize(&aligned3);
 
     fst::Push(&aligned3, fst::REWEIGHT_TO_INITIAL);
     ngram_counter->AddCounts(aligned3);
-  } 
+  }
   delete align_syms_nola;
   delete proj_nola_to_la;
   ngram_counter->GetResult(result_trie);

@@ -12,8 +12,8 @@ namespace nsConcatStartAndEndLabelsUtil {
 // Helper function creates an FST with one arc from start to end
 // state.
 template<class Arc>
-void CreateOneArcFst(const int64 ilabel, 
-                     const int64 olabel, 
+void CreateOneArcFst(const int64 ilabel,
+                     const int64 olabel,
                      fst::MutableFst<Arc>* fst) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
@@ -24,13 +24,13 @@ void CreateOneArcFst(const int64 ilabel,
   fst->SetFinal(s2, Weight::One());
 }
 
-} // end namespace 
+} // end namespace
 
 /**
  * @brief Concats start and end labels to the FST.
  */
 template<class Arc>
-void ConcatStartAndEndLabels(const int64 kStartLabel, const int64 kEndLabel, 
+void ConcatStartAndEndLabels(const int64 kStartLabel, const int64 kEndLabel,
                              bool input_eps, bool output_eps,
                              fst::MutableFst<Arc>* fst) {
   using namespace fst;
@@ -43,6 +43,7 @@ void ConcatStartAndEndLabels(const int64 kStartLabel, const int64 kEndLabel,
   ilabel = input_eps ? 0 : kEndLabel;
   olabel = output_eps ? 0 : kEndLabel;
   CreateOneArcFst(ilabel, olabel, &end_fst);
+  std::cerr << "Concat in v2" << std::endl; // TEST
   Concat(start_fst, fst);
   Concat(fst, end_fst);
   RmEpsilon(fst);

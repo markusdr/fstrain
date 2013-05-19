@@ -48,24 +48,24 @@ typedef Arc::Weight Weight;
 
 // Create a machine that accepts any string
 void getDummyMachine(MutableFst<Arc> *dummy,
-		     const SymbolTable* syms)
+                     const SymbolTable* syms)
 {
   initWFMachine(dummy, syms);
   SymbolTableIterator i(*syms);
   i.Next(); // skip epsilon
   for(; !i.Done(); i.Next())
-    {
-      const std::string symbol = i.Symbol();
-      //if(symbol != "S|S" && symbol != "E|E") {
-	dummy->AddArc(0,
-		      Arc(i.Value(), i.Value(), Weight::One(), 0));
-        //}
-    }
+  {
+    const std::string symbol = i.Symbol();
+    //if(symbol != "S|S" && symbol != "E|E") {
+    dummy->AddArc(0,
+                  Arc(i.Value(), i.Value(), Weight::One(), 0));
+    //}
+  }
 }
 
 // Create a machine that accepts strings of the same conjugation
 void getConjMachine(MutableFst<Arc> *conjMachine,
-		    const SymbolTable* syms, int conjs)
+                    const SymbolTable* syms, int conjs)
 {
   initWFMachine(conjMachine, syms);
 
@@ -73,30 +73,30 @@ void getConjMachine(MutableFst<Arc> *conjMachine,
   for (int c = 1; c <= conjs; c++) {
     // Add a state for this conjugation
     conjMachine->AddState();
-    conjMachine->SetFinal(c, Weight::One());		
+    conjMachine->SetFinal(c, Weight::One());
     // Create transition to this state from the start
-    conjMachine->AddArc(0, 
-			Arc(0, 0, Weight::One(), c));
-  }	
+    conjMachine->AddArc(0,
+                        Arc(0, 0, Weight::One(), c));
+  }
 
   // Create self loops for all arcs of the correct conjugation
   SymbolTableIterator i(*syms);
   i.Next(); // skip epsilon
   while(!i.Done())
-    {
-      const std::string symbol = i.Symbol();
-      int currentConj = getLA(i.Symbol(), "-c");		
-      conjMachine->AddArc(currentConj, 
-			  Arc(i.Value(), i.Value(), Weight::One(), currentConj));
-      i.Next();
-    }
+  {
+    const std::string symbol = i.Symbol();
+    int currentConj = getLA(i.Symbol(), "-c");
+    conjMachine->AddArc(currentConj,
+                        Arc(i.Value(), i.Value(), Weight::One(), currentConj));
+    i.Next();
+  }
 }
 
 
 // change regions machine: changes have odd nums, identities have even
 // nums
 void getChgSegMachine3(MutableFst<Arc> *chgSegMachine,
-		       const SymbolTable* syms, int segs)
+                       const SymbolTable* syms, int segs)
 {
   // initWFMachine(chgSegMachine, syms);
   int num_states = segs * 2 + 2;
@@ -123,17 +123,17 @@ void getChgSegMachine3(MutableFst<Arc> *chgSegMachine,
     bool isChangeSymbol = (symbol[0] != symbol[2]);
     if(isChangeSymbol){
       assert(currentRegion % 2 != 0); // odd
-      for(int fromState=1; fromState < currentRegion + 1; fromState+=2){ 
-	chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
+      for(int fromState=1; fromState < currentRegion + 1; fromState+=2){
+        chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
       }
-      chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop	       
+      chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop
     }
     else{ // not a change sym (identity)
       assert(currentRegion % 2 == 0); // even
-      for(int fromState = 2; fromState < currentRegion + 1; fromState+=2){ 
-	chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
+      for(int fromState = 2; fromState < currentRegion + 1; fromState+=2){
+        chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
       }
-      chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop	 	    
+      chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop
     }
   }
 }
@@ -144,16 +144,16 @@ void getOneArcFst(const Arc::Label label, MutableFst<Arc>* result) {
   Arc::StateId s2 = result->AddState();
   result->SetStart(s1);
   result->SetFinal(s2, Weight::One());
-  result->AddArc(s1, 
-		 Arc(label, label, Weight::One(), s2));
+  result->AddArc(s1,
+                 Arc(label, label, Weight::One(), s2));
 }
 
 // Create a machine that only accepts well formed alignment strings
 void getWellFormed(
-		   MutableFst<Arc>* wellFormed,
-		   const SymbolTable* syms,
-		   int addLimit,
-		   int conjs, int segs, const char* alignmentConstraintFile, bool alsoRestrictDel)
+    MutableFst<Arc>* wellFormed,
+    const SymbolTable* syms,
+    int addLimit,
+    int conjs, int segs, const char* alignmentConstraintFile, bool alsoRestrictDel)
 {
   FSTR_CREATE_DBG_MSG(10, "Wellformed, limit=" << addLimit << ", conjs=" << conjs << ", " << segs << std::endl);
   std::vector<MutableFst<Arc>* > machines;
@@ -165,52 +165,49 @@ void getWellFormed(
   // Make a machine to limit the number of insertions
   MutableFst<Arc>* limitMachine = new VectorFst<Arc>();
   if (addLimit >= 0)
-    {
-      getLimitMachine(limitMachine, syms, addLimit, alsoRestrictDel);
-      FSTR_CREATE_DBG_EXEC(10, std::cerr << "Limit machine:" << std::endl;
-                           fstrain::util::printTransducer(limitMachine, 
-                                                          limitMachine->InputSymbols(), limitMachine->OutputSymbols(), std::cerr););
-    }
+  {
+    getLimitMachine(limitMachine, syms, addLimit, alsoRestrictDel);
+    FSTR_CREATE_DBG_EXEC(10, std::cerr << "Limit machine:" << std::endl;
+                         fstrain::util::printTransducer(limitMachine,
+                                                        limitMachine->InputSymbols(), limitMachine->OutputSymbols(), std::cerr););
+  }
   else{
     getDummyMachine(limitMachine, syms);
   }
   machines.push_back(limitMachine);
-	  
+
   // Make a machine for conjugations
   if (conjs > 0)
-    {
-      MutableFst<Arc>* conjMachine = new VectorFst<Arc>();
-      getConjMachine(conjMachine, syms, conjs);
-      machines.push_back(conjMachine);
-      FSTR_CREATE_DBG_EXEC(10, 
-                           fstrain::util::printTransducer(conjMachine, 
-                                                          conjMachine->InputSymbols(), 
-                                                          conjMachine->OutputSymbols(), 
-                                                          std::cerr));
-    }
+  {
+    MutableFst<Arc>* conjMachine = new VectorFst<Arc>();
+    getConjMachine(conjMachine, syms, conjs);
+    machines.push_back(conjMachine);
+    FSTR_CREATE_DBG_EXEC(10,
+                         fstrain::util::printTransducer(conjMachine,
+                                                        conjMachine->InputSymbols(),
+                                                        conjMachine->OutputSymbols(),
+                                                        std::cerr));
+  }
 
   // Make a machine for change segments
-  if (segs > 0)
-    {
-      MutableFst<Arc>* chgSegMachine = new VectorFst<Arc>();
-      getChgSegMachine3(chgSegMachine, syms, segs);
-      machines.push_back(chgSegMachine);
-      FSTR_CREATE_DBG_EXEC(10, std::cerr << "Change FST:" << std::endl;
-                           fstrain::util::printTransducer(chgSegMachine, 
-                                                          chgSegMachine->InputSymbols(), chgSegMachine->OutputSymbols(), std::cerr););
-    }
+  if (segs > 0) {
+    MutableFst<Arc>* chgSegMachine = new VectorFst<Arc>();
+    getChgSegMachine3(chgSegMachine, syms, segs);
+    machines.push_back(chgSegMachine);
+    FSTR_CREATE_DBG_EXEC(10, std::cerr << "Change FST:" << std::endl;
+                         fstrain::util::printTransducer(chgSegMachine,
+                                                        chgSegMachine->InputSymbols(), chgSegMachine->OutputSymbols(), std::cerr););
+  }
 
   // Intersect all the machines and store it in wellFormed
   std::vector<MutableFst<Arc>* >::iterator it;
-  for (it = machines.begin(); it != machines.end(); it++)
-    {
-      fst::ArcSort(dummy, fst::StdOLabelCompare());
-      fst::Intersect(*dummy, **it, wellFormed);
-      // FSTR_CREATE_DBG_EXEC(10, fstrain::printFst<fst::StdArc>(std::cerr, *wellFormed, "intersection:"););
-      delete dummy;
-      delete *it;
-      dummy = wellFormed->Copy();
-    }
+  for (it = machines.begin(); it != machines.end(); it++) {
+    fst::ArcSort(dummy, fst::StdOLabelCompare());
+    fst::Intersect(*dummy, **it, wellFormed);
+    delete dummy;
+    delete *it;
+    dummy = wellFormed->Copy();
+  }
   delete dummy;
 
   VectorFst<Arc> start_fst;
@@ -221,14 +218,24 @@ void getWellFormed(
   const Arc::Label kEndLabel = syms->Find("E|E");
   getOneArcFst(kEndLabel, &end_fst);
 
+  std::cerr << "Concat in get-well-formed" << std::endl; // TEST
+  // wellFormed->SetInputSymbols(NULL);
+  // wellFormed->SetOutputSymbols(NULL);
+  start_fst.SetInputSymbols(syms);
+  start_fst.SetOutputSymbols(syms);
+  end_fst.SetInputSymbols(syms);
+  end_fst.SetOutputSymbols(syms);
   Concat(start_fst, wellFormed);
+  std::cerr << "OK1" << std::endl; // TEST
+  end_fst.SetInputSymbols(wellFormed->OutputSymbols());
   Concat(wellFormed, end_fst);
+  std::cerr << "OK2" << std::endl; // TEST
 
   RmEpsilon(wellFormed);
   Connect(wellFormed);
   fstrain::util::Determinize(wellFormed);
   Minimize(wellFormed);
-  
+
 }
 
 } } // end namespaces
