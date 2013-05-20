@@ -33,7 +33,7 @@
 #define FSTR_DRIVERS_DBG_LINE_INFO 
 #endif
 
-#ifdef DEBUG
+#ifndef NDEBUG
 #define FSTR_DRIVERS_DBG_MSG(n,x) { char* level_xyz = getenv("FSTR_DRIVERS_DBG_LEVEL"); int level_xyz_int =level_xyz ? atoi(level_xyz) : 0; if(level_xyz_int>=n){std::stringstream ss123; ss123 << x; std::cerr FSTR_DRIVERS_DBG_LINE_INFO << ss123.str();} }
 #define FSTR_DRIVERS_DBG_EXEC(n,x) { char* level_xyz = getenv("FSTR_DRIVERS_DBG_LEVEL"); int level_xyz_int = level_xyz ? atoi(level_xyz) : 0; if(level_xyz_int>=n){x;} }
 #else
