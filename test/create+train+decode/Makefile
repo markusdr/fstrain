@@ -61,7 +61,7 @@ letters:
           --init-names=test/create+train+decode/letters/out.feat-names \
           --output=test/create+train+decode/letters/out2
 
-	$(BIN_DIR)/transducer-decode \
+	$(BIN_DIR)/drivers/transducer-decode \
 	  --fst=letters/out2.fst \
 	  --isymbols=letters/syms --osymbols=letters/syms letters/train \
 	  > letters/out2.decoded
@@ -78,7 +78,7 @@ chunker:
           --ngram-order=2 \
           --align-fst=simple \
           --output=test/create+train+decode/chunker/out
-	$(BIN_DIR)/transducer-decode \
+	$(BIN_DIR)/drivers/transducer-decode \
 	  --fst=chunker/out.fst --evaluate=false \
 	  --isymbols=chunker/isyms --osymbols=chunker/osyms chunker/train \
 	  > chunker/out.decoded

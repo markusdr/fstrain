@@ -72,7 +72,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -84,7 +84,7 @@ int main(int ac, char** av){
 
     po::variables_map vm;
     store(po::command_line_parser(ac, av).
-	  options(cmdline_options).positional(p).run(), vm);
+          options(cmdline_options).positional(p).run(), vm);
 
     if(vm.count("config-file")){
       ifstream ifs(vm["config-file"].as<std::string>().c_str());
@@ -118,7 +118,7 @@ int main(int ac, char** av){
     }
 
     SymbolTable* isymbols = SymbolTable::ReadText(vm["isymbols"].as<std::string>());
-    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());    
+    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());
 
     const std::string fname = vm["features"].as<std::string>();
     const std::string backoff = vm["backoff"].as<std::string>();
@@ -129,7 +129,7 @@ int main(int ac, char** av){
     const int num_conjugations = vm["num-conjugations"].as<int>();
     const int num_change_regions = vm["num-change-regions"].as<int>();
     const int ngram_order = vm["ngram-order"].as<int>();
-    
+
     const Fst<StdArc>* align_fst = util::GetVectorFst<StdArc>(align_fst_filename);
 
     using namespace fstrain::create;
@@ -145,24 +145,24 @@ int main(int ac, char** av){
 
     feature_names.AddSymbol("*LENGTH_IN*");
     feature_names.AddSymbol("*LENGTH_OUT*"); // to give them Ids 0 and 1
-        
+
     const int max_insertions = vm["max-insertions"].as<int>();
     util::Data data(data_filename);
 
     typedef v3::AlignmentLatticesIterator<fst::StdArc> LatticeIter;
-    LatticeIter lit(data.begin(), data.end(),
-                    *align_fst, isymbols, osymbols);
-    PruneFct* prune_fct = 
+    LatticeIter lattice_iter(data.begin(), data.end(),
+                             *align_fst, isymbols, osymbols);
+    PruneFct* prune_fct =
         new DefaultPruneFct(fst::StdArc::Weight(-log(0.9)), 1000);
-    lit.SetPruneFct(prune_fct);
+    lattice_iter.SetPruneFct(prune_fct);
 
     VectorFst<StdArc> proj_up;
     VectorFst<StdArc> proj_down;
     VectorFst<StdArc> wellformed_fst;
-    v3::GetProjAndWellformed(isymbols, osymbols, 
+    v3::GetProjAndWellformed(isymbols, osymbols,
                              max_insertions, num_conjugations, num_change_regions,
                              &proj_up, &proj_down, &wellformed_fst);
-    assert(proj_up.OutputSymbols() == wellformed_fst.InputSymbols());
+    // assert(proj_up.OutputSymbols() == wellformed_fst.InputSymbols());
     const bool wellformed_has_latent = num_conjugations > 0 || num_change_regions > 0;
     const SymbolTable* align_syms = proj_up.OutputSymbols();
 
@@ -171,32 +171,28 @@ int main(int ac, char** av){
 
     fst::VectorFst<fst::LogArc> counts_trie;
     fstrain::create::v3::AlignDataAndExtractNgramCounts(
-        lit, ngram_order, 
+        lattice_iter, ngram_order,
         wellformed_fst, wellformed_has_latent,
         &counts_trie);
 
     fst::SymbolTable pruned_syms("pruned-syms");
     const double threshold = 0.99;
-    fstrain::create::v3::ExtractEssentialAlignSyms(counts_trie, *align_syms, 
+    fstrain::create::v3::ExtractEssentialAlignSyms(counts_trie, *align_syms,
                                                    threshold, &pruned_syms);
     fstrain::create::v3::AddIdentitySyms(*align_syms, &pruned_syms);
-    
-    //    std::cerr << "Result:" << std::endl;
-    //    fstrain::util::printTransducer(&result, isymbols, osymbols, std::cout);    
-    
-    //    std::cerr << "Features:" << std::endl;
-    //    for(SymbolTableIterator sit(feature_names); !sit.Done(); sit.Next()) {
-    //      std::cout << sit.Value() << " " << sit.Symbol() << std::endl;
-    //    }
-    
+
+    std::cerr << "Features:" << std::endl;
+    for(SymbolTableIterator sit(pruned_syms); !sit.Done(); sit.Next()) {
+      std::cout << sit.Value() << " " << sit.Symbol() << std::endl;
+    }
+
     delete extract_features_fct;
     delete align_fst;
-    delete align_syms;
-    delete isymbols;
-    delete osymbols;
-
+    // delete align_syms;
+    // delete isymbols;
+    // delete osymbols;
   }
-  catch(std::exception& e){
+  catch(std::exception const& e){
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

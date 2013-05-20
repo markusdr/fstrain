@@ -78,7 +78,7 @@ void ExtractEssentialAlignSyms(const fst::Fst<Arc>& counts_trie,
     const Label label = arc.ilabel; // e.g. "a|x"
     const std::string align_sym = syms.Find(label);
     if (align_sym == "") {
-      FSTR_CREATE_EXCEPTION("could not find label " << label
+      FSTR_CREATE_EXCEPTION("Could not find label " << label
                             << " in symbol table");
     }
     std::string input_sym = GetInputSym(align_sym);  // e.g. "a|x" => "a"
@@ -215,7 +215,7 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
   // should be LogArc or similar
   NgramCounter<Arc>* ngram_counter = new NgramCounter<Arc>(ngram_order);
 
-  fst::SymbolTable* align_syms_nola = NULL; // nola = no latent ann.
+  fst::SymbolTable* align_syms_nola = NULL; // nola = no latent annotations
   fst::MutableFst<StdArc>* proj_nola_to_la = NULL;
   if (wellformed_has_latent_annotations) {
     align_syms_nola = new fst::SymbolTable("align-syms-nola");
@@ -234,6 +234,7 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     std::cerr << "DATA " << cnt << std::endl;
     typedef typename v3::AlignmentLatticesIterator<StdArc>::FstPtr FstPtr;
     FstPtr aligned = lattices_iter.Value();
+
     Map(aligned.get(),
         util::SymbolsMapper_InOutToAlign<StdArc>(*isymbols, *osymbols,
                                                  *align_syms_nola));
@@ -251,6 +252,7 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     else {
       Compose(*aligned, wellformed_fst, &aligned2);
     }
+
     aligned2.SetInputSymbols(NULL);
     aligned2.SetOutputSymbols(NULL);
 

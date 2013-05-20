@@ -12,8 +12,8 @@
 //
 // Author: jrs026@gmail.com (Jason Smith)
 //
-#ifndef _GETWELLFORMED_H_
-#define _GETWELLFORMED_H_
+#ifndef FSTRAIN_CREATE_GETWELLFORMED_H_
+#define FSTRAIN_CREATE_GETWELLFORMED_H_
 
 #include "fst/symbol-table.h"
 #include "fst/mutable-fst.h"
@@ -21,11 +21,10 @@
 
 namespace fstrain { namespace create {
 
-// Basic setup for every WF machine
+// Basic setup for every Wellformed machine
 template<class Arc>
-void initWFMachine(fst::MutableFst<Arc> *m,
-		   const fst::SymbolTable* syms)
-{
+void initWellformedMachine(fst::MutableFst<Arc> *m,
+                           const fst::SymbolTable* syms) {
   m->DeleteStates();
   m->AddState();
   m->SetStart(0);
@@ -37,16 +36,16 @@ void initWFMachine(fst::MutableFst<Arc> *m,
 
 // Create a machine that accepts any string
 void getDummyMachine(fst::MutableFst<fst::StdArc> *dummy,
-		     const fst::SymbolTable* syms);
+                     const fst::SymbolTable* syms);
 
 
 // Creates a machine that limits the number of insertions
 template<class Arc>
 void getLimitMachine(fst::MutableFst<Arc> *limitMachine,
-		     const fst::SymbolTable* syms, int limit, bool alsoRestrictDel = false)
+                     const fst::SymbolTable* syms, int limit, bool alsoRestrictDel = false)
 {
   typedef typename Arc::Weight Weight;
-  initWFMachine(limitMachine, syms);
+  initWellformedMachine(limitMachine, syms);
 
   // Create all needed states
   for (int l = 1; l <= limit; l++) {
@@ -77,12 +76,12 @@ void getLimitMachine(fst::MutableFst<Arc> *limitMachine,
 
 // Create a machine that accepts strings of the same conjugation
 void getConjMachine(fst::MutableFst<fst::StdArc> *conjMachine,
-		    const fst::SymbolTable* syms, int conjs);
+                    const fst::SymbolTable* syms, int conjs);
 
 
 // Create a machine that accepts well formed change segment strings
 void getChgSegMachine(fst::MutableFst<fst::StdArc> *chgSegMachine,
-		      const fst::SymbolTable* syms, int segs);
+                      const fst::SymbolTable* syms, int segs);
 
 /**
  * Builds a one-state machine that transduces from alignment symbols to annotated alignment symbols.
@@ -90,8 +89,8 @@ void getChgSegMachine(fst::MutableFst<fst::StdArc> *chgSegMachine,
  * to the wellformedness machine (which has symbols like j|j-c2-g1))
  */
 void getAnnotateMachine(const fst::SymbolTable* ax,         // a|x
-			const fst::SymbolTable* ax_la,       // a|x-c1-g2
-			fst::MutableFst<fst::StdArc>* result);   // a|x : a|x-c1-g2
+                        const fst::SymbolTable* ax_la,       // a|x-c1-g2
+                        fst::MutableFst<fst::StdArc>* result);   // a|x : a|x-c1-g2
 
 
 void getAnnotateMachine_old(fst::MutableFst<fst::StdArc>* annotateAlignmentSyms, // a|x : a|x-c2-g1
@@ -99,13 +98,13 @@ void getAnnotateMachine_old(fst::MutableFst<fst::StdArc>* annotateAlignmentSyms,
 
 
 ///**
-// * Reads alignmentConstraintFile 
+// * Reads alignmentConstraintFile
 // * (which typically contains all n-best alignments of training data, e.g. S|S a|x b|- c|y -|z E|E etc)
 // * and creates a machine that only allows such symbols (with annotations attached, e.g. a|x-c1-g2)
 // */
-//void getConstrainSymbolsMachine(fst::MutableFst<fst::StdArc>* constrainSymbolsMachine, 
-//				const fst::SymbolTable* syms, // e.g., a|x-c2-g1
-//				const char* alignmentConstraintFile);
+//void getConstrainSymbolsMachine(fst::MutableFst<fst::StdArc>* constrainSymbolsMachine,
+//                              const fst::SymbolTable* syms, // e.g., a|x-c2-g1
+//                              const char* alignmentConstraintFile);
 
 
 // Create a machine that only accepts well formed alignment strings

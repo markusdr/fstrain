@@ -50,7 +50,7 @@ typedef Arc::Weight Weight;
 void getDummyMachine(MutableFst<Arc> *dummy,
                      const SymbolTable* syms)
 {
-  initWFMachine(dummy, syms);
+  initWellformedMachine(dummy, syms);
   SymbolTableIterator i(*syms);
   i.Next(); // skip epsilon
   for(; !i.Done(); i.Next())
@@ -67,7 +67,7 @@ void getDummyMachine(MutableFst<Arc> *dummy,
 void getConjMachine(MutableFst<Arc> *conjMachine,
                     const SymbolTable* syms, int conjs)
 {
-  initWFMachine(conjMachine, syms);
+  initWellformedMachine(conjMachine, syms);
 
   // Iterate over each conjugation's state
   for (int c = 1; c <= conjs; c++) {
@@ -98,7 +98,7 @@ void getConjMachine(MutableFst<Arc> *conjMachine,
 void getChgSegMachine3(MutableFst<Arc> *chgSegMachine,
                        const SymbolTable* syms, int segs)
 {
-  // initWFMachine(chgSegMachine, syms);
+  // initWellformedMachine(chgSegMachine, syms);
   int num_states = segs * 2 + 2;
   for(int i = 0; i < num_states; ++i){
     chgSegMachine->AddState();
@@ -128,7 +128,7 @@ void getChgSegMachine3(MutableFst<Arc> *chgSegMachine,
       }
       chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop
     }
-    else{ // not a change sym (identity)
+    else { // not a change sym (identity)
       assert(currentRegion % 2 == 0); // even
       for(int fromState = 2; fromState < currentRegion + 1; fromState+=2){
         chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
@@ -155,7 +155,8 @@ void getWellFormed(
     int addLimit,
     int conjs, int segs, const char* alignmentConstraintFile, bool alsoRestrictDel)
 {
-  FSTR_CREATE_DBG_MSG(10, "Wellformed, limit=" << addLimit << ", conjs=" << conjs << ", " << segs << std::endl);
+  FSTR_CREATE_DBG_MSG(10, "Wellformed, limit=" << addLimit << ", conjs=" << conjs
+                      << ", " << segs << ", syms=" << syms << std::endl);
   std::vector<MutableFst<Arc>* > machines;
   machines.clear();
   // Make a machine that accepts anything
@@ -171,7 +172,7 @@ void getWellFormed(
                          fstrain::util::printTransducer(limitMachine,
                                                         limitMachine->InputSymbols(), limitMachine->OutputSymbols(), std::cerr););
   }
-  else{
+  else {
     getDummyMachine(limitMachine, syms);
   }
   machines.push_back(limitMachine);
@@ -195,8 +196,10 @@ void getWellFormed(
     getChgSegMachine3(chgSegMachine, syms, segs);
     machines.push_back(chgSegMachine);
     FSTR_CREATE_DBG_EXEC(10, std::cerr << "Change FST:" << std::endl;
-                         fstrain::util::printTransducer(chgSegMachine,
-                                                        chgSegMachine->InputSymbols(), chgSegMachine->OutputSymbols(), std::cerr););
+                         fstrain::util::printTransducer(
+                             chgSegMachine,
+                             chgSegMachine->InputSymbols(),
+                             chgSegMachine->OutputSymbols(), std::cerr););
   }
 
   // Intersect all the machines and store it in wellFormed
@@ -204,6 +207,8 @@ void getWellFormed(
   for (it = machines.begin(); it != machines.end(); it++) {
     fst::ArcSort(dummy, fst::StdOLabelCompare());
     fst::Intersect(*dummy, **it, wellFormed);
+    // delete dummy->InputSymbols();
+    // delete dummy->OutputSymbols();
     delete dummy;
     delete *it;
     dummy = wellFormed->Copy();
@@ -218,24 +223,19 @@ void getWellFormed(
   const Arc::Label kEndLabel = syms->Find("E|E");
   getOneArcFst(kEndLabel, &end_fst);
 
-  std::cerr << "Concat in get-well-formed" << std::endl; // TEST
-  // wellFormed->SetInputSymbols(NULL);
-  // wellFormed->SetOutputSymbols(NULL);
+
   start_fst.SetInputSymbols(syms);
   start_fst.SetOutputSymbols(syms);
   end_fst.SetInputSymbols(syms);
   end_fst.SetOutputSymbols(syms);
   Concat(start_fst, wellFormed);
-  std::cerr << "OK1" << std::endl; // TEST
   end_fst.SetInputSymbols(wellFormed->OutputSymbols());
   Concat(wellFormed, end_fst);
-  std::cerr << "OK2" << std::endl; // TEST
 
   RmEpsilon(wellFormed);
   Connect(wellFormed);
   fstrain::util::Determinize(wellFormed);
   Minimize(wellFormed);
-
 }
 
 } } // end namespaces

@@ -21,7 +21,7 @@ class AlignmentLatticesIterator {
 
  public:
   typedef A Arc;
-  
+
  private:
   util::Data::const_iterator begin_, end_, curr_;
   const fst::Fst<fst::StdArc>& align_fst_;
@@ -36,14 +36,14 @@ class AlignmentLatticesIterator {
 
   AlignmentLatticesIterator(util::Data::const_iterator begin,
                             util::Data::const_iterator end,
-                            const fst::Fst<fst::StdArc>& align_fst, 
+                            const fst::Fst<fst::StdArc>& align_fst,
                             const fst::SymbolTable* isymbols,
-                            const fst::SymbolTable* osymbols) 
+                            const fst::SymbolTable* osymbols)
       : begin_(begin), end_(end), curr_(begin),
         align_fst_(align_fst), isymbols_(isymbols), osymbols_(osymbols),
         prune_fct_(NULL)
-  {    
-    copts_.gc_limit = 0;  // Cache only the last state for fastest copy.  
+  {
+    copts_.gc_limit = 0;  // Cache only the last state for fastest copy.
   }
 
   void SetPruneFct(PruneFct* prune_fct) {
@@ -52,8 +52,8 @@ class AlignmentLatticesIterator {
 
   bool Done() const {
     return curr_ == end_;
-  } 
-  
+  }
+
   void Next() {
     ++curr_;
   }
@@ -79,7 +79,7 @@ class AlignmentLatticesIterator {
     }
     return FstPtr(aligned);
   }
-  
+
 };
 
 } } } // end namespaces
