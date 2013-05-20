@@ -128,14 +128,14 @@ void CountNgrams(const fst::Fst<Arc>& fst,
   typedef Fst<Arc> FST;
   typedef SigmaMatcher< SortedMatcher<FST> > SM;
   ComposeFstOptions<Arc, SM> opts;
-  const bool rewrite_both = true;
   opts.gc_limit = 0;
   opts.matcher1 = new SM(fst, MATCH_NONE, kNoLabel);
   opts.matcher2 = new SM(
-      ngram_count_fst, MATCH_INPUT, kSigmaLabel, MATCHER_REWRITE_AUTO);
+      ngram_count_fst, MATCH_INPUT, kSigmaLabel, MATCHER_REWRITE_ALWAYS);
   ComposeFst<Arc> cfst(fst, ngram_count_fst, opts);
+  *result = DeterminizeFst<Arc>(
+      RmEpsilonFst<Arc>(ProjectFst<Arc>(cfst, PROJECT_OUTPUT)));
   Connect(result);
-  *result = DeterminizeFst<Arc>(RmEpsilonFst<Arc>(ProjectFst<Arc>(cfst, PROJECT_OUTPUT)));
 }
 
 /**
