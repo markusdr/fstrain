@@ -95,10 +95,10 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
                                  fst::MutableFst<fst::MDExpectationArc>* result) {
   using namespace fst;
   util::Data data(data_filename);
-  v3::AlignmentLatticesIterator<StdArc> lit(data.begin(), data.end(),
+  v3::AlignmentLatticesIterator<StdArc> lattice_iter(data.begin(), data.end(),
                                             alignment_fst,
                                             isymbols, osymbols);
-  lit.SetPruneFct(prune_fct);
+  lattice_iter.SetPruneFct(prune_fct);
 
   util::Timer timer;
 
@@ -112,7 +112,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
 
   fst::VectorFst<fst::LogArc> counts_trie;
   const bool wellformed_has_latent = num_conjugations > 0 || num_change_regions > 0;
-  v3::AlignDataAndExtractNgramCounts(lit, ngram_order,
+  v3::AlignDataAndExtractNgramCounts(lattice_iter, ngram_order,
                                      wellformed_fst, wellformed_has_latent,
                                      &counts_trie);
 

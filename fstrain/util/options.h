@@ -22,18 +22,17 @@
 namespace fstrain { namespace util {
 
 class Options : public std::map<std::string, boost::any> {
- 
+
  public:
 
   Options();
 
-  template<class T> 
-    T get(const std::string& key)  {
+  template<class T>
+  T get(const std::string& key)  {
     return boost::any_cast<T>((*this)[key]);
   }
 
   bool has(const std::string& key) const;
-  
 };
 
 extern Options options;
