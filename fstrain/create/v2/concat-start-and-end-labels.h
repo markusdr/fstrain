@@ -43,7 +43,6 @@ void ConcatStartAndEndLabels(const int64 kStartLabel, const int64 kEndLabel,
   ilabel = input_eps ? 0 : kEndLabel;
   olabel = output_eps ? 0 : kEndLabel;
   CreateOneArcFst(ilabel, olabel, &end_fst);
-  std::cerr << "Concat in v2" << std::endl; // TEST
   Concat(start_fst, fst);
   Concat(fst, end_fst);
   RmEpsilon(fst);
