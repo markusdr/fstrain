@@ -1,3 +1,4 @@
+# Sets the following variables:
 # OPENFST_FOUND
 # OPENFST_DIR
 
