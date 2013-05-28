@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef CREATE_CREATE_NGRAM_FST_H
-#define CREATE_CREATE_NGRAM_FST_H
+#ifndef FSTRAIN_CREATE_CREATE_CREATE_NGRAM_FST_H
+#define FSTRAIN_CREATE_CREATE_CREATE_NGRAM_FST_H
 
 #include "fst/fst.h"
 #include "fst/fst.h"

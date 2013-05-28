@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef FSTR_CREATE_CREATE_NGRAM_FST_FROM_BEST_ALIGN_R2191_H
-#define FSTR_CREATE_CREATE_NGRAM_FST_FROM_BEST_ALIGN__R2191H
+#ifndef FSTRAIN_CREATE_CREATE_NGRAM_FST_FROM_BEST_ALIGN_R2191_H
+#define FSTRAIN_CREATE_CREATE_NGRAM_FST_FROM_BEST_ALIGN_R2191_H
 
 #include "fst/fst.h"
 #include "fst/mutable-fst.h"

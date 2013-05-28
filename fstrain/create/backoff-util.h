@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef FSTR_CREATE_BACKOFF_UTIL_H
-#define FSTR_CREATE_BACKOFF_UTIL_H
+#ifndef FSTRAIN_CREATE_BACKOFF_UTIL_H
+#define FSTRAIN_CREATE_BACKOFF_UTIL_H
 
 #include "fstrain/create/backoff-symbols.h"
 #include "fstrain/create/features/extract-features.h"

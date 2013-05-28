@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef FSTRAIN_V3_ALIGNMENT_LATTICES_ITERATOR_H
-#define FSTRAIN_V3_ALIGNMENT_LATTICES_ITERATOR_H
+#ifndef FSTRAIN_CREATE_FSTRAIN_V3_ALIGNMENT_LATTICES_ITERATOR_H
+#define FSTRAIN_CREATE_FSTRAIN_V3_ALIGNMENT_LATTICES_ITERATOR_H
 
 #include "fst/fst.h"
 #include "fst/mutable-fst.h"

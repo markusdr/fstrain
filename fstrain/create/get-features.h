@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef GET_FEATURES_H
-#define GET_FEATURES_H
+#ifndef FSTRAIN_CREATE_GET_FEATURES_H
+#define FSTRAIN_CREATE_GET_FEATURES_H
 
 #include <sstream>
 #include <limits>

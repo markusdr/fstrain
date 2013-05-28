@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef FSTR_CREATE_ADD_BACKOFF_H
-#define FSTR_CREATE_ADD_BACKOFF_H
+#ifndef FSTRAIN_CREATE_ADD_BACKOFF_H
+#define FSTRAIN_CREATE_ADD_BACKOFF_H
 
 #include "fst/fst.h"
 #include "fst/mutable-fst.h"

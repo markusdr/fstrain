@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef UTIL_CREATE_NGRAM_TRIE_H
-#define UTIL_CREATE_NGRAM_TRIE_H
+#ifndef FSTRAIN_CREATE_UTIL_CREATE_NGRAM_TRIE_H
+#define FSTRAIN_CREATE_UTIL_CREATE_NGRAM_TRIE_H
 
 #include "fst/fst.h"
 #include "fst/mutable-fst.h"

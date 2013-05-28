@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef UTIL_ADD_FST_TO_TRIE_H
-#define UTIL_ADD_FST_TO_TRIE_H
+#ifndef FSTRAIN_CREATE_UTIL_ADD_FST_TO_TRIE_H
+#define FSTRAIN_CREATE_UTIL_ADD_FST_TO_TRIE_H
 
 #include "fst/fst.h"
 #include "fst/mutable-fst.h"

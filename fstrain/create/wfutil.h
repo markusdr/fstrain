@@ -12,8 +12,8 @@
 //
 // Author: jrs026@gmail.com (Jason Smith)
 //
-#ifndef _WF_UTIL_H_
-#define _WF_UTIL_H_
+#ifndef FSTRAIN_CREATE_WF_UTIL_H_
+#define FSTRAIN_CREATE_WF_UTIL_H_
 
 #include <sstream>
 #include "fst/vector-fst.h"

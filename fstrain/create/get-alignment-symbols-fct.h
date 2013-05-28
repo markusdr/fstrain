@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef GET_ALIGNMENT_SYMBOLS_FCT_H
-#define GET_ALIGNMENT_SYMBOLS_FCT_H
+#ifndef FSTRAIN_CREATE_GET_ALIGNMENT_SYMBOLS_FCT_H
+#define FSTRAIN_CREATE_GET_ALIGNMENT_SYMBOLS_FCT_H
 
 #include <iostream>
 #include <sstream>

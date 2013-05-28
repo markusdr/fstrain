@@ -12,8 +12,8 @@
 //
 // Author: jrs026@gmail.com (Jason Smith)
 //
-#ifndef _GETFIRSTANDLAST_H_
-#define _GETFIRSTANDLAST_H_
+#ifndef FSTRAIN_CREATE_GETFIRSTANDLAST_H_
+#define FSTRAIN_CREATE_GETFIRSTANDLAST_H_
 
 #include <set>
 #include "fst/symbol-table.h"

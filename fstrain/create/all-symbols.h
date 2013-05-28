@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef FSTR_CREATE_ALL_SYMBOLS_H
-#define FSTR_CREATE_ALL_SYMBOLS_H
+#ifndef FSTRAIN_CREATE_ALL_SYMBOLS_H
+#define FSTRAIN_CREATE_ALL_SYMBOLS_H
 
 #include "fst/symbol-table.h"
 

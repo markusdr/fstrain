@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef NGRAM_FSA_INSERT_FEATURES_H
-#define NGRAM_FSA_INSERT_FEATURES_H
+#ifndef FSTRAIN_CREATE_NGRAM_FSA_INSERT_FEATURES_H
+#define FSTRAIN_CREATE_NGRAM_FSA_INSERT_FEATURES_H
 
 #include "fst/fst.h"
 #include "fst/mutable-fst.h"

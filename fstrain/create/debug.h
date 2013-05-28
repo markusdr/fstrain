@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef FSTR_CREATE_DBG_H
-#define FSTR_CREATE_DBG_H
+#ifndef FSTRAIN_CREATE_DBG_H
+#define FSTRAIN_CREATE_DBG_H
 
 #include <iostream>
 #include <sstream>
