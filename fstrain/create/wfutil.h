@@ -18,24 +18,21 @@
 #include <sstream>
 #include "fst/vector-fst.h"
 #include "fst/symbol-table.h"
-// #include "src/bin/print-main.h"
 
 namespace fstrain { namespace create {
 
-namespace wfutil
-{
+namespace wfutil {
 
-	template <class T>
-	std::string toString (const T& t)
-	{
-		std::stringstream ss;
-		ss << t;
-		return ss.str();
-	}
+template <class T>
+std::string toString (const T& t) {
+  std::stringstream ss;
+  ss << t;
+  return ss.str();
+}
 
-	// Extracts a latent annotation value from a symbol
-	// getLA("-|z-c2-g3", "-g") == 3
-	int getLA(const string& symbol, const string& la);
+// Extracts a latent annotation value from a symbol
+// getLA("-|z-c2-g3", "-g") == 3
+int getLA(const string& symbol, const string& la);
 
 }
 

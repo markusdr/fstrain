@@ -17,17 +17,15 @@
 
 namespace fstrain { namespace create {
 
-namespace wfutil
-{
+namespace wfutil {
 
-	int getLA(const string& symbol, const string& la)
-	{
-		return atoi(symbol.substr(
-				symbol.find(la, 3) + la.length(),
-				symbol.find("-", symbol.find(la, 3) + la.length()) - 
-				symbol.find(la, 3) + la.length()
-			).c_str());
-	}
+int getLA(const string& symbol, const string& la) {
+  return atoi(symbol.substr(
+                  symbol.find(la, 3) + la.length(),
+                  symbol.find("-", symbol.find(la, 3) + la.length()) -
+                  symbol.find(la, 3) + la.length()
+                            ).c_str());
+}
 
 }
 
