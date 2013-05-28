@@ -23,18 +23,18 @@ Build Instructions
         make -C test
 
     If your OpenFst is not installed in a standard system directory
-    (like /usr/local or similar) then cmake cannot find it. In that
-    case, use this cmake command:
+    (like `/usr/local` or similar) then cmake cannot find it. In that
+    case, use this `cmake` command:
 
         cmake -DOPENFST_ROOT=/my/path/to/openfst ../fstrain
     
-    where /my/path/to/openfst contains OpenFst's include/ and lib/
-    directories.
+    where `/my/path/to/openfst` contains OpenFst's `include/` and
+    `lib/` directories.
 
-    The same works for Boost: Use the BOOST_ROOT variable to specify
+    The same works for Boost: Use the `BOOST_ROOT` variable to specify
     the Boost location if it is not installed in a system directory:
 
-    cmake -DBOOST_ROOT=/my/path/to/boost ../fstrain
+        cmake -DBOOST_ROOT=/my/path/to/boost ../fstrain
     
 5. Done!
 
