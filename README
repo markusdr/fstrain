@@ -1,14 +1,18 @@
-fstrain - Software for training finite-state models
+fstrain
+=======
 
-BUILD INSTRUCTIONS
+A toolkit for training finite-state models
 
-(1) Install Boost (http://www.boost.org/)
+Build Instructions
+------------------
 
-(2) Install R (http://www.r-project.org/)
+1. Install Boost (http://www.boost.org/)
 
-(3) Install OpenFst (http://www.openfst.org/)
+2. Install R (http://www.r-project.org/)
 
-(4) Build fstrain:
+3. Install OpenFst (http://www.openfst.org/)
+
+4. Build fstrain:
 
     mkdir Release
     cd Release
@@ -32,5 +36,6 @@ BUILD INSTRUCTIONS
 
     cmake -DBOOST_ROOT=/my/path/to/boost ../fstrain
     
+5. Done!
 
-(5) Done!
+Markus Dreyer, markus.dreyer@gmail.com
