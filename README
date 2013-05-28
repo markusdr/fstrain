@@ -16,7 +16,7 @@ BUILD INSTRUCTIONS
     make
     export FSTRAIN_ROOT=$(pwd)
     cd ..
-    make test
+    make -C test
 
     If your OpenFst is not installed in a standard system directory
     (like /usr/local or similar) then cmake cannot find it. In that
