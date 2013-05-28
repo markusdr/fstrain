@@ -26,7 +26,7 @@
 
 BOOST_AUTO_TEST_SUITE(noepshist)
 
-BOOST_AUTO_TEST_CASE( BackoffIterator_1a ) {   
+BOOST_AUTO_TEST_CASE( BackoffIterator_1a ) {
   using namespace fstrain::create::noepshist;
   const std::string str = "abc|xyz";
   std::set<std::string> want;
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE( BackoffIterator_1a ) {
   want.insert("c|yz");
   want.insert("bc|z");
   want.insert("abc|");
-  want.insert("|yz"); 
+  want.insert("|yz");
   want.insert("c|z");
   want.insert("bc|");
   want.insert("|z");
@@ -51,14 +51,14 @@ BOOST_AUTO_TEST_CASE( BackoffIterator_1a ) {
   for(int i = 0; i < want.size(); ++i){
     std::string result = it.Value();
     bool result_ok = want.find(result) != want.end();
-    BOOST_CHECK_EQUAL(result_ok, true);    
+    BOOST_CHECK_EQUAL(result_ok, true);
     it.Next();
     ++cnt;
   }
   BOOST_CHECK_EQUAL(it.Done(), true);
 }
 
-BOOST_AUTO_TEST_CASE( BackoffIterator_1b ) {   
+BOOST_AUTO_TEST_CASE( BackoffIterator_1b ) {
   using namespace fstrain::create::noepshist;
   const std::string str = "abc|xyz";
   BackoffIterator it(str);
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE( BackoffIterator_1b ) {
   it.Next();
   BOOST_CHECK_EQUAL(it.Value(), "abc|");
   it.Next();
-  BOOST_CHECK_EQUAL(it.Value(), "|yz"); 
+  BOOST_CHECK_EQUAL(it.Value(), "|yz");
   it.Next();
   BOOST_CHECK_EQUAL(it.Value(), "c|z");
   it.Next();
@@ -187,11 +187,11 @@ BOOST_AUTO_TEST_CASE( ExtendHistory_5 ) {
   BOOST_CHECK_EQUAL( hist, "ab|");
 }
 
-BOOST_AUTO_TEST_CASE( CreateScoringFst ) {   
+BOOST_AUTO_TEST_CASE( CreateScoringFst ) {
   using namespace fstrain::create::noepshist;
   using namespace fst;
   std::cerr << "Creating scoring machine " << std::endl;
-  SymbolTable align_syms("align-sym");  
+  SymbolTable align_syms("align-sym");
   // align_syms.AddSymbol("-|-");
   align_syms.AddSymbol("a|x");
   align_syms.AddSymbol("a|y");
@@ -208,7 +208,7 @@ BOOST_AUTO_TEST_CASE( CreateScoringFst ) {
   SymbolTable features("features");
   const char sep_char = '|';
   HistoryFilter_Length hist_filter(1,1, sep_char);
-  sfb.CreateScoringFst(align_syms, end_sym, 
+  sfb.CreateScoringFst(align_syms, end_sym,
                        &hist_filter, &features, &fst);
   fstrain::util::printAcceptor(&fst, &align_syms, std::cerr);
   std::cerr << "FEATURES:" << std::endl;
@@ -217,14 +217,14 @@ BOOST_AUTO_TEST_CASE( CreateScoringFst ) {
   }
 }
 
-BOOST_AUTO_TEST_CASE( CreateScoringFst_2 ) {   
+BOOST_AUTO_TEST_CASE( CreateScoringFst_2 ) {
   using namespace fstrain::create::noepshist;
   using namespace fst;
   struct MyHistoryFilter : public HistoryFilter {
     bool operator()(const std::string& h) {
-      return h == "E|E" 
+      return h == "E|E"
           || h == "a|x"
-          || h == "|";        
+          || h == "|";
     }
   };
   SymbolTable align_syms("align-sym");
@@ -241,7 +241,7 @@ BOOST_AUTO_TEST_CASE( CreateScoringFst_2 ) {
   int maxdiff = 1;
   HistoryFilter_LengthDiff feat_filter(maxdiff, '|');
   sfb.SetFeaturesFilter(&feat_filter);
-  sfb.CreateScoringFst(align_syms, end_sym, 
+  sfb.CreateScoringFst(align_syms, end_sym,
                        &hist_filter, &features, &fst);
   fstrain::util::printAcceptor(&fst, &align_syms, std::cerr);
   // BOOST_CHECK_EQUAL(allowed_hists.NumSymbols(), fst.NumStates());

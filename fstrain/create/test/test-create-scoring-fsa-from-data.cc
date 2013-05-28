@@ -39,7 +39,7 @@ namespace po = boost::program_options;
 using namespace fst;
 
 int main(int ac, char** av) {
-  try{    
+  try{
 
     po::options_description generic("Allowed options");
     generic.add_options()
@@ -53,7 +53,7 @@ int main(int ac, char** av) {
     hidden.add_options()
         ("input-file", po::value<std::string>(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -102,7 +102,7 @@ int main(int ac, char** av) {
     const Fst<StdArc>* align_fst = fstrain::util::GetVectorFst<StdArc>(fst_filename);
 
     typedef MDExpectationArc Arc;
-    
+
     const int ngram_order = 3;
     const char sep_char = '|';
     bool add_identity_chars = true; // always add a|a, b|b, ...
@@ -112,9 +112,9 @@ int main(int ac, char** av) {
     SymbolTable pruned_align_syms("pruned-align-syms");
     SymbolTable feature_names("feature-names");
     fstrain::create::features::ExtractFeaturesFct_Simple extract_features_fct;
-    fstrain::util::Timer timer;    
+    fstrain::util::Timer timer;
     fstrain::create::CreateScoringFsaFromData(data, *isymbols, *osymbols,
-                                              *align_fst, 
+                                              *align_fst,
                                               ngram_order,
                                               extract_features_fct,
                                               sep_char,
@@ -124,13 +124,13 @@ int main(int ac, char** av) {
                                               &proj_up, &proj_down,
                                               &scoring_fsa);
     timer.stop();
-    fprintf(stderr, "Done creating scoring fsa [%2.2f ms, %2.2f MB]\n", 
-            timer.get_elapsed_time_millis(), 
+    fprintf(stderr, "Done creating scoring fsa [%2.2f ms, %2.2f MB]\n",
+            timer.get_elapsed_time_millis(),
             fstrain::util::MemoryInfo::instance().getSizeInMB());
 
     const int64 kPhiLabel = pruned_align_syms.Find("phi");
     if(kPhiLabel == kNoLabel){
-      throw std::runtime_error("phi not found");      
+      throw std::runtime_error("phi not found");
     }
 
     ArcSort(&proj_up, ILabelCompare<Arc>());
@@ -152,9 +152,9 @@ int main(int ac, char** av) {
       ComposeFst<Arc> numerator(in_up, scoring_fsa, opts);
 
       std::cout << "NUMERATOR:" << std::endl;
-      fstrain::util::printTransducer(&numerator, isymbols, &pruned_align_syms, std::cout);      
+      fstrain::util::printTransducer(&numerator, isymbols, &pruned_align_syms, std::cout);
     }
-    
+
     delete isymbols;
     delete osymbols;
     delete align_fst;

@@ -22,10 +22,10 @@ namespace fstrain { namespace util {
 
 template <class A>
 void Determinize(fst::MutableFst<A>* fst, double del = fst::kDelta) {
-  *fst = fst::DeterminizeFst<A>(*fst, 
+  *fst = fst::DeterminizeFst<A>(*fst,
                                 fst::DeterminizeFstOptions<A>(fst::CacheOptions(true, 0), del));
 }
 
 } } // end namespace fstrain::util
 
-#endif 
+#endif

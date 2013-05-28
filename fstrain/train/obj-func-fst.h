@@ -31,7 +31,7 @@ namespace fstrain { namespace train {
  * meant.
  */
 class ObjectiveFunctionFst : public ObjectiveFunction {
-  
+
  public:
 
   /**
@@ -39,9 +39,9 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
    */
   explicit
   ObjectiveFunctionFst(fst::MutableFst<fst::MDExpectationArc>* fst);
-  
+
   virtual ~ObjectiveFunctionFst();
-    
+
   virtual void SetParameters(const double*);
 
   virtual const double* GetParameters() const;
@@ -57,7 +57,7 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
   virtual const double* GetGradients() const {
     return gradients_;
   }
-  
+
   virtual const fst::Fst<fst::MDExpectationArc>& GetFst() const {
     return *fst_;
   }
@@ -71,7 +71,7 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
 
   virtual long* GetTimelimit() {
     return &timelimit_ms_;
-  } 
+  }
 
   virtual void SetFstDelta(double d) {
     fst_delta_ = d;
@@ -101,7 +101,7 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
 
   virtual void ComputeGradientsAndFunctionValue(const double* params) = 0;
 
-  /* 
+  /*
    * @brief Modifies func (value and gradients) so highest f(x) =
    * 1.0
    */
@@ -109,15 +109,15 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
 
   /**
    * @brief Returns true if func converges for any input.
-   * 
+   *
    * Note: If false is returned it can still converge for a given data
    * set if func is conditional (is_joint_prob_ = false).
    *
    * Note: This will set the FST feature weights, but will not update the
    * func value and gradients.
-   */  
-  friend bool ConvergesForAnyInput(ObjectiveFunctionFst* theFunction, 
-                                   const double* x, 
+   */
+  friend bool ConvergesForAnyInput(ObjectiveFunctionFst* theFunction,
+                                   const double* x,
                                    size_t maxiter,
                                    double eigenval_convergence_tol);
 
@@ -137,8 +137,8 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
 
 void Save(const ObjectiveFunctionFst& theFunction, const std::string& filename);
 
-bool ConvergesForAnyInput(ObjectiveFunctionFst* theFunction, 
-                          const double* x, 
+bool ConvergesForAnyInput(ObjectiveFunctionFst* theFunction,
+                          const double* x,
                           size_t maxiter = 20000,
                           double eigenval_convergence_tol = 1e-12);
 

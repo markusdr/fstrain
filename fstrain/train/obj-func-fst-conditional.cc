@@ -42,12 +42,12 @@ struct ProcessInputOutputPair_Fct {
   ObjectiveFunctionFstConditional* obj;
   const util::Data& data;
   const std::size_t first, last;
-  int iteration;  
-  ProcessInputOutputPair_Fct(ObjectiveFunctionFstConditional* obj_, 
+  int iteration;
+  ProcessInputOutputPair_Fct(ObjectiveFunctionFstConditional* obj_,
                              const util::Data& data_,
                              std::size_t first_,
                              std::size_t last_,
-                             int iteration_) 
+                             int iteration_)
       : obj(obj_), data(data_), first(first_), last(last_), iteration(iteration_) {}
   void operator()() {
     for(std::size_t i = first; i <= last; ++i) {
@@ -88,7 +88,7 @@ ObjectiveFunctionFstConditional::~ObjectiveFunctionFstConditional() {
   delete compose_output_fct_;
 }
 
-void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const double* x) {  
+void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const double* x) {
   static int call_counter = -1;
   ++call_counter;
   using nsObjectiveFunctionFstUtil::GetFeatureMDExpectations;
@@ -107,13 +107,13 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
   for(int i = 0; i < num_params; ++i){
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
-  }   
+  }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
   if(GetNumThreads() == 1) {
     ProcessInputOutputPair_Fct f(this, *data_, 0, data_->size() - 1, call_counter);
     f();
-  } 
+  }
   else {
     std::vector<boost::shared_ptr<boost::thread> > threads;
     const int num_threads = std::min(GetNumThreads(), (int)data_->size()); // TEST
@@ -124,9 +124,9 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
       const std::size_t last = i < num_threads - 1 ? prev_last + block_size : data_->size() - 1;
       prev_last = last;
       ProcessInputOutputPair_Fct f(this, *data_, first, last, call_counter);
-      threads.push_back(boost::shared_ptr<boost::thread>(new boost::thread(f)));    
+      threads.push_back(boost::shared_ptr<boost::thread>(new boost::thread(f)));
     }
-    std::cerr << "Started " << threads.size() << " threads" << std::endl;  
+    std::cerr << "Started " << threads.size() << " threads" << std::endl;
     AbortThreadsOnDivergentObjective watch_fct(this, threads);
     boost::thread watch_thread(boost::ref(watch_fct));
     BOOST_FOREACH(boost::shared_ptr<boost::thread> t_ptr, threads) {
@@ -137,18 +137,18 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
     watch_thread.join();
   }
 
-  std::cerr << setprecision(8) 
-            << "Returning x=" << x[0] << "\tg=" << gradients[0] 
+  std::cerr << setprecision(8)
+            << "Returning x=" << x[0] << "\tg=" << gradients[0]
             << "\tobj=" << GetFunctionValue();
   timer.stop();
-  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n", 
-          timer.get_elapsed_time_millis(), 
+  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
+          timer.get_elapsed_time_millis(),
           util::MemoryInfo::instance().getSizeInMB());
 
   if(GetFunctionValue() == core::kPosInfinity){
     double* gradients = GetGradients();
     // already done in GetFeatureMDExpectations, but not sure due to threads
-    const int num_params = GetNumParameters();    
+    const int num_params = GetNumParameters();
     for(std::size_t i = 0; i < num_params; ++i) {
       gradients[i] = 0.0;
     }
@@ -157,7 +157,7 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
   }
 
   SquashFunction();
-} 
+}
 
 void ObjectiveFunctionFstConditional::ProcessInputOutputPair(
     const std::string& in, const std::string& out, int iteration) {
@@ -180,7 +180,7 @@ void ObjectiveFunctionFstConditional::ProcessInputOutputPair(
   double clamped_result = 0.0;
   try {
     clamped_result = GetFeatureMDExpectations<double, double*>(
-        clamped, &gradients, GetNumParameters(), 
+        clamped, &gradients, GetNumParameters(),
         false, 1.0,
         GetFstDelta(), &timelimit, &mutex_gradient_access_);
   }
@@ -193,10 +193,10 @@ void ObjectiveFunctionFstConditional::ProcessInputOutputPair(
   FSTR_TRAIN_DBG_MSG(10, "CLAMPED=" << clamped_result << std::endl);
   long unlimited = -1;
   FSTR_TRAIN_DBG_EXEC(100, util::printFst(&unclamped, NULL, NULL, false, std::cerr));
-  double unclamped_result = 
-      GetFeatureMDExpectations(unclamped, &gradients, GetNumParameters(), 
-                             true, 1.0, GetFstDelta(), 
-                             iteration == 0 ? &unlimited : GetTimelimit(), 
+  double unclamped_result =
+      GetFeatureMDExpectations(unclamped, &gradients, GetNumParameters(),
+                             true, 1.0, GetFstDelta(),
+                             iteration == 0 ? &unlimited : GetTimelimit(),
                              &mutex_gradient_access_);
   // std::cerr << "New time limit: " << GetTimelimit() << std::endl;
   FSTR_TRAIN_DBG_MSG(10, "UNCLAMPED=" << unclamped_result << std::endl);

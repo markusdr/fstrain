@@ -35,17 +35,17 @@ using namespace fst;
 namespace fstrain { namespace train {
 
 ObjectiveFunctionFstJoint::ObjectiveFunctionFstJoint(
-    fst::MutableFst<fst::MDExpectationArc>* fst,      
+    fst::MutableFst<fst::MDExpectationArc>* fst,
     const util::Data* data,
     const fst::SymbolTable* isymbols,
     const fst::SymbolTable* osymbols,
-    double variance)      
+    double variance)
     : ObjectiveFunctionFst(fst),
       data_(data), isymbols_(isymbols), osymbols_(osymbols), variance_(variance)
 {
   std::cerr << "# Constructing ObjectiveFunctionFstJoint" << std::endl;
-  std::cerr << "# Data size: " << data_->size() << std::endl;    
-  std::cerr << "# Num params: " << GetNumParameters() << std::endl;      
+  std::cerr << "# Data size: " << data_->size() << std::endl;
+  std::cerr << "# Num params: " << GetNumParameters() << std::endl;
 }
 
 ObjectiveFunctionFstJoint::~ObjectiveFunctionFstJoint() {
@@ -55,7 +55,7 @@ ObjectiveFunctionFstJoint::~ObjectiveFunctionFstJoint() {
 }
 
 void ObjectiveFunctionFstJoint::ComputeGradientsAndFunctionValue(const double* x) {
-  
+
   static int call_counter = -1;
   ++call_counter;
   using nsObjectiveFunctionFstUtil::GetFeatureMDExpectations;
@@ -76,9 +76,9 @@ void ObjectiveFunctionFstJoint::ComputeGradientsAndFunctionValue(const double* x
   for(int i = 0; i < num_params; ++i){
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
-  }   
+  }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
-  
+
   for(size_t i = 0; i < data_->size(); ++i) {
     if(exclude_data_indices_.find(i) != exclude_data_indices_.end()){
       continue;
@@ -88,28 +88,28 @@ void ObjectiveFunctionFstJoint::ComputeGradientsAndFunctionValue(const double* x
       ProcessInputOutputPair(inout.first, inout.second);
     }
     catch(std::runtime_error) {
-      std::cerr << "Warning: Ignoring example " 
+      std::cerr << "Warning: Ignoring example "
                 << inout.first << " / " << inout.second << std::endl;
       exclude_data_indices_.insert(i);
     }
-  } // end loop over data 
+  } // end loop over data
 
   double factor = data_->size() - exclude_data_indices_.size();
   long* timelimit = GetTimelimit();
   long unlimited = (long)1e8;
   util::Timer unclamped_timer;
   double unclamped_result = GetFeatureMDExpectations<double, double*>(
-      GetFst(), &gradients, num_params, 
-      true, factor, 
+      GetFst(), &gradients, num_params,
+      true, factor,
       GetFstDelta(), call_counter == 0 ? &unlimited : timelimit);
   unclamped_timer.stop();
   SetFunctionValue(GetFunctionValue() - unclamped_result);
 
-  std::cerr << setprecision(8) 
-            << "Returning x=" << x[0] << "\tg=" << gradients[0] 
+  std::cerr << setprecision(8)
+            << "Returning x=" << x[0] << "\tg=" << gradients[0]
             << "\tobj=" << GetFunctionValue();
   timer.stop();
-  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n", 
+  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
           timer.get_elapsed_time_millis(), util::MemoryInfo::instance().getSizeInMB());
 
   if(GetFunctionValue() == NeglogNum(core::kPosInfinity)){
@@ -117,7 +117,7 @@ void ObjectiveFunctionFstJoint::ComputeGradientsAndFunctionValue(const double* x
     return;
   }
   SquashFunction();
-} 
+}
 
 void ObjectiveFunctionFstJoint::ProcessInputOutputPair(
     const std::string& in, const std::string& out) {
@@ -129,13 +129,13 @@ void ObjectiveFunctionFstJoint::ProcessInputOutputPair(
   ComposeFst<MDExpectationArc> unclamped(inputFst, GetFst());
   ComposeFstOptions<MDExpectationArc> copts;
   copts.gc_limit = 0;  // Cache only the last state for fastest copy.
-  ComposeFst<MDExpectationArc> clamped(unclamped, outputFst, copts);            
+  ComposeFst<MDExpectationArc> clamped(unclamped, outputFst, copts);
   double* gradients = GetGradients();
-  // may throw:  
+  // may throw:
   double clamped_result = GetFeatureMDExpectations<double, double*>(
-      clamped, &gradients, GetNumParameters(), 
+      clamped, &gradients, GetNumParameters(),
       false, 1.0,
-      GetFstDelta(), GetTimelimit());       
+      GetFstDelta(), GetTimelimit());
   SetFunctionValue(GetFunctionValue() + clamped_result);
 }
 

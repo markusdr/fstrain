@@ -43,7 +43,7 @@ int GetNumPartsAndPrepareString(const std::string& str, std::string* result) {
     if(symbols_vec[i].length() < 4){
       symbols_vec[i] += pseudo_la;
     }
-    *result += symbols_vec[i] + 
+    *result += symbols_vec[i] +
         (i < symbols_vec.size()-1 ? " " : "");
   }
   return max_num;
@@ -51,10 +51,10 @@ int GetNumPartsAndPrepareString(const std::string& str, std::string* result) {
 
 void ChangeHyphensInSymbol(DecodeType type, std::string* symbol) {
   std::string::size_type separator_pos = symbol->find('|');
-  char from = (type == ENCODE ? '-' : ' '); 
-  char to = (type == ENCODE ? ' ' : '-'); 
+  char from = (type == ENCODE ? '-' : ' ');
+  char to = (type == ENCODE ? ' ' : '-');
   if(separator_pos != std::string::npos) {
-    if(separator_pos != 0 
+    if(separator_pos != 0
        && (*symbol)[separator_pos - 1] == from){
       (*symbol)[separator_pos - 1] = to;
     }

@@ -24,7 +24,7 @@
 #include "fstrain/util/data.h"
 #include "fstrain/util/compose-fcts.h"
 #include "fstrain/core/expectation-arc.h"
-#include <boost/thread/mutex.hpp> 
+#include <boost/thread/mutex.hpp>
 
 namespace fstrain { namespace train {
 
@@ -44,7 +44,7 @@ class ObjectiveFunctionFstConditional : public ObjectiveFunctionFst {
    * other connection step, e.g. using proj_up and proj_down.)
    * @param compose_output_fct A function that composes scoring FSM with the output.
    */
-  ObjectiveFunctionFstConditional(fst::MutableFst<fst::MDExpectationArc>* fst,      
+  ObjectiveFunctionFstConditional(fst::MutableFst<fst::MDExpectationArc>* fst,
                                   const fstrain::util::Data* data,
                                   const fst::SymbolTable* isymbols,
                                   const fst::SymbolTable* osymbols,
@@ -56,14 +56,14 @@ class ObjectiveFunctionFstConditional : public ObjectiveFunctionFst {
         compose_input_fct_(compose_input_fct), compose_output_fct_(compose_output_fct)
   {
     std::cerr << "# Constructing ObjectiveFunctionFstConditional" << std::endl;
-    std::cerr << "# Data size: " << data_->size() << std::endl;    
-    std::cerr << "# Num params: " << GetNumParameters() << std::endl;      
+    std::cerr << "# Data size: " << data_->size() << std::endl;
+    std::cerr << "# Num params: " << GetNumParameters() << std::endl;
   }
 
   virtual ~ObjectiveFunctionFstConditional();
 
  protected:
-  
+
   virtual void ComputeGradientsAndFunctionValue(const double* params);
 
  private:
@@ -77,8 +77,8 @@ class ObjectiveFunctionFstConditional : public ObjectiveFunctionFst {
   util::ComposeFct<fst::MDExpectationArc>* compose_output_fct_;
   boost::mutex mutex_gradient_access_;
   boost::mutex mutex_functionval_access_;
-  
-  void ProcessInputOutputPair(const std::string& in, const std::string& out, 
+
+  void ProcessInputOutputPair(const std::string& in, const std::string& out,
                               int iteration);
 
   friend struct ProcessInputOutputPair_Fct;

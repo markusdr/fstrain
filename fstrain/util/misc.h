@@ -49,7 +49,7 @@ bool IsTrie(const fst::Fst<Arc>& fst) {
     }
   }
   return true;
-} 
+}
 
 } } // end namespaces
 

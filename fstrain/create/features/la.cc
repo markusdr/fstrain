@@ -9,12 +9,12 @@
 namespace fstrain { namespace create { namespace features {
 
 extern "C" {
-  
-  void ExtractFeatures(const std::string& window, 
+
+  void ExtractFeatures(const std::string& window,
                        IFeatureSet* featset) {
     // GetFeatures(window, featset);
     LatentAnnotationFeatures f(window);
-    for(LatentAnnotationFeatures::const_iterator it = f.begin(); 
+    for(LatentAnnotationFeatures::const_iterator it = f.begin();
         it != f.end(); ++it) {
       featset->insert(*it);
     }

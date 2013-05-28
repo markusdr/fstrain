@@ -31,7 +31,7 @@ namespace fstrain { namespace util {
 template<class Arc>
   fst::MutableFst<Arc>* GetVectorFst(const std::string& filename) {
   fst::MutableFst<Arc>* result = NULL;
-  std::istream* strm = new std::ifstream(filename.c_str(), 
+  std::istream* strm = new std::ifstream(filename.c_str(),
 					 std::ifstream::in | std::ifstream::binary);
   if (!*strm) {
     FSTR_UTIL_EXCEPTION("Could not read " << filename);
@@ -45,31 +45,31 @@ template<class Arc>
     result = fst::VectorFst<Arc>::Read(filename);
   }
   else {
-    result = new fst::VectorFst<Arc>();    
+    result = new fst::VectorFst<Arc>();
     if(arc_type == "standard") {
       FSTR_UTIL_DBG_MSG(10, "Converting from StdArc" << std::endl);
       typedef fst::WeightConvertMapper<fst::StdArc, Arc> Mapper;
-      fst::MutableFst<fst::StdArc>* tmp = fst::VectorFst<fst::StdArc>::Read(filename);    
+      fst::MutableFst<fst::StdArc>* tmp = fst::VectorFst<fst::StdArc>::Read(filename);
       *result = fst::MapFst<fst::StdArc, Arc, Mapper>(*tmp, Mapper());
       delete tmp;
     }
     else if(arc_type == "log") {
       FSTR_UTIL_DBG_MSG(10, "Converting from LogArc" << std::endl);
       typedef fst::WeightConvertMapper<fst::LogArc, Arc> Mapper;
-      fst::MutableFst<fst::LogArc>* tmp = fst::VectorFst<fst::LogArc>::Read(filename);    
+      fst::MutableFst<fst::LogArc>* tmp = fst::VectorFst<fst::LogArc>::Read(filename);
       *result = fst::MapFst<fst::LogArc, Arc, Mapper>(*tmp, Mapper());
       delete tmp;
     }
     else if(arc_type == "expectation") {
       FSTR_UTIL_DBG_MSG(10, "Converting from fst::MDExpectationArc" << std::endl);
       typedef fst::WeightConvertMapper<fst::MDExpectationArc, Arc> Mapper;
-      fst::MutableFst<fst::MDExpectationArc>* tmp = fst::VectorFst<fst::MDExpectationArc>::Read(filename);    
+      fst::MutableFst<fst::MDExpectationArc>* tmp = fst::VectorFst<fst::MDExpectationArc>::Read(filename);
       *result = fst::MapFst<fst::MDExpectationArc, Arc, Mapper>(*tmp, Mapper());
       delete tmp;
     }
     else {
       FSTR_UTIL_EXCEPTION(filename << ": Unknown arc type");
-    }    
+    }
   }
   delete strm;
   return result;

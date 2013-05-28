@@ -83,7 +83,7 @@ class ShortestDistanceState {
       bool retain)
       : fst_(fst), distance_(distance), state_queue_(opts.state_queue),
         arc_filter_(opts.arc_filter),
-        delta_(opts.delta), first_path_(opts.first_path), retain_(retain), 
+        delta_(opts.delta), first_path_(opts.first_path), retain_(retain),
         timeout_(opts.timeout) {
     distance_->clear();
   }

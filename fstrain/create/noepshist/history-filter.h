@@ -21,7 +21,7 @@ class HistoryFilter_Length : public HistoryFilter {
   HistoryFilter_Length(int maxlen_left, int maxlen_right, const char sep_char)
       : maxlen_left_(maxlen_left), maxlen_right_(maxlen_right),
         sep_char_(sep_char)
-  {} 
+  {}
   virtual ~HistoryFilter_Length() {}
   bool operator()(const std::string& hist) {
     typedef std::string::size_type stype;
@@ -48,7 +48,7 @@ class HistoryFilter_LengthDiff : public HistoryFilter {
  public:
   HistoryFilter_LengthDiff(int maxdiff, const char sep_char)
       : maxdiff_(maxdiff), sep_char_(sep_char)
-  {} 
+  {}
   virtual ~HistoryFilter_LengthDiff() {}
   bool operator()(const std::string& hist) {
     typedef std::string::size_type stype;
@@ -67,13 +67,13 @@ class HistoryFilter_LengthDiff : public HistoryFilter {
 class ObservedHistoriesFilter : public HistoryFilter {
   const std::set<std::string>& allowed_hists_;
  public:
-  ObservedHistoriesFilter(const std::set<std::string>& hists) 
+  ObservedHistoriesFilter(const std::set<std::string>& hists)
       : allowed_hists_(hists) {}
   virtual ~ObservedHistoriesFilter() {}
   bool operator()(const std::string& hist) {
-    return hist == "|" || 
+    return hist == "|" ||
         allowed_hists_.find(hist) != allowed_hists_.end();
-  }    
+  }
 };
 
 

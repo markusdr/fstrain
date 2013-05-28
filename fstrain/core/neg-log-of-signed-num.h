@@ -29,9 +29,9 @@ struct NeglogNum {
   double lx;        // -log(abs(x))
   bool sign_x;      // sign of x (true means plus)
 
-  NeglogNum() 
-      // : lx(std::numeric_limits<double>::infinity()), 
-      : lx(kPosInfinity), 
+  NeglogNum()
+      // : lx(std::numeric_limits<double>::infinity()),
+      : lx(kPosInfinity),
         sign_x(true) {}
 
   /**
@@ -43,7 +43,7 @@ struct NeglogNum {
    * @param sign_x false if the number you want to represent is
    * negative.
    */
-  NeglogNum(double lx_, bool sign_x_ = true) 
+  NeglogNum(double lx_, bool sign_x_ = true)
       : lx(lx_), sign_x(sign_x_) {}
 
   static const NeglogNum Zero() {
@@ -61,11 +61,11 @@ struct NeglogNum {
 inline bool operator==(const NeglogNum& a,
 		       const NeglogNum& b) {
   return a.lx == b.lx && a.sign_x == b.sign_x;
-} 
+}
 inline bool operator!=(const NeglogNum& a,
 		       const NeglogNum& b) {
   return !(a==b);
-} 
+}
 
 /**
  * @return The original, encoded number, e.g. -0.5 from
@@ -75,13 +75,13 @@ inline double GetOrigNum(const NeglogNum& n) {
   return (n.sign_x ? 1.0 : -1.0) * exp(-n.lx);
 }
 
-inline std::ostream& operator<<(std::ostream& out, const NeglogNum& n) {  
+inline std::ostream& operator<<(std::ostream& out, const NeglogNum& n) {
   out << (n.sign_x || n.lx == 0 ? "" : "!") // the '!' marks that a negative num is represented
       << n.lx;
   return out;
 }
 
-inline NeglogNum NeglogPlus_(const NeglogNum& a, 
+inline NeglogNum NeglogPlus_(const NeglogNum& a,
 			     const NeglogNum& b) {
   assert(a.lx <= b.lx);
   double factor = a.sign_x == b.sign_x ? 1.0 : -1.0;
@@ -89,7 +89,7 @@ inline NeglogNum NeglogPlus_(const NeglogNum& a,
 		   a.sign_x);
 }
 
-inline NeglogNum NeglogPlus(const NeglogNum& a, 
+inline NeglogNum NeglogPlus(const NeglogNum& a,
 			    const NeglogNum& b) {
   if(a.lx == std::numeric_limits<double>::infinity()) {
     return b;
@@ -101,10 +101,10 @@ inline NeglogNum NeglogPlus(const NeglogNum& a,
     return NeglogPlus_(a, b);
   }
   else {
-    return NeglogPlus_(b, a);    
+    return NeglogPlus_(b, a);
   }
 }
-inline NeglogNum NeglogTimes(const NeglogNum& a, 
+inline NeglogNum NeglogTimes(const NeglogNum& a,
 			     const NeglogNum& b) {
   if(a.lx == std::numeric_limits<double>::infinity()){
     return a;
@@ -113,10 +113,10 @@ inline NeglogNum NeglogTimes(const NeglogNum& a,
     return b;
   }
   return NeglogNum(a.lx + b.lx,
-		   a.sign_x == b.sign_x);    
+		   a.sign_x == b.sign_x);
 }
 
-inline NeglogNum NeglogDivide(const NeglogNum& a, 
+inline NeglogNum NeglogDivide(const NeglogNum& a,
 			      const NeglogNum& b) {
   if (b.lx == std::numeric_limits<double>::infinity()) {
     // return NeglogNum(std::numeric_limits<double>::quiet_NaN());
@@ -127,19 +127,19 @@ inline NeglogNum NeglogDivide(const NeglogNum& a,
   }
   else {
     return NeglogNum(a.lx - b.lx,
-		     a.sign_x == b.sign_x);    
+		     a.sign_x == b.sign_x);
   }
 }
 
 inline NeglogNum NeglogQuantize(const NeglogNum& n, double delta) {
-  if (n.lx == -std::numeric_limits<double>::infinity() 
-      || n.lx == std::numeric_limits<double>::infinity() 
+  if (n.lx == -std::numeric_limits<double>::infinity()
+      || n.lx == std::numeric_limits<double>::infinity()
       || n.lx != n.lx) {
     return n;
   }
   else {
     return NeglogNum(floor(n.lx / delta + 0.5F) * delta,
-		     n.sign_x); 
+		     n.sign_x);
   }
 }
 

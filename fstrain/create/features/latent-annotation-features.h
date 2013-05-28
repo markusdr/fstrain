@@ -26,7 +26,7 @@ class LatentAnnotationFeatures {
   int maxnum_;
   std::string sep_str_;
   bool anchored_;
-  
+
   // splits "a-c1-c3" into "a", "c1", "c3"; the first part may also
   // contain up to one "-" though
   StringVec SplitLa(const std::string& str, const char sep) {
@@ -63,7 +63,7 @@ class LatentAnnotationFeatures {
     for(int i = start; i < parts_.size(); ++i) {
       const StringVec& v = parts_[i];
       bool first = true;
-      for(std::size_t bitnum = 0; bitnum < maxnum_; ++bitnum) {	
+      for(std::size_t bitnum = 0; bitnum < maxnum_; ++bitnum) {
         if(bit_pattern & (int)pow(2.0, (double)bitnum)){
           feature += (first ? "" : sep_str_) + v[bitnum];
           first = false;
@@ -83,9 +83,9 @@ class LatentAnnotationFeatures {
   /**
    * @param Only 'anchored' features fire, i.e. if they are not just latent annotations
    */
-  LatentAnnotationFeatures(const std::string& str, 
-                           bool anchored = false) : str_(str), 
-                                                    sep_('-'), 
+  LatentAnnotationFeatures(const std::string& str,
+                           bool anchored = false) : str_(str),
+                                                    sep_('-'),
                                                     maxnum_(0),
                                                     anchored_(anchored) {
     sep_str_.resize(1);
@@ -94,7 +94,7 @@ class LatentAnnotationFeatures {
     std::stringstream ss(str);
     while(std::getline(ss, token, ' ')) {
       StringVec v = SplitLa(token, sep_);
-      parts_.push_back(v);      
+      parts_.push_back(v);
       maxnum_ = std::max(maxnum_, (int)v.size());
     }
     for(std::size_t i = 0; i < parts_.size(); ++i) {
@@ -102,7 +102,7 @@ class LatentAnnotationFeatures {
         parts_[i].push_back("??");
       }
     }
-    int max_bit_pattern = (int)pow(2.0, (double)maxnum_) - 1; // all bits on      
+    int max_bit_pattern = (int)pow(2.0, (double)maxnum_) - 1; // all bits on
     int max_bit = (int)pow(2.0, maxnum_ - 1.0); // highest bit
     for(int start = 0; start < parts_.size(); ++start) {
       int bit_pattern = max_bit_pattern;

@@ -52,9 +52,9 @@ void CreateNgramFst(size_t ngram_order,
   int num_conjugations = 0;
   int num_change_regions = 0;
   bool symmetric = false;
-  ConstructLatticeFct_UpDown construct_lattice_fct(max_insertions, 
-                                                   num_conjugations, 
-                                                   num_change_regions, 
+  ConstructLatticeFct_UpDown construct_lattice_fct(max_insertions,
+                                                   num_conjugations,
+                                                   num_change_regions,
                                                    symmetric);
 
   Fst<StdArc>* proj_up = construct_lattice_fct.GetProjUpFst();
@@ -64,7 +64,7 @@ void CreateNgramFst(size_t ngram_order,
   // options["force-convergence"] = true; // insert length features
   util::options["eigenvalue-maxiter-checkvalue"] = true;
 
-  SymbolTable* align_syms = new SymbolTable("align-syms");      
+  SymbolTable* align_syms = new SymbolTable("align-syms");
   CreateAlignmentSymbols(*isymbols, *osymbols, "S", "E", align_syms);
   construct_lattice_fct.SetAlignmentSymbols(align_syms);
   delete align_syms;
@@ -73,26 +73,26 @@ void CreateNgramFst(size_t ngram_order,
   assert(kStartLabel != -1);
   int64 kEndLabel = align_syms->Find("E|E");
   assert(kEndLabel != -1);
-  CreateNgramTrieOptions<MDExpectationArc> opts(ngram_order, 
-                                              *align_syms, 
+  CreateNgramTrieOptions<MDExpectationArc> opts(ngram_order,
+                                              *align_syms,
                                               kStartLabel, kEndLabel);
   // MutableFst<MDExpectationArc>* result = new VectorFst<MDExpectationArc>();
   CreateNgramTrie(result, opts);
 
   // TrieInsertFeatures(*align_syms, feature_names, extract_features_fct, "", result);
-  fstrain::create::NgramFsaInsertFeaturesFct insert_feats_fct(*align_syms, feature_names, 
+  fstrain::create::NgramFsaInsertFeaturesFct insert_feats_fct(*align_syms, feature_names,
                                                               extract_features_fct, "");
   AllSymbols all_align_syms(align_syms, kStartLabel, kEndLabel, -3);
   CreateScoringFstFromTrie(result, all_align_syms, *all_align_syms.symbol_table, *isymbols, *osymbols, ngram_order,
-                           proj_up, 
+                           proj_up,
                            proj_down,
                            wellformed_fst,
                            insert_feats_fct);
-  
+
   FSTR_CREATE_DBG_EXEC(100,
-                       util::printTransducer(result, 
-                                             result->InputSymbols(), 
-                                             result->OutputSymbols(), 
+                       util::printTransducer(result,
+                                             result->InputSymbols(),
+                                             result->OutputSymbols(),
                                              std::cout););
   result->SetInputSymbols(NULL);
   result->SetOutputSymbols(NULL);

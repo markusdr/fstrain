@@ -44,13 +44,13 @@ class ProjUpPruneComposeFct : public ComposeFct<Arc> {
   SymbolTable* align_syms_; // just for dbg output
   BaseComposeFct base_compose_fct_;
  public:
-  ProjUpPruneComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_up, 
+  ProjUpPruneComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_up,
                         const fst::Fst<fst::StdArc>& prune_fst,
                         fst::StdArc::Weight weight_threshold,
-                        BaseComposeFct base_compose_fct = BaseComposeFct()) 
+                        BaseComposeFct base_compose_fct = BaseComposeFct())
       : proj_up_(proj_up), prune_fst_(prune_fst), weight_threshold_(weight_threshold),
-        base_compose_fct_(base_compose_fct), align_syms_(NULL) {}  
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+        base_compose_fct_(base_compose_fct), align_syms_(NULL) {}
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     using namespace fst;
     ComposeFstOptions<Arc> copts;
@@ -60,7 +60,7 @@ class ProjUpPruneComposeFct : public ComposeFct<Arc> {
     ComposeFst<Arc> up(fst1, *proj_up_);
     typedef WeightConvertMapper<Arc, StdArc> Map_AS;
     typedef WeightConvertMapper<StdArc,Arc> Map_SA;
-    MapFst<Arc, StdArc, Map_AS> up_mapped(up, Map_AS()); 
+    MapFst<Arc, StdArc, Map_AS> up_mapped(up, Map_AS());
     ComposeFst<StdArc> up_weighted(up_mapped, prune_fst_);
     VectorFst<StdArc> pruned;
     Prune(up_weighted, &pruned, weight_threshold_);
@@ -68,7 +68,7 @@ class ProjUpPruneComposeFct : public ComposeFct<Arc> {
     //printAcceptor(&pruned, NULL, std::cerr);
     //std::cerr << "</PRUNED>" << std::endl;
     Map(&pruned, RmWeightMapper<StdArc>());
-    ArcSort(&pruned, OLabelCompare<StdArc>());    
+    ArcSort(&pruned, OLabelCompare<StdArc>());
     //ArcSortFst<Arc, OLabelCompare<Arc> > up_sorted(up, OLabelCompare<Arc>());
     //base_compose_fct_(up_sorted, fst2, result);
     base_compose_fct_(MapFst<StdArc,Arc, Map_SA>(pruned, Map_SA()), fst2, result);
@@ -89,13 +89,13 @@ class ProjUpKbestComposeFct : public ComposeFct<Arc> {
   SymbolTable* align_syms_; // just for dbg output
   BaseComposeFct base_compose_fct_;
  public:
-  ProjUpKbestComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_up, 
+  ProjUpKbestComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_up,
                         const fst::Fst<fst::StdArc>& weight_fst,
                         int kbest,
-                        BaseComposeFct base_compose_fct = BaseComposeFct()) 
+                        BaseComposeFct base_compose_fct = BaseComposeFct())
       : proj_up_(proj_up), weight_fst_(weight_fst), kbest_(kbest),
-        base_compose_fct_(base_compose_fct), align_syms_(NULL) {}  
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+        base_compose_fct_(base_compose_fct), align_syms_(NULL) {}
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     using namespace fst;
     ComposeFstOptions<Arc> copts;
@@ -105,7 +105,7 @@ class ProjUpKbestComposeFct : public ComposeFct<Arc> {
     ComposeFst<Arc> up(fst1, *proj_up_);
     typedef WeightConvertMapper<Arc, StdArc> Map_AS;
     typedef WeightConvertMapper<StdArc,Arc> Map_SA;
-    MapFst<Arc, StdArc, Map_AS> up_mapped(up, Map_AS()); 
+    MapFst<Arc, StdArc, Map_AS> up_mapped(up, Map_AS());
     ComposeFst<StdArc> up_weighted(up_mapped, weight_fst_);
     VectorFst<StdArc> kbestd;
     ShortestPath(up_weighted, &kbestd, kbest_);
@@ -116,7 +116,7 @@ class ProjUpKbestComposeFct : public ComposeFct<Arc> {
     //printAcceptor(&kbestd, NULL, std::cerr);
     //std::cerr << "</KBESTD>" << std::endl;
     Map(&kbestd, RmWeightMapper<StdArc>());
-    ArcSort(&kbestd, OLabelCompare<StdArc>());    
+    ArcSort(&kbestd, OLabelCompare<StdArc>());
     //ArcSortFst<Arc, OLabelCompare<Arc> > up_sorted(up, OLabelCompare<Arc>());
     //base_compose_fct_(up_sorted, fst2, result);
     base_compose_fct_(MapFst<StdArc,Arc, Map_SA>(kbestd, Map_SA()), fst2, result);

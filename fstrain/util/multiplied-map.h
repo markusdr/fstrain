@@ -48,11 +48,11 @@ class MultipliedMap {
  private:
   typedef Multiply2nd<value_type, TimesFct> MultiplyValue;
  public:
-  typedef boost::transform_iterator<MultiplyValue, 
+  typedef boost::transform_iterator<MultiplyValue,
                                     typename Map::const_iterator> const_iterator;
-  MultipliedMap(const Map& m, 
+  MultipliedMap(const Map& m,
                 TimesFct times_fct,
-                mapped_type factor) 
+                mapped_type factor)
       : map_(m), times_fct_(times_fct), factor_(factor) {}
   const_iterator begin() const {
     return boost::make_transform_iterator(map_.begin(), MultiplyValue(factor_, times_fct_));

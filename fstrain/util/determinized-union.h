@@ -31,7 +31,7 @@
 #include "fstrain/util/debug.h"
 // #include "fstrain/util/print-fst.h"
 
-namespace fstrain { namespace util { 
+namespace fstrain { namespace util {
 
 /**
  * @brief Adds fst2 to fst1 (union) and determinizes on the
@@ -61,8 +61,8 @@ class DeterminizedUnion {
     Weight weight;     // Residual weight
   };
 
-  typedef std::pair<Element,Element> Subset;  
-  
+  typedef std::pair<Element,Element> Subset;
+
   struct CompareSubsets {
     bool operator()(const Subset& s1, const Subset& s2) const {
       if (s1.first.state_id < s2.first.state_id) {
@@ -98,9 +98,9 @@ class DeterminizedUnion {
 
  public:
 
-  DeterminizedUnion(fst::MutableFst<Arc> *fst1, 
-                    const fst::Fst<Arc>& fst2, 
-                    double delta = 1e-8) 
+  DeterminizedUnion(fst::MutableFst<Arc> *fst1,
+                    const fst::Fst<Arc>& fst2,
+                    double delta = 1e-8)
       : delta_(delta) {
     using namespace fst;
     // CheckInput(*fst1, fst2);
@@ -109,12 +109,12 @@ class DeterminizedUnion {
     }
     if (fst1->Start() == kNoStateId) {
       StateId s = fst1->AddState();
-      fst1->SetStart(s); 
+      fst1->SetStart(s);
     }
-    Subset ss(Element(fst1->Start(), Weight::One()), 
+    Subset ss(Element(fst1->Start(), Weight::One()),
               Element(fst2.Start(), Weight::One()));
-    fst1->SetFinal(fst1->Start(), 
-                   Plus(fst1->Final(fst1->Start()), 
+    fst1->SetFinal(fst1->Start(),
+                   Plus(fst1->Final(fst1->Start()),
                         fst2.Final(fst2.Start())));
     std::queue<Subset> the_queue;
     std::set<Subset, CompareSubsets> already_processed;
@@ -123,7 +123,7 @@ class DeterminizedUnion {
     while (!the_queue.empty()) {
       Subset q = the_queue.front();
       the_queue.pop();
-      FSTR_UTIL_DBG_MSG(10, "Dequeued (" << q.first.state_id << "," 
+      FSTR_UTIL_DBG_MSG(10, "Dequeued (" << q.first.state_id << ","
                         << q.second.state_id << ")" << std::endl);
       std::vector<Arc> arcs_to_add;
       MutableArcIterator<MutableFst<Arc> > ait1(fst1, q.first.state_id);
@@ -168,10 +168,10 @@ class DeterminizedUnion {
           ait1.SetValue(new_arc);
           Weight v1 = Divide(vw1, new_arc.weight).Quantize(delta_);
           Weight v2 = Divide(vw2, new_arc.weight).Quantize(delta_);
-          Subset ss(Element(ait1.Value().nextstate, v1), 
+          Subset ss(Element(ait1.Value().nextstate, v1),
                     Element(ait2.Value().nextstate, v2));
           if(already_processed.find(ss) == already_processed.end()) {
-            the_queue.push(ss); 
+            the_queue.push(ss);
             already_processed.insert(ss);
             Weight vr1 = Times(v1, fst1->Final(ait1.Value().nextstate));
             Weight vr2 = Times(v2, fst2.Final(ait2.Value().nextstate));
@@ -179,10 +179,10 @@ class DeterminizedUnion {
           }
           else {
             std::cerr << "Error: encountering same subset ("<<ss.first.state_id<<","<<ss.second.state_id<<") again." << std::endl
-                      << "should not happen if input is a trie and a lattice" 
+                      << "should not happen if input is a trie and a lattice"
                       << std::endl;
             exit(1);
-          } 
+          }
           ait1.Next();
           ait2.Next();
         }
@@ -200,7 +200,7 @@ class DeterminizedUnion {
         Weight v2 = Divide(vw2, arc.weight).Quantize(delta_);
         Subset ss(Element(s1, v1), Element(s2, v2));
         // ss has never been processed (since s1 is a new state)
-        the_queue.push(ss);   
+        the_queue.push(ss);
         already_processed.insert(ss);
         Weight vr1 = Times(v1, fst1->Final(s1)); // zero
         Weight vr2 = Times(v2, fst2.Final(s2));
@@ -221,7 +221,7 @@ class DeterminizedUnion {
 //        labels.insert(aiter.Value().ilabel);
 //      }
 
-            
+
     }
 
   } // end constructor
@@ -251,7 +251,7 @@ class DeterminizedUnion {
   }
 
   template<class Compare>
-  void SortArcs(fst::MutableFst<Arc>* fst, StateId s, 
+  void SortArcs(fst::MutableFst<Arc>* fst, StateId s,
                 Compare comp) {
     std::vector<Arc> arcs;
     arcs.clear();
@@ -261,7 +261,7 @@ class DeterminizedUnion {
     sort(arcs.begin(), arcs.end(), comp);
     fst->DeleteArcs(s);
     BOOST_FOREACH (const Arc& arc, arcs) {
-      fst->AddArc(s, arc);    
+      fst->AddArc(s, arc);
     }
   }
 

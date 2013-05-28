@@ -36,7 +36,7 @@ inline bool SmallerValuePred(const KbestEntry& e1, const KbestEntry& e2) {
   return e1.second < e2.second;
 }
 
-  
+
 template<class A>
 class KbestStrings {
 
@@ -45,26 +45,26 @@ class KbestStrings {
   typedef std::tr1::unordered_map<std::string, fst::LogWeight> KbestMap;
   typedef typename A::StateId StateId;
   typedef typename A::Weight Weight;
-      
+
  public:
 
   typedef Container::const_iterator const_iterator;
-  
-  KbestStrings(const fst::Fst<A>& fst, 
-               const fst::SymbolTable& symbols, 
+
+  KbestStrings(const fst::Fst<A>& fst,
+               const fst::SymbolTable& symbols,
                unsigned kMax) {
-    kbest_entries_.reserve(kMax);      
+    kbest_entries_.reserve(kMax);
     Init(fst, symbols, kMax);
   }
-    
+
   void Normalize() {
     typedef fst::LogArc::Weight LogWeight;
     LogWeight sum = LogWeight::Zero();
-    for(Container::const_iterator it = kbest_entries_.begin(); 
+    for(Container::const_iterator it = kbest_entries_.begin();
         it != kbest_entries_.end(); ++it) {
       sum = Plus(sum, LogWeight(it->second));
     }
-    for(Container::iterator it = kbest_entries_.begin(); 
+    for(Container::iterator it = kbest_entries_.begin();
         it != kbest_entries_.end(); ++it) {
       it->second -= sum.Value();
     }
@@ -78,21 +78,21 @@ class KbestStrings {
 
  private:
 
-  void ExpandState(const fst::Fst<A>& f, 
-                   const fst::SymbolTable& symbols, 
-                   StateId s, 
-                   std::string path, 
+  void ExpandState(const fst::Fst<A>& f,
+                   const fst::SymbolTable& symbols,
+                   StateId s,
+                   std::string path,
                    Weight w,
                    KbestMap* the_map){
     for (fst::ArcIterator<fst::Fst<A> > aiter(f, s); !aiter.Done(); aiter.Next()){
       const A& a = aiter.Value();
-      const std::string expanded_path = path + 
-          (a.ilabel > 0 
+      const std::string expanded_path = path +
+          (a.ilabel > 0
            ? ((path.length() ? " " : "") + symbols.Find(a.ilabel))
            : "");
-      ExpandState(f, symbols, a.nextstate, expanded_path, fst::Times(w, a.weight), 
+      ExpandState(f, symbols, a.nextstate, expanded_path, fst::Times(w, a.weight),
                   the_map);
-    }      
+    }
     if(f.Final(s) != Weight::Zero()){
       // kbest_entries_.push_back(std::make_pair(path, w.Value()));
       KbestMap::iterator found = the_map->find(path);
@@ -126,4 +126,4 @@ class KbestStrings {
 
 } } // end namespace
 
-#endif 
+#endif

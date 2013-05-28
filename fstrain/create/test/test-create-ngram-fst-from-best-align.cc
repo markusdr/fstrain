@@ -66,7 +66,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -112,7 +112,7 @@ int main(int ac, char** av){
     }
 
     SymbolTable* isymbols = SymbolTable::ReadText(vm["isymbols"].as<std::string>());
-    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());    
+    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());
 
     const std::string fname = vm["features"].as<std::string>();
     const std::string backoff = vm["backoff"].as<std::string>();
@@ -123,7 +123,7 @@ int main(int ac, char** av){
     const int num_conjugations = vm["num-conjugations"].as<int>();
     const int num_change_regions = vm["num-change-regions"].as<int>();
     const int ngram_order = vm["ngram-order"].as<int>();
-    
+
     const Fst<StdArc>* align_fst = util::GetVectorFst<StdArc>(align_fst_filename);
 
     using namespace fstrain::create;
@@ -139,7 +139,7 @@ int main(int ac, char** av){
 
     feature_names.AddSymbol("*LENGTH_IN*");
     feature_names.AddSymbol("*LENGTH_OUT*"); // to give them Ids 0 and 1
-        
+
     const int max_insertions = vm["max-insertions"].as<int>();
 
     //  void CreateNgramFstFromBestAlign(size_t ngram_order,
@@ -157,21 +157,21 @@ int main(int ac, char** av){
     //				   fst::MutableFst<fst::MDExpectationArc>* result);
 
     PruneFct* prune_fct = NULL;
-    prune_fct = new DefaultPruneFct(fst::StdArc::Weight(-log(0.9)), 1000);      
-    
+    prune_fct = new DefaultPruneFct(fst::StdArc::Weight(-log(0.9)), 1000);
+
     fst::VectorFst<fst::MDExpectationArc> result;
-    fstrain::create::CreateNgramFstFromBestAlign(ngram_order, max_insertions, num_conjugations, num_change_regions, 
-                                                 *align_fst, prune_fct, data_filename, isymbols, osymbols, 
+    fstrain::create::CreateNgramFstFromBestAlign(ngram_order, max_insertions, num_conjugations, num_change_regions,
+                                                 *align_fst, prune_fct, data_filename, isymbols, osymbols,
                                                  *extract_features_fct, backoff_vec, &feature_names, &result);
 
     std::cerr << "Result:" << std::endl;
-    fstrain::util::printTransducer(&result, isymbols, osymbols, std::cout);    
-    
+    fstrain::util::printTransducer(&result, isymbols, osymbols, std::cout);
+
     std::cerr << "Features:" << std::endl;
     for(SymbolTableIterator sit(feature_names); !sit.Done(); sit.Next()) {
       std::cout << sit.Value() << " " << sit.Symbol() << std::endl;
     }
-    
+
     delete extract_features_fct;
     delete prune_fct;
     delete align_fst;

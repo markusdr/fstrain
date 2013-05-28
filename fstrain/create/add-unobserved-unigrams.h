@@ -26,14 +26,14 @@ namespace fstrain { namespace create {
  * observed otherwise.
  */
 template<class Arc>
-void AddUnobservedUnigrams(const fst::SymbolTable& syms, 
+void AddUnobservedUnigrams(const fst::SymbolTable& syms,
                            typename Arc::Weight weight,
                            fst::MutableFst<Arc>* trie) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
   StateId start = trie->Start();
-  std::set<int64> have_syms;  
-  for(fst::ArcIterator<fst::Fst<Arc> > ait(*trie, start); 
+  std::set<int64> have_syms;
+  for(fst::ArcIterator<fst::Fst<Arc> > ait(*trie, start);
       !ait.Done(); ait.Next()){
     have_syms.insert(ait.Value().ilabel);
   }

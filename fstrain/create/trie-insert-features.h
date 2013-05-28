@@ -34,13 +34,13 @@ namespace nsTrieInsertFeaturesUtil {
 
 struct FeatureSetWrapper {
 
-  explicit FeatureSetWrapper(fst::SymbolTable* syms, 
-                             core::MDExpectations* expectations) 
+  explicit FeatureSetWrapper(fst::SymbolTable* syms,
+                             core::MDExpectations* expectations)
       : syms_(syms), expectations_(expectations) {}
 
   void insert(const std::string& str) {
     int64 id = syms_->AddSymbol(str);
-    expectations_->insert(id, 0.0);    
+    expectations_->insert(id, 0.0);
   }
 
   fst::SymbolTable* syms_;
@@ -49,9 +49,9 @@ struct FeatureSetWrapper {
 
 struct MyFeatureSet : public features::IFeatureSet {
 
-  explicit MyFeatureSet(fst::SymbolTable* syms, 
-			     core::MDExpectations* expectations) 
-      : syms_(syms), expectations_(expectations), 
+  explicit MyFeatureSet(fst::SymbolTable* syms,
+			     core::MDExpectations* expectations)
+      : syms_(syms), expectations_(expectations),
         feature_set_wrapper_(syms, expectations)
   {}
 
@@ -71,8 +71,8 @@ struct MyFeatureSet : public features::IFeatureSet {
 };
 
 template<class Arc>
-void TrieInsertFeatures0(const fst::SymbolTable& syms, 
-                         std::string history,                         
+void TrieInsertFeatures0(const fst::SymbolTable& syms,
+                         std::string history,
                          fst::SymbolTable* feature_ids,
                          features::ExtractFeaturesFct& extract_features_fct,
                          const std::string prefix,
@@ -80,14 +80,14 @@ void TrieInsertFeatures0(const fst::SymbolTable& syms,
                          typename Arc::StateId state) {
   using namespace fst;
   typedef typename Arc::StateId StateId;
-  for(fst::MutableArcIterator< MutableFst<Arc> > ait(trie, state); 
+  for(fst::MutableArcIterator< MutableFst<Arc> > ait(trie, state);
       !ait.Done(); ait.Next()) {
     Arc arc = ait.Value();
     const std::string symbol = syms.Find(arc.ilabel);
     if(symbol == ""){
       FSTR_CREATE_EXCEPTION("Could not find label " << arc.ilabel);
     }
-    const std::string nexthist = history + (history.length() ? " " : "") 
+    const std::string nexthist = history + (history.length() ? " " : "")
         + symbol;
     core::MDExpectations& expectations = arc.weight.GetMDExpectations();
     MyFeatureSet featset(feature_ids, &expectations);
@@ -96,8 +96,8 @@ void TrieInsertFeatures0(const fst::SymbolTable& syms,
     extract_features_fct(nexthist, &featset);
     ait.SetValue(arc);
     TrieInsertFeatures0(syms, nexthist, feature_ids, extract_features_fct,
-                        prefix, trie, arc.nextstate);    
-    
+                        prefix, trie, arc.nextstate);
+
   }
 }
 
@@ -115,7 +115,7 @@ void TrieInsertFeatures(const fst::SymbolTable& syms,
                         fst::MutableFst<Arc>* trie) {
   using namespace nsTrieInsertFeaturesUtil;
   std::string history;
-  TrieInsertFeatures0(syms, history, 
+  TrieInsertFeatures0(syms, history,
                       feature_ids,
                       extract_features_fct,
                       prefix,

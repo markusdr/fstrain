@@ -22,14 +22,14 @@
 #include "fst/matcher.h"
 #include <boost/shared_ptr.hpp>
 #include "fstrain/util/print-fst.h"
- 
+
 namespace fstrain { namespace util {
 
 template<class Arc>
 struct ComposeFct {
   virtual ~ComposeFct() {}
-  virtual void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
-                          fst::MutableFst<Arc>* result) = 0;  
+  virtual void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
+                          fst::MutableFst<Arc>* result) = 0;
 };
 
 /**
@@ -37,7 +37,7 @@ struct ComposeFct {
  */
 template<class Arc>
 struct DefaultComposeFct : public ComposeFct<Arc> {
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     fst::Compose(fst1, fst2, result);
   }
@@ -50,7 +50,7 @@ template<class Arc>
 struct ComposePhiLeftFct : public ComposeFct<Arc> {
   int64 phi_label_;
   ComposePhiLeftFct(int64 phi_label) : phi_label_(phi_label) {}
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     using namespace fst;
     ArcSortFst<Arc, OLabelCompare<Arc> > fst1_sorted(fst1, OLabelCompare<Arc>());
@@ -73,7 +73,7 @@ template<class Arc>
 struct ComposePhiRightFct : public ComposeFct<Arc> {
   int64 phi_label_;
   ComposePhiRightFct(int64 phi_label) : phi_label_(phi_label) {}
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     using namespace fst;
     ArcSortFst<Arc, ILabelCompare<Arc> > fst2_sorted(fst2, ILabelCompare<Arc>());
@@ -97,10 +97,10 @@ class ProjUpComposeFct : public ComposeFct<Arc> {
   boost::shared_ptr<const fst::Fst<Arc> > proj_up_;
   BaseComposeFct base_compose_fct_;
  public:
-  ProjUpComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_up, 
-                   BaseComposeFct base_compose_fct = BaseComposeFct()) 
+  ProjUpComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_up,
+                   BaseComposeFct base_compose_fct = BaseComposeFct())
       : proj_up_(proj_up), base_compose_fct_(base_compose_fct) {}
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     fst::ComposeFstOptions<Arc> copts;
     copts.gc_limit = 0;  // Cache only the last state for fastest copy.
@@ -122,9 +122,9 @@ class ProjDownComposeFct : public ComposeFct<Arc> {
   BaseComposeFct base_compose_fct_;
  public:
   ProjDownComposeFct(boost::shared_ptr<const fst::Fst<Arc> > proj_down,
-                     BaseComposeFct base_compose_fct = BaseComposeFct()) 
+                     BaseComposeFct base_compose_fct = BaseComposeFct())
       : proj_down_(proj_down), base_compose_fct_(base_compose_fct) {}
-  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2, 
+  void operator()(const fst::Fst<Arc>& fst1, const fst::Fst<Arc>& fst2,
                   fst::MutableFst<Arc>* result) {
     fst::ComposeFstOptions<Arc> copts;
     copts.gc_limit = 0;  // Cache only the last state for fastest copy.

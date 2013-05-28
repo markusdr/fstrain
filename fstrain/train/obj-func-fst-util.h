@@ -23,7 +23,7 @@
 #include "fst/vector-fst.h"
 #include "fstrain/core/expectation-arc.h"
 #include "fstrain/train/shortest-distance-timeout.h"
-#include "fstrain/util/shortest-distance-m.h" 
+#include "fstrain/util/shortest-distance-m.h"
 #include "fstrain/train/timeout.h"
 // #include "fstrain/core/fst-util.h"
 #include "fstrain/util/timer.h"
@@ -49,7 +49,7 @@ namespace nsObjectiveFunctionFstUtil {
  * @return true if ShortestDistance was successful, false if it diverged
  */
 template<class Arc>
-bool TimedShortestDistance(const fst::Fst<Arc>& fst, 
+bool TimedShortestDistance(const fst::Fst<Arc>& fst,
 			   std::vector<typename Arc::Weight>* result,
 			   bool reverse,
 			   double kDelta,
@@ -74,7 +74,7 @@ bool TimedShortestDistance(const fst::Fst<Arc>& fst,
       std::cerr << "DIVERGE" << std::endl;
       return false;
     }
-    std::cerr << "CONVERGE" << std::endl;    
+    std::cerr << "CONVERGE" << std::endl;
     std::cerr << "Rerun without time limit" << std::endl;
     timeout = Timeout(-1);
     const std::string matrix_opt = "use-matrix-distance";
@@ -98,17 +98,17 @@ void ResetArray(ArrayT* array, int array_size, boost::mutex* mutex = NULL) {
   if(mutex != NULL) {
     mutex->lock();
   }
-  for(int i = 0; i < array_size; ++i){    
+  for(int i = 0; i < array_size; ++i){
     (*array)[i] = 0.0;
   }
   if(mutex != NULL) {
     mutex->unlock();
   }
-} 
+}
 
 template<class DoubleT, class ArrayT>
-DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst, 
-			       ArrayT* array, 
+DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
+			       ArrayT* array,
 			       int array_size,
 			       bool negate,
 			       DoubleT factor, // = 1.0,
@@ -124,7 +124,7 @@ DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
   using core::NeglogTimes;
   using core::NeglogDivide;
   typedef fst::MDExpectationArc::StateId StateId;
-  typedef fst::WeightConvertMapper<fst::MDExpectationArc, LogDArc> Map_EL;  
+  typedef fst::WeightConvertMapper<fst::MDExpectationArc, LogDArc> Map_EL;
   fst::MapFstOptions map_opts;
   map_opts.gc_limit = 0;  // no caching to save memory
   fst::MapFst<fst::MDExpectationArc, LogDArc, Map_EL> mapped(fst, Map_EL(), map_opts);
@@ -164,7 +164,7 @@ DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
           const int index = it->first;
           const NeglogNum& expectation = it->second;
 	  NeglogNum addval = NeglogTimes(NeglogTimes(alphas[in].Value(), expectation),
-					 betas[out].Value()); 
+					 betas[out].Value());
 	  MDExpectations::iterator found = feat_expectations.find(index);
 	  if(found != feat_expectations.end()) {
 	    found->second = NeglogPlus(found->second, addval);
@@ -181,7 +181,7 @@ DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
   if(mutex_gradient_access != NULL) {
     mutex_gradient_access->lock();
   }
-  for(MDExpectations::const_iterator it = feat_expectations.begin(); 
+  for(MDExpectations::const_iterator it = feat_expectations.begin();
       it != feat_expectations.end(); ++it){
     int index = it->first;
     double expected_count = GetOrigNum(NeglogDivide(it->second, betas[start_state].Value()));
@@ -192,7 +192,7 @@ DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
   }
 
   DoubleT result = betas[start_state].Value();
-  // std::cerr << "result=" << result << std::endl; 
+  // std::cerr << "result=" << result << std::endl;
   return factor * result;
 }
 

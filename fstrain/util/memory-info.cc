@@ -68,4 +68,4 @@ std::string MemoryInfo::getColumn(const std::string& s, unsigned columnNumber){
   return s.substr(start, s.find(' ', start + 1) - start);
 }
 
-} } // end namespace fstrain::util 
+} } // end namespace fstrain::util

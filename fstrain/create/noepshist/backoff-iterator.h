@@ -23,7 +23,7 @@ class BackoffIterator {
   }
 
   void PushOnQueue(const std::string& left, const std::string& right) {
-    QueueEntry entry(left, right);    
+    QueueEntry entry(left, right);
     if(!IsOnQueue(entry)){
       queue_.push(entry);
       is_on_queue_.insert(entry);
@@ -36,8 +36,8 @@ class BackoffIterator {
    * @param str The window to back off from. Examples: "-b|-y", or
    * "ab|-y".
    */
-  BackoffIterator(const std::string& str, 
-                  const char sep_char = '|') 
+  BackoffIterator(const std::string& str,
+                  const char sep_char = '|')
       : sep_char_(sep_char)
   {
     std::stringstream ss(str);

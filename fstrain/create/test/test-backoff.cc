@@ -33,7 +33,7 @@
 #include "fstrain/util/remove-weights-keep-features-mapper.h"
 #include "fstrain/util/string-weight-mapper.h"
 // #include "fstrain/create/trie-insert-features.h" // MyFeatureSet
-#include "fstrain/create/ngram-fsa-insert-features.h" 
+#include "fstrain/create/ngram-fsa-insert-features.h"
 
 #include <boost/foreach.hpp>
 #include <boost/program_options.hpp>
@@ -72,7 +72,7 @@ namespace po = boost::program_options;
 //
 //      fst::VectorFst<Arc> backoff_syms_transducer;
 //      fst::SymbolTable backoff_symtable("backoff-syms");
-//      fstrain::create::GetBackoffSymsFst(all_syms, *backoff_syms_fct, 
+//      fstrain::create::GetBackoffSymsFst(all_syms, *backoff_syms_fct,
 //                                         &backoff_symtable, &backoff_syms_transducer);
 //
 //      MutableFst<Arc>* backed_off = new VectorFst<Arc>();
@@ -80,7 +80,7 @@ namespace po = boost::program_options;
 //      Project(backed_off, PROJECT_OUTPUT);
 //      fstrain::util::Determinize(backed_off);
 //      Map(backed_off, RmWeightMapper<Arc>());
-//      
+//
 //      fstrain::create::NgramFsaInsertFeatures(ngram_order,
 //                                              backoff_symtable,
 //                                              feature_ids,
@@ -91,7 +91,7 @@ namespace po = boost::program_options;
 //      Compose(*backed_off, InvertFst<Arc>(backoff_syms_transducer), backed_off2);
 //      delete backed_off;
 //      backed_off = backed_off2;
-//      Project(backed_off2, PROJECT_OUTPUT);      
+//      Project(backed_off2, PROJECT_OUTPUT);
 //
 //      ArcSort(backed_off2, ILabelCompare<Arc>());
 //
@@ -109,16 +109,16 @@ namespace po = boost::program_options;
 //  }
 //
 //  template<class Arc>
-//  void operator()(const fst::Fst<Arc>& ngram_fst, 
+//  void operator()(const fst::Fst<Arc>& ngram_fst,
 //                  const std::size_t ngram_order,
 //                  const fst::SymbolTable& syms,
 //                  fst::SymbolTable* feature_ids,
 //                  fst::MutableFst<Arc>* ofst) const {
 //    using namespace fst;
 //    fst::VectorFst<Arc> combined_backoff;
-//    CreateCombinedBackoffFst(ngram_fst, ngram_order, syms, 
-//                             feature_ids, ofst);    
-//    // *ofst = DeterminizeFst<Arc>(RmEpsilonFst<Arc>(UnionFst<Arc>(ngram_fst, combined_backoff)));    
+//    CreateCombinedBackoffFst(ngram_fst, ngram_order, syms,
+//                             feature_ids, ofst);
+//    // *ofst = DeterminizeFst<Arc>(RmEpsilonFst<Arc>(UnionFst<Arc>(ngram_fst, combined_backoff)));
 //    // *ofst = RmEpsilonFst<Arc>(UnionFst<Arc>(ngram_fst, combined_backoff));
 //    //Overlay(ArcSortFst<Arc, ILabelCompare<Arc> >(ngram_fst, ILabelCompare<Arc>()),
 //    //      ArcSortFst<Arc, ILabelCompare<Arc> >(combined_backoff, ILabelCompare<Arc>()),
@@ -147,7 +147,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -199,11 +199,11 @@ int main(int ac, char** av){
 //                                            extract_feats_fct,
 //                                            "",
 //                                            fst);
-  
+
     fstrain::create::NgramFsaInsertFeatures(*symbols, &feature_ids, extract_feats_fct, "", fst);
 
     const std::size_t ngram_order = 3; // TEST
-  
+
     using namespace fstrain;
     using namespace fstrain::create;
     std::vector<boost::tuple<BackoffSymsFct::Ptr, features::ExtractFeaturesFct::Ptr, std::size_t> > backoff_fcts;
@@ -220,7 +220,7 @@ int main(int ac, char** av){
     for(SymbolTableIterator sit(feature_ids); !sit.Done(); sit.Next()) {
       std::cerr << sit.Value() << " " << sit.Symbol() << std::endl;
     }
-            
+
     delete fst;
     delete symbols;
 

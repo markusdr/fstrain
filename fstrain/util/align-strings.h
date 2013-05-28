@@ -39,7 +39,7 @@ struct AlignStringsOptions {
   std::string separator;
   size_t n_best_alignments;
   int sigma_label;
-  AlignStringsOptions() 
+  AlignStringsOptions()
       : separator("|"), n_best_alignments(1),
         sigma_label(fst::kNoLabel) {}
 };
@@ -48,8 +48,8 @@ template<class OutputStream>
 struct AlignStringsDefaultOutputStream {
   OutputStream* out_;
   fst::SymbolTable* syms_;
-  AlignStringsDefaultOutputStream(OutputStream* out, 
-                                  fst::SymbolTable* syms) 
+  AlignStringsDefaultOutputStream(OutputStream* out,
+                                  fst::SymbolTable* syms)
       : out_(out), syms_(syms) {
     syms->AddSymbol("eps", 0);
   }
@@ -73,19 +73,19 @@ void AlignStrings(const std::string& data_filename,
                   const fst::SymbolTable& osymbols,
                   const fst::Fst<Arc>& fst,
                   OutputStream* out,
-                  const AlignStringsOptions& opts) 
+                  const AlignStringsOptions& opts)
 {
   util::Data data(data_filename);
   AlignStrings(data, isymbols, osymbols, fst, out, opts);
 }
 
 template<class Arc, class OutputStream>
-void AlignStrings(const util::Data& data, 
+void AlignStrings(const util::Data& data,
                   const fst::SymbolTable& isymbols,
                   const fst::SymbolTable& osymbols,
                   const fst::Fst<Arc>& fst,
                   OutputStream* out,
-                  const AlignStringsOptions& opts) 
+                  const AlignStringsOptions& opts)
 {
   using namespace fst;
   PrintTransducerArcFct<StdArc, OutputStream> print_arc_fct(&isymbols, &osymbols, out);
@@ -97,7 +97,7 @@ void AlignStrings(const util::Data& data,
     MutableFst<Arc>* in_fst = new VectorFst<Arc>();
     util::ConvertStringToFst(d.first, isymbols, in_fst);
     MutableFst<Arc>* out_fst = new VectorFst<Arc>();
-    util::ConvertStringToFst(d.second, osymbols, out_fst);    
+    util::ConvertStringToFst(d.second, osymbols, out_fst);
 
     typedef SigmaMatcher<Matcher< Fst<Arc> > > SM;
 
@@ -121,13 +121,13 @@ void AlignStrings(const util::Data& data,
     delete in_fst;
     delete out_fst;
     if(best_path.Start() == fst::kNoStateId || best_path.NumStates() == 0) {
-      std::cerr << "Cannot align example: " << d.first << " / " << d.second 
+      std::cerr << "Cannot align example: " << d.first << " / " << d.second
                 << std::endl;
       continue;
     }
     if(opts.n_best_alignments == 1){
       PrintPath(best_path, print_arc_fct);
-      // (*out) << std::endl;     // TODO: why doesn't this compile?   
+      // (*out) << std::endl;     // TODO: why doesn't this compile?
       (*out) << "" << std::endl;  // workaround
     }
     else {

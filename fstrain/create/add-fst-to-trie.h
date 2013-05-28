@@ -24,14 +24,14 @@ namespace fstrain { namespace create {
 namespace nsAddFstToTrieUtil {
 
 template<class Arc>
-void AddFstToTrie0(const fst::Fst<Arc>& fst, typename Arc::StateId fst_state, 
+void AddFstToTrie0(const fst::Fst<Arc>& fst, typename Arc::StateId fst_state,
 		   fst::MutableFst<Arc>* trie, typename Arc::StateId trie_state,
                    typename Arc::Weight incoming_weight) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Label Label;
   typedef typename Arc::Weight Weight;
   trie->SetFinal(trie_state, Weight::One());
-  for(fst::ArcIterator<fst::Fst<Arc> > fst_iter(fst, fst_state); 
+  for(fst::ArcIterator<fst::Fst<Arc> > fst_iter(fst, fst_state);
       !fst_iter.Done(); fst_iter.Next()) {
     const Arc& fst_arc = fst_iter.Value();
     Label fst_label = fst_arc.ilabel;
@@ -55,7 +55,7 @@ void AddFstToTrie0(const fst::Fst<Arc>& fst, typename Arc::StateId fst_state,
       trie->AddArc(trie_state,
                    Arc(fst_label, fst_label, count, trie_nextstate));
     }
-    AddFstToTrie0(fst, fst_arc.nextstate, 
+    AddFstToTrie0(fst, fst_arc.nextstate,
                   trie, trie_nextstate,
                   Times(incoming_weight, fst_arc.weight));
   }
@@ -65,7 +65,7 @@ void AddFstToTrie0(const fst::Fst<Arc>& fst, typename Arc::StateId fst_state,
 
 
 /**
- * @brief Adds a count FST to a trie, which encodes ngram counts. 
+ * @brief Adds a count FST to a trie, which encodes ngram counts.
  *
  * Example counts FST:
  * 0 1 a 3
@@ -80,9 +80,9 @@ void AddFstToTrie(const fst::Fst<Arc>& fst, fst::MutableFst<Arc>* trie) {
   if(fst.Start() != fst::kNoStateId){
     if(trie->Start() == fst::kNoStateId) {
       typename Arc::StateId s = trie->AddState();
-      trie->SetStart(s);      
+      trie->SetStart(s);
     }
-    nsAddFstToTrieUtil::AddFstToTrie0(fst, fst.Start(), trie, trie->Start(), 
+    nsAddFstToTrieUtil::AddFstToTrie0(fst, fst.Start(), trie, trie->Start(),
                                       Weight::One());
   }
 }

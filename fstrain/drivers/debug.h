@@ -30,7 +30,7 @@
 #ifdef FSTR_DRIVERS_DBG_WITH_LINEINFO
 #define FSTR_DRIVERS_DBG_LINE_INFO << __FILE__ << ":" << __LINE__ << ":"
 #else
-#define FSTR_DRIVERS_DBG_LINE_INFO 
+#define FSTR_DRIVERS_DBG_LINE_INFO
 #endif
 
 #ifndef NDEBUG
@@ -45,4 +45,4 @@
 
 #define FSTR_DRIVERS_EXCEPTION(x){std::stringstream ss123; ss123 << __FILE__ << ":" << __LINE__ << ":" << x << std::endl; throw std::runtime_error(ss123.str());}
 
-#endif 
+#endif

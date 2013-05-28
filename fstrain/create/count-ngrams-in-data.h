@@ -65,7 +65,7 @@ void CountNgramsInData(const util::Data& data,
   if(fstrain::util::options.has("sigma_label")){
     opts.sigma_label = fstrain::util::options.get<int>("sigma_label");
   }
-  util::AlignStrings(data, isymbols, osymbols, align_fst, &out, opts);  
+  util::AlignStrings(data, isymbols, osymbols, align_fst, &out, opts);
   SymbolTable pruned_syms("pruned-syms");
   (*get_alignment_symbols_fct)(aligned_data, isymbols, osymbols, &pruned_syms);
   std::cerr << "# Extracted " << pruned_syms.NumSymbols() << " alignment symbols." << std::endl;
@@ -77,7 +77,7 @@ void CountNgramsInData(const util::Data& data,
   ngram_trie_symbols = construct_lattice_fct->GetFinalAlignmentSymbols()->Copy();
 
   NgramCounter<Arc>* ngram_counter = new NgramCounter<Arc>(ngram_order);
-  
+
   for(util::Data::const_iterator d = data.begin(); d != data.end(); ++d) {
     // std::cerr << d->first << " -- " << d->second << std::endl;
     VectorFst<StdArc> lattice;
@@ -87,8 +87,8 @@ void CountNgramsInData(const util::Data& data,
     }
     else {
       // could always use this as well:
-      (*construct_lattice_fct)(d->first, d->second, isymbols, osymbols, 
-                               align_fst, prune_fct, 
+      (*construct_lattice_fct)(d->first, d->second, isymbols, osymbols,
+                               align_fst, prune_fct,
                                &lattice);
     }
     FSTR_CREATE_DBG_EXEC(10,

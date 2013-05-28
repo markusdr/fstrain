@@ -44,7 +44,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -74,9 +74,9 @@ int main(int ac, char** av){
 
     const std::string filename = vm["input-file"].as<std::string>();
     fst::MutableFst<Arc>* fst = fst::VectorFst<Arc>::Read(filename);
-    
+
     const int ngram_order = vm["ngram-order"].as<int>();
-    create::NgramCounter<Arc>* ngram_counter = 
+    create::NgramCounter<Arc>* ngram_counter =
         new create::NgramCounter<Arc>(ngram_order);
     ngram_counter->AddCounts(*fst);
 
@@ -85,7 +85,7 @@ int main(int ac, char** av){
     util::printAcceptor(&trie, NULL, std::cout);
 
     delete ngram_counter;
-    
+
   }
   catch(std::exception& e){
     std::cerr << e.what() << std::endl;

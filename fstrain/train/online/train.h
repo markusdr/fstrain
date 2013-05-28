@@ -30,8 +30,8 @@ class MockBatches : public Batches {
     return true;
   }
   void Next() {}
-  Batches::Map Value() const { 
-    return Batches::Map(); 
+  Batches::Map Value() const {
+    return Batches::Map();
   }
   int GetBatchSize() const {
     return 1;
@@ -58,11 +58,11 @@ class ExponentialLearningRateFct : public LearningRateFct {
   const double eta_0_;
   const double alpha_;
  public:
-  ExponentialLearningRateFct(size_t N, 
-                             double eta_0 = 0.2, 
+  ExponentialLearningRateFct(size_t N,
+                             double eta_0 = 0.2,
                              double alpha = 0.85) // recommended by Tsuruoka et al. (ACL 2009)
       : N_(static_cast<double>(N)), eta_0_(eta_0), alpha_(alpha) {}
-  double operator()(int k) { 
+  double operator()(int k) {
     return eta_0_ * pow(alpha_, k / N_);
   }
 };
@@ -79,28 +79,28 @@ class SgdTrainer {
  public:
 
   SgdTrainer(int num_passes,
-             Batches& batches, 
+             Batches& batches,
              LearningRateFct& learning_rate_fct,
-             std::vector<double>* weights) : 
-      num_passes_(num_passes), 
-      batches_(batches), 
+             std::vector<double>* weights) :
+      num_passes_(num_passes),
+      batches_(batches),
       learning_rate_fct_(learning_rate_fct),
       weights_(weights)
   {}
 
   void Train() {
     int k = 0;
-    for(int pass = 0; pass < num_passes_; ++pass) {      
+    for(int pass = 0; pass < num_passes_; ++pass) {
       std::cerr << "PASS " << pass << std::endl;
       for(batches_.Init(); !batches_.Done(); batches_.Next()) {
         const double eta = learning_rate_fct_(k);
         Batches::Map batch_gradients = batches_.Value();
-        for(Batches::Map::const_iterator it = batch_gradients.begin(); 
+        for(Batches::Map::const_iterator it = batch_gradients.begin();
             it != batch_gradients.end(); ++it) {
           (*weights_)[it->first] += eta * it->second;
         }
         ++k;
-      }      
+      }
     }
   }
 
@@ -119,16 +119,16 @@ class CumulativeL1Trainer {
   const int batch_size_;
   std::vector<double> q_;
   std::set<int> zero_weights_; // TEST
-  
+
  public:
 
   CumulativeL1Trainer(int num_passes,
-                      Batches& batches, 
+                      Batches& batches,
                       LearningRateFct& learning_rate_fct,
                       const double C,
-                      std::vector<double>* weights) : 
-      num_passes_(num_passes), 
-      batches_(batches), 
+                      std::vector<double>* weights) :
+      num_passes_(num_passes),
+      batches_(batches),
       learning_rate_fct_(learning_rate_fct),
       weights_(weights),
       u_(0),
@@ -140,7 +140,7 @@ class CumulativeL1Trainer {
 
   void Train() {
     int k = 0;
-    for(int pass = 0; pass < num_passes_; ++pass) {      
+    for(int pass = 0; pass < num_passes_; ++pass) {
       util::Timer timer;
       std::cerr << "PASS " << pass << std::endl;
       int cnt = 1;
@@ -151,7 +151,7 @@ class CumulativeL1Trainer {
         const double eta = learning_rate_fct_(k);
         u_ += eta * C_ / batch_size_;
         Batches::Map batch_gradients = batches_.Value();
-        for(Batches::Map::const_iterator it = batch_gradients.begin(); 
+        for(Batches::Map::const_iterator it = batch_gradients.begin();
             it != batch_gradients.end(); ++it) {
           (*weights_)[it->first] += eta * it->second;
           ApplyPenalty(it->first);
@@ -162,14 +162,14 @@ class CumulativeL1Trainer {
         ++k;
       }
       timer.stop();
-      fprintf(stderr, "[%2.2f ms, %2.2f MB]\n", 
-              timer.get_elapsed_time_millis(), 
+      fprintf(stderr, "[%2.2f ms, %2.2f MB]\n",
+              timer.get_elapsed_time_millis(),
               util::MemoryInfo::instance().getSizeInMB());
       std::cerr << "Num zero weights: " << zero_weights_.size() << std::endl;
     }
 
   }
-  
+
  private:
 
   void ApplyPenalty(int i) {

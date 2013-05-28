@@ -39,19 +39,19 @@ using namespace fst;
 namespace fstrain { namespace train {
 
 ObjectiveFunctionFstConditionalLenmatch::ObjectiveFunctionFstConditionalLenmatch(
-    fst::MutableFst<fst::MDExpectationArc>* fst,      
+    fst::MutableFst<fst::MDExpectationArc>* fst,
     const util::Data* data,
     const fst::SymbolTable* isymbols,
     const fst::SymbolTable* osymbols,
     double variance,
-    double length_variance)   
+    double length_variance)
     : ObjectiveFunctionFst(fst),
-      data_(data), isymbols_(isymbols), osymbols_(osymbols), 
+      data_(data), isymbols_(isymbols), osymbols_(osymbols),
       variance_(variance), length_variance_(length_variance), match_xy_(true)
 {
   std::cerr << "# Constructing ObjectiveFunctionFstConditionalLenmatch" << std::endl;
-  std::cerr << "# Data size: " << data_->size() << std::endl;    
-  std::cerr << "# Num params: " << GetNumParameters() << std::endl;      
+  std::cerr << "# Data size: " << data_->size() << std::endl;
+  std::cerr << "# Num params: " << GetNumParameters() << std::endl;
 }
 
 ObjectiveFunctionFstConditionalLenmatch::~ObjectiveFunctionFstConditionalLenmatch() {
@@ -78,18 +78,18 @@ bool ObjectiveFunctionFstConditionalLenmatch::GetMatchXY() {
 }
 
 void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(const double* x) {
-  
+
   static int call_counter = -1;
   ++call_counter;
   using nsObjectiveFunctionFstUtil::GetFeatureMDExpectations;
   using core::NeglogNum;
   using core::GetOrigNum;
 
-  FSTR_TRAIN_DBG_EXEC(10, 
+  FSTR_TRAIN_DBG_EXEC(10,
                      for(int i = 0; i < GetNumParameters(); ++i){
                        std::cerr << "x["<<i<<"] = " << x[i]<< std::endl;
                      });
-                    
+
   util::Timer timer;
   size_t num_params = GetNumParameters();
   double* gradients = GetGradients();
@@ -104,7 +104,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
   for(int i = 0; i < num_params; ++i){
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
-  }   
+  }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
   for(size_t i = 0; i < data_->size(); ++i) {
@@ -119,12 +119,12 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
       }
     }
     catch(std::runtime_error) {
-      std::cerr << "Warning: Ignoring example " 
+      std::cerr << "Warning: Ignoring example "
                 << inout.first << " / " << inout.second << std::endl;
       exclude_data_indices_.insert(i);
     }
 
-  } // end loop over data 
+  } // end loop over data
 
   // HACK
   const bool add_length_regularization = true;
@@ -150,7 +150,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
 	empirical_length_sum += len_out;
       }
     }
-    core::MDExpectations empirical_lengths;    
+    core::MDExpectations empirical_lengths;
     empirical_lengths.insert(0, NeglogNum(-log(len0)));
     empirical_lengths.insert(1, NeglogNum(-log(len1)));
     double expected_length = 0.0;
@@ -158,38 +158,38 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
     AddLengthRegularizationOpts alrOpts(empirical_lengths);
     alrOpts.gradients = GetGradients();
     alrOpts.num_params = GetNumParameters();
-    alrOpts.shortestdistance_timelimit = GetTimelimit();    
+    alrOpts.shortestdistance_timelimit = GetTimelimit();
     alrOpts.fst_delta = GetFstDelta();
     alrOpts.fst_delta = GetFstDelta();
     alrOpts.expected_lengths = &expected_lengths;
     alrOpts.length_variance = length_variance_;
     if(match_xy_){
-      expected_length = 
-          AddLengthRegularization<LengthFeatMapper_XY<MDExpectationArc> >(GetFst(), 
+      expected_length =
+          AddLengthRegularization<LengthFeatMapper_XY<MDExpectationArc> >(GetFst(),
                                                                         alrOpts);
     }
     else {
-      expected_length = 
-          AddLengthRegularization<LengthFeatMapper_Y<MDExpectationArc> >(GetFst(), 
+      expected_length =
+          AddLengthRegularization<LengthFeatMapper_Y<MDExpectationArc> >(GetFst(),
                                                                         alrOpts);
     }
     FSTR_TRAIN_DBG_MSG(10, "AddLengthRegularization: "<< expected_length << " - " << empirical_length_sum << std::endl);
     for(int i = 0; i < expected_lengths.size(); ++i){
       double penalty0 = GetOrigNum(expected_lengths[i]) - GetOrigNum(empirical_lengths[i]);
       double penalty = penalty0 * penalty0 / (2.0 * length_variance_);
-      std::cerr << "g" << "["<<i<<"]: " 
-                << "Empirical: "<< GetOrigNum(empirical_lengths[i]) 
-		<<", Expected:" << GetOrigNum(expected_lengths[i]) << ", Penalty: " << penalty 
+      std::cerr << "g" << "["<<i<<"]: "
+                << "Empirical: "<< GetOrigNum(empirical_lengths[i])
+		<<", Expected:" << GetOrigNum(expected_lengths[i]) << ", Penalty: " << penalty
                 << std::endl;
-      SetFunctionValue(GetFunctionValue() + penalty);      
+      SetFunctionValue(GetFunctionValue() + penalty);
     }
   }
 
-  std::cerr << setprecision(8) 
-            << "Returning x=" << x[0] << "\tg=" << gradients[0] 
+  std::cerr << setprecision(8)
+            << "Returning x=" << x[0] << "\tg=" << gradients[0]
             << "\tobj=" << GetFunctionValue();
   timer.stop();
-  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n", 
+  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
           timer.get_elapsed_time_millis(), util::MemoryInfo::instance().getSizeInMB());
 
   if(GetFunctionValue() == core::kPosInfinity){
@@ -198,7 +198,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
   }
 
   SquashFunction();
-} 
+}
 
 void ObjectiveFunctionFstConditionalLenmatch::ProcessInputOutputPair(
     const std::string& in, const std::string& out, int iteration) {
@@ -212,25 +212,25 @@ void ObjectiveFunctionFstConditionalLenmatch::ProcessInputOutputPair(
   ComposeFst<MDExpectationArc> unclamped(inputFst, GetFst());
   ComposeFstOptions<MDExpectationArc> copts;
   copts.gc_limit = 0;  // Cache only the last state for fastest copy.
-  ComposeFst<MDExpectationArc> clamped(unclamped, outputFst, copts);            
+  ComposeFst<MDExpectationArc> clamped(unclamped, outputFst, copts);
   double* gradients = GetGradients();
-  // may throw:    
+  // may throw:
   double clamped_result = GetFeatureMDExpectations<double, double*>(
-      clamped, &gradients, GetNumParameters(), 
+      clamped, &gradients, GetNumParameters(),
       false, 1.0,
-      GetFstDelta(), GetTimelimit());   
+      GetFstDelta(), GetTimelimit());
   FSTR_TRAIN_DBG_MSG(10, "CLAMPED=" << clamped_result << std::endl);
   SetFunctionValue(GetFunctionValue() + clamped_result);
   long unlimited = -1;
-  double unclamped_result = 
+  double unclamped_result =
       GetFeatureMDExpectations<double, double*>(
-          unclamped, &gradients, GetNumParameters(), 
+          unclamped, &gradients, GetNumParameters(),
           true, 1.0,
           GetFstDelta(), iteration == 0 ? &unlimited : GetTimelimit());
   FSTR_TRAIN_DBG_EXEC(100, util::printFst(&unclamped, NULL, NULL, false, std::cerr));
   FSTR_TRAIN_DBG_MSG(10, "UNCLAMPED=" << unclamped_result << std::endl);
-  SetFunctionValue(GetFunctionValue() - unclamped_result);  
-  
+  SetFunctionValue(GetFunctionValue() - unclamped_result);
+
 }
 
 } } // end namespace fstrain/train

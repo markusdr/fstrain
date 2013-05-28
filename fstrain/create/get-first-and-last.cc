@@ -80,8 +80,8 @@ void getChangeSegSymbolTable(const SymbolTable& syms, int segs, SymbolTable* res
     if(sepPos == std::string::npos || alc.length() == sepPos + 1){
       FSTR_CREATE_EXCEPTION("Did not find separator or output side in " << alc);
     }
-    std::string up = alc.substr(0,sepPos); 
-    std::string down = alc.substr(sepPos+1); 
+    std::string up = alc.substr(0,sepPos);
+    std::string down = alc.substr(sepPos+1);
 
     // This test assumes alignments of single characters
     // as symbols
@@ -89,15 +89,15 @@ void getChangeSegSymbolTable(const SymbolTable& syms, int segs, SymbolTable* res
     {
       if(up == "S"){ // start symbol
         // alc += "-g0";
-        result->AddSymbol(alc.c_str());	// S|S-g0  
+        result->AddSymbol(alc.c_str());	// S|S-g0
       }
       else if(up == "E"){ // end symbol
         // alc += "-g" + toString(segs * 2);   // E|E-g6
-        result->AddSymbol(alc.c_str());		    
+        result->AddSymbol(alc.c_str());
       }
       else{
         alc += "-g";
-        for(int j=0; j<=segs*2; j+=2){ 
+        for(int j=0; j<=segs*2; j+=2){
           new_alc = alc + toString(j);      // a|a-0, a|a-2, a|a-4, a|a-6
           result->AddSymbol(new_alc.c_str());
         }
@@ -167,14 +167,14 @@ void getFirstAndLast(
 {
   const char sepChar = '|';
 
-  // Alignment character symbol table 
+  // Alignment character symbol table
   SymbolTable *alSyms = 0;
-	
+
   // Generate the basic symbol table with all possible symbols (e.g. a|x etc) ...
   if(givenBasicAlignmentSyms == 0){
-    FSTR_CREATE_EXCEPTION("need basic alignment symbol table"); 
+    FSTR_CREATE_EXCEPTION("need basic alignment symbol table");
   }
-  else{ 
+  else{
     alSyms = const_cast<SymbolTable*>(givenBasicAlignmentSyms);
   }
 
@@ -252,17 +252,17 @@ void getFirstAndLast(
     if(sepPos == std::string::npos || al.length() == sepPos + 1){
       FSTR_CREATE_EXCEPTION("Did not find separator or output side in " << al);
     }
-    up = al.substr(0,sepPos); 
+    up = al.substr(0,sepPos);
     if(up == "-"){
       up = "eps";
     }
-    down = al.substr(sepPos+1);  // a|x-c1 => x-c1, OR a|--c1 => --c1    
+    down = al.substr(sepPos+1);  // a|x-c1 => x-c1, OR a|--c1 => --c1
     if(down[0] == '-'){
       down = "eps";
     }
     else {
       std::string::size_type hyphenpos = down.find('-');
-      if(hyphenpos != std::string::npos){        
+      if(hyphenpos != std::string::npos){
         down = down.substr(0, hyphenpos);
       }
     }
@@ -292,7 +292,7 @@ void getFirstAndLast(
   delete iSyms;
   delete oSyms;
   if(conjs > 0 || segs > 0 || types > 0){
-    delete alSyms; 
+    delete alSyms;
   }
 }
 

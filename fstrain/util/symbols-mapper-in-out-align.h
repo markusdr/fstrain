@@ -35,12 +35,12 @@ class SymbolsMapper_InOutToAlign {
   SymbolsMapper_InOutToAlign(
       const fst::SymbolTable& isyms,
       const fst::SymbolTable& osyms,
-      const fst::SymbolTable& align_syms, 
-      const char sep_char = '|') 
-      : isyms_(isyms), osyms_(osyms), align_syms_(align_syms), 
+      const fst::SymbolTable& align_syms,
+      const char sep_char = '|')
+      : isyms_(isyms), osyms_(osyms), align_syms_(align_syms),
         sep_char_(sep_char) {}
-      
-  Arc operator()(const Arc &arc) const {    
+
+  Arc operator()(const Arc &arc) const {
     using namespace fst;
     Arc new_arc = arc;
     std::string isym = arc.ilabel == 0 ? "-" : isyms_.Find(arc.ilabel);

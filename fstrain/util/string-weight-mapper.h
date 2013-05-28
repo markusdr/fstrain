@@ -30,7 +30,7 @@ struct ToStringMapper {
   typedef StringWeight<typename A::Label, S> SW;
   typedef typename A::Weight AW;
 
-  ToArc operator()(const A &arc) const {    
+  ToArc operator()(const A &arc) const {
     // 'Super-final' arc.
     if (arc.nextstate == kNoStateId && arc.weight != AW::Zero())
       return ToArc(0, 0, SW::One(), kNoStateId);

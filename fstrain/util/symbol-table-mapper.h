@@ -35,12 +35,12 @@ struct SymbolTableMapper {
   const SymbolTable& outOldSyms;
   const SymbolTable& outNewSyms;
 
-  explicit SymbolTableMapper(const SymbolTable& inOldSyms_, 
+  explicit SymbolTableMapper(const SymbolTable& inOldSyms_,
                              const SymbolTable& inNewSyms_,
-			     const SymbolTable& outOldSyms_, 
+			     const SymbolTable& outOldSyms_,
                              const SymbolTable& outNewSyms_)
     : inOldSyms(inOldSyms_), inNewSyms(inNewSyms_),
-      outOldSyms(outOldSyms_), outNewSyms(outNewSyms_) 
+      outOldSyms(outOldSyms_), outNewSyms(outNewSyms_)
   {}
 
   Arc operator()(const Arc &arc) const {

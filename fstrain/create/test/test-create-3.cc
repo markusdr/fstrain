@@ -42,13 +42,13 @@ using namespace fst;
 
 template<class Arc>
 void AddArc(int64 from, int64 to, int64 sym, MutableFst<Arc>* fst) {
-  fst->AddArc(from, 
+  fst->AddArc(from,
               Arc(sym, sym, Arc::Weight::One(), to));
 }
 
 BOOST_AUTO_TEST_SUITE(create3)
 
-    BOOST_AUTO_TEST_CASE( MyTestCase ) {   
+    BOOST_AUTO_TEST_CASE( MyTestCase ) {
 
   SymbolTable isyms("isyms");
   isyms.AddSymbol("-");
@@ -144,14 +144,14 @@ BOOST_AUTO_TEST_SUITE(create3)
   VectorFst<Arc> backoff_model;
   // const std::size_t ngram_order = 3;
 
-//  fstrain::create::CreateBackoffModel(trie, 
-//                                      all_align_syms, 
+//  fstrain::create::CreateBackoffModel(trie,
+//                                      all_align_syms,
 //                                      &feature_ids,
 //                                      backoff_syms_fct,
 //                                      extract_feats_fct,
 //                                      ngram_order,
 //                                      &backoff_model);
-  
+
   std::cerr << "TRIE (2):" << std::endl;
   fstrain::util::printTransducer(&trie, &align_syms, &align_syms, std::cerr);
 
@@ -159,10 +159,10 @@ BOOST_AUTO_TEST_SUITE(create3)
   const Fst<Arc>& model = trie; // just renaming ...
 
   std::cerr << "Model:" << std::endl;
-  fstrain::util::printTransducer(&model, &align_syms, &align_syms, std::cerr);    
+  fstrain::util::printTransducer(&model, &align_syms, &align_syms, std::cerr);
 
   std::cerr << "Backoff Model:" << std::endl;
-  fstrain::util::printTransducer(&backoff_model, &align_syms, &align_syms, std::cerr);    
+  fstrain::util::printTransducer(&backoff_model, &align_syms, &align_syms, std::cerr);
 
 
   fstrain::util::ComposePhiRightFct<Arc> compose_fct(kPhiLabel);
@@ -171,7 +171,7 @@ BOOST_AUTO_TEST_SUITE(create3)
   Project(&final, PROJECT_OUTPUT);
 
   std::cerr << "Final:" << std::endl;
-  fstrain::util::printTransducer(&final, &align_syms, &align_syms, std::cerr);    
+  fstrain::util::printTransducer(&final, &align_syms, &align_syms, std::cerr);
 
   std::cerr << "Features:" << std::endl;
   for(SymbolTableIterator sit(feature_ids); !sit.Done(); sit.Next()) {

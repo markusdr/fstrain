@@ -33,7 +33,7 @@ namespace fstrain { namespace create {
  */
 int GetNumPartsAndPrepareString(const std::string& str, std::string* result);
 
-enum DecodeType {ENCODE, DECODE}; 
+enum DecodeType {ENCODE, DECODE};
 
 /**
  * @brief Replaces hyphen around the separator with a blank (ENCODE),
@@ -46,7 +46,7 @@ void ChangeHyphensInSymbol(DecodeType type, std::string* symbol);
  * "S|S-c1-g0 a|x-c1-g1 x|y-c1-g2": "S|S-c1-g0 a|x-c1-g1 x|y-c1-g2",
  * "c1-g0 c1-g1 c1-g2", "S|S-g0 a|x-g1 x|y-g2", "g0 g1 g2", "S|S-c1
  * a|x-c1 x|y-c1", "c1 c1 c1", "S|S a|x x|y", as well as all shorter
- * versions: "a|x x|y", "x|y", etc. 
+ * versions: "a|x x|y", "x|y", etc.
  */
 template<class TSet>
 void GetFeatures(const std::string& str0, TSet* featset) {
@@ -60,7 +60,7 @@ void GetFeatures(const std::string& str0, TSet* featset) {
     while(std::getline(tokenizer1, symbol, ' ')) { // e.g. a|--c1
       ChangeHyphensInSymbol(ENCODE, &symbol);
       std::stringstream tokenizer2(symbol);
-      std::string symbol_part;    
+      std::string symbol_part;
       int bitnum = 0;
       bool first = true;
       std::string modified_symbol;
@@ -73,10 +73,10 @@ void GetFeatures(const std::string& str0, TSet* featset) {
 	++bitnum;
       }
       feature.push_back(modified_symbol);
-    }    
+    }
     std::vector<std::string>::iterator it = feature.begin();
     for(; it != feature.end(); ++it){
-      std::stringstream ss;      
+      std::stringstream ss;
       //std::copy(it, feature.end(), std::ostream_iterator<std::string>(ss, " "));
       bool first = true;
       for(std::vector<std::string>::iterator cur = it; cur != feature.end(); ++cur){

@@ -30,7 +30,7 @@ template<class FeatArc, class Arc>
 void CreateScoringFsaFromData(const util::Data& data,
                               const fst::SymbolTable& isyms,
                               const fst::SymbolTable& osyms,
-                              const fst::Fst<Arc>& align_fst,                 
+                              const fst::Fst<Arc>& align_fst,
                               int ngram_order,
                               features::ExtractFeaturesFct& extract_features_fct,
                               const char sep_char,
@@ -57,22 +57,22 @@ void CreateScoringFsaFromData(const util::Data& data,
   std::cerr << "# Num of pruned alignment characters: " << pruned_align_syms->NumSymbols()
             << std::endl;
 
-  fstrain::create::GetProjUpDown(isyms, osyms, *pruned_align_syms, sep_char, 
+  fstrain::create::GetProjUpDown(isyms, osyms, *pruned_align_syms, sep_char,
                                  proj_up, proj_down);
   fstrain::create::ConcatStartAndEndLabels(kStartLabel, kEndLabel, true, false, proj_up);
   fstrain::create::ConcatStartAndEndLabels(kStartLabel, kEndLabel, false, true, proj_down);
 
   std::cerr << "# Creating ngram trie ..." << std::endl;
-  CreateNgramTrieFromData(data, 
-                          isyms, osyms, 
-                          *proj_up, *proj_down, 
+  CreateNgramTrieFromData(data,
+                          isyms, osyms,
+                          *proj_up, *proj_down,
                           *pruned_align_syms,
-                          ngram_order, 
+                          ngram_order,
                           result);
   std::cerr << "# Done creating ngram trie." << std::endl;
   // fstrain::util::printAcceptor(result, pruned_align_syms, std::cerr);
 
-  fst::Map(result, fst::RmWeightMapper<FeatArc>()); 
+  fst::Map(result, fst::RmWeightMapper<FeatArc>());
   TrieInsertFeatures(*pruned_align_syms, feature_names, extract_features_fct, "",
                      result);
   std::cerr << "# Converting trie to ngram machine ..." << std::endl;
@@ -81,7 +81,7 @@ void CreateScoringFsaFromData(const util::Data& data,
 
   ArcSort(proj_up, ILabelCompare<FeatArc>());
   ArcSort(proj_down, OLabelCompare<FeatArc>());
-  ArcSort(result, ILabelCompare<FeatArc>());  
+  ArcSort(result, ILabelCompare<FeatArc>());
 }
 
 } } // end namespace

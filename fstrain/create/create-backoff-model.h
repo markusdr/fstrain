@@ -41,7 +41,7 @@ namespace fstrain { namespace create {
  * @param backoff_syms_fct A functor that reduces the symbols (e.g. a|x -> x)
  */
 template<class Arc, class Fct>
-void GetBackoffSymsFst(const AllSymbols& align_syms, 
+void GetBackoffSymsFst(const AllSymbols& align_syms,
                        Fct& backoff_syms_fct,
                        fst::SymbolTable* result_syms,
                        fst::MutableFst<Arc>* result_fst) {
@@ -57,11 +57,11 @@ void GetBackoffSymsFst(const AllSymbols& align_syms,
   for(; !sit.Done(); sit.Next()) {
     const int64 old_label = sit.Value();
     int64 new_label;
-    const bool is_special_sym = 
+    const bool is_special_sym =
         old_label == align_syms.kStartLabel
         || old_label == align_syms.kEndLabel
         || old_label == align_syms.kPhiLabel;
-    const std::string backoff_sym = 
+    const std::string backoff_sym =
         is_special_sym ? sit.Symbol() : backoff_syms_fct(sit.Symbol());
     new_label = result_syms->AddSymbol(backoff_sym);
     if(sit.Value() != align_syms.kPhiLabel) {
@@ -82,28 +82,28 @@ void CreateBackoffModel(const fst::Fst<Arc>& align_syms_trie,
                         ExtractFeatsFct& extract_feats_fct,
                         std::size_t ngram_order,
                         const fst::Fst<fst::StdArc>& wellformed_fst,
-                        fst::MutableFst<Arc>* result) 
+                        fst::MutableFst<Arc>* result)
 {
   using namespace fst;
   VectorFst<Arc> backoff_syms_transducer;
   SymbolTable backoff_syms("backoff");
-  GetBackoffSymsFst(align_syms, backoff_syms_fct, 
+  GetBackoffSymsFst(align_syms, backoff_syms_fct,
                     &backoff_syms, &backoff_syms_transducer);
 
   VectorFst<Arc> trie2;
   Compose(align_syms_trie, backoff_syms_transducer, &trie2);
   Project(&trie2, PROJECT_OUTPUT);
   Map(&trie2, RmWeightMapper<Arc>());
-  
+
   NgramCounter<Arc> ngram_counter(ngram_order);
   ngram_counter.AddCounts(trie2);
   VectorFst<Arc> trie2_det;
   ngram_counter.GetResult(&trie2_det);
   Map(&trie2_det, RmWeightMapper<Arc>());
 
-  const int64 kPhiLabel = backoff_syms.AddSymbol("phi");  
-  fstrain::create::ConvertTrieToModel(backoff_syms.Find("S|S"), 
-                                      backoff_syms.Find("E|E"), 
+  const int64 kPhiLabel = backoff_syms.AddSymbol("phi");
+  fstrain::create::ConvertTrieToModel(backoff_syms.Find("S|S"),
+                                      backoff_syms.Find("E|E"),
                                       kPhiLabel,
                                       &trie2_det);
 
@@ -112,7 +112,7 @@ void CreateBackoffModel(const fst::Fst<Arc>& align_syms_trie,
 
   fstrain::util::ComposePhiLeftFct<Arc> compose_fct(kPhiLabel);
   // compose_fct(trie2_det, InvertFst<Arc>(backoff_syms_transducer), result);
-  
+
   fst::VectorFst<Arc> inverted_backoff_syms_transducer = backoff_syms_transducer;
   Invert(&inverted_backoff_syms_transducer);
   inverted_backoff_syms_transducer.SetOutputSymbols(align_syms.symbol_table); // match wellformed
@@ -122,7 +122,7 @@ void CreateBackoffModel(const fst::Fst<Arc>& align_syms_trie,
   result->SetOutputSymbols(NULL);
   // Project(result, PROJECT_INPUT);
   Map(result, RmWeightMapper<Arc>());
-  
+
   std::cerr << "# Inserting features into the backoff ngram FSA" << std::endl;
   const std::string prefix = backoff_syms_fct.GetName() + ":"; // e.g. "tlm:"
   fstrain::create::NgramFsaInsertFeatures(backoff_syms,
@@ -139,7 +139,7 @@ void CreateBackoffModel(const fst::Fst<Arc>& align_syms_trie,
 
 //  std::cerr << "CreateBackoffModel result:" << std::endl;
 //  fstrain::util::printTransducer(result, &backoff_syms, align_syms.symbol_table,
-//                                 std::cout);  
+//                                 std::cout);
 
 }
 

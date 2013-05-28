@@ -45,22 +45,22 @@ using namespace fst;
 namespace fstrain { namespace train {
 
 ObjectiveFunctionFstCondotherLenmatch::ObjectiveFunctionFstCondotherLenmatch(
-    fst::MutableFst<fst::MDExpectationArc>* fst,      
+    fst::MutableFst<fst::MDExpectationArc>* fst,
     const util::Data* data,
     const SymbolTable* isymbols,
     const SymbolTable* osymbols,
     double variance,
-    double length_variance)   
+    double length_variance)
     : ObjectiveFunctionFstConditionalLenmatch(fst, data, isymbols, osymbols, variance, length_variance),
       data_(data),
-      isymbols_(isymbols), osymbols_(osymbols), 
-      variance_(variance), 
-      other_list_(NULL), other_to_in_fst_(NULL), other_to_out_fst_(NULL), 
+      isymbols_(isymbols), osymbols_(osymbols),
+      variance_(variance),
+      other_list_(NULL), other_to_in_fst_(NULL), other_to_out_fst_(NULL),
       other_symbols_(NULL), kbest_(20)
 {
   std::cerr << "# Constructing ObjectiveFunctionFstCondotherLenmatch" << std::endl;
-  std::cerr << "# Data size: " << data_->size() << std::endl;    
-  std::cerr << "# Num params: " << GetNumParameters() << std::endl;      
+  std::cerr << "# Data size: " << data_->size() << std::endl;
+  std::cerr << "# Num params: " << GetNumParameters() << std::endl;
 }
 
 ObjectiveFunctionFstCondotherLenmatch::~ObjectiveFunctionFstCondotherLenmatch() {
@@ -92,18 +92,18 @@ void ObjectiveFunctionFstCondotherLenmatch::SetKbest(int kbest) {
 }
 
 void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(const double* x) {
-  
+
   static int call_counter = -1;
   ++call_counter;
   using nsObjectiveFunctionFstUtil::GetFeatureMDExpectations;
   using core::NeglogNum;
   using core::GetOrigNum;
 
-  FSTR_TRAIN_DBG_EXEC(10, 
+  FSTR_TRAIN_DBG_EXEC(10,
                       for(int i = 0; i < GetNumParameters(); ++i){
                         std::cerr << "x["<<i<<"] = " << x[i]<< std::endl;
                       });
-                    
+
   util::Timer timer;
   size_t num_params = GetNumParameters();
   double* gradients = GetGradients();
@@ -118,7 +118,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
   for(int i = 0; i < num_params; ++i){
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
-  }   
+  }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
   for(size_t i = 0; i < data_->size(); ++i) {
@@ -134,12 +134,12 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
       }
     }
     catch(std::runtime_error) {
-      std::cerr << "Warning: Ignoring example " 
+      std::cerr << "Warning: Ignoring example "
                 << inout.first << " / " << inout.second << std::endl;
       exclude_data_indices_.insert(i);
     }
 
-  } // end loop over data 
+  } // end loop over data
 
   // HACK
   const bool add_length_regularization = true;
@@ -168,7 +168,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
     if(call_counter == 0){
       SetTimelimit(-1); // disable
     }
-    core::MDExpectations empirical_lengths;    
+    core::MDExpectations empirical_lengths;
     empirical_lengths.insert(0, NeglogNum(-log(len0)));
     empirical_lengths.insert(1, NeglogNum(-log(len1)));
     double expected_length = 0.0;
@@ -180,13 +180,13 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
     alrOpts.expected_lengths = &expected_lengths;
     alrOpts.length_variance = GetLengthVariance();
     if(GetMatchXY()){
-      expected_length = 
-          AddLengthRegularization<LengthFeatMapper_XY<MDExpectationArc> >(GetFst(), 
+      expected_length =
+          AddLengthRegularization<LengthFeatMapper_XY<MDExpectationArc> >(GetFst(),
                                                                         alrOpts);
     }
     else {
-      expected_length = 
-          AddLengthRegularization<LengthFeatMapper_Y<MDExpectationArc> >(GetFst(), 
+      expected_length =
+          AddLengthRegularization<LengthFeatMapper_Y<MDExpectationArc> >(GetFst(),
                                                                        alrOpts);
     }
     FSTR_TRAIN_DBG_MSG(10, "AddLengthRegularization: "<< expected_length << " - " << empirical_length_sum << std::endl);
@@ -195,19 +195,19 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
       double empirical_len = GetOrigNum(empirical_lengths[i]);
       double penalty0 = expected_len - empirical_len;
       double penalty = penalty0 * penalty0 / (2.0 * GetLengthVariance());
-      std::cerr << "g" << "["<<i<<"]: " 
-                << "Empirical: "<< empirical_len <<", Expected:" << expected_len 
-                << ", Penalty: " << penalty 
+      std::cerr << "g" << "["<<i<<"]: "
+                << "Empirical: "<< empirical_len <<", Expected:" << expected_len
+                << ", Penalty: " << penalty
                 << std::endl;
-      SetFunctionValue(GetFunctionValue() + penalty);      
+      SetFunctionValue(GetFunctionValue() + penalty);
     }
   }
 
-  std::cerr << setprecision(8) 
-            << "Returning x=" << x[0] << "\tg=" << gradients[0] 
+  std::cerr << setprecision(8)
+            << "Returning x=" << x[0] << "\tg=" << gradients[0]
             << "\tobj=" << GetFunctionValue();
   timer.stop();
-  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n", 
+  fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
           timer.get_elapsed_time_millis(), util::MemoryInfo::instance().getSizeInMB());
 
   if(GetFunctionValue() == core::kPosInfinity){
@@ -216,7 +216,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
   }
 
   SquashFunction();
-} 
+}
 
 void ObjectiveFunctionFstCondotherLenmatch::ProcessInputOutputPair(
     const std::string& in, const std::string& out,
@@ -234,17 +234,17 @@ void ObjectiveFunctionFstCondotherLenmatch::ProcessInputOutputPair(
   VectorFst<LogArc> other_fst;
   util::ConvertStringToFst(in, *isymbols_, &inputFst);
   util::ConvertStringToFst(out, *osymbols_, &outputFst);
-  util::ConvertStringToFst(other, *other_symbols_, &other_fst); 
+  util::ConvertStringToFst(other, *other_symbols_, &other_fst);
   assert(inputFst.InputSymbols() == NULL);
   assert(GetFst().InputSymbols() == NULL);
-  
+
   ComposeFstOptions<LogArc> copts_L;
   copts_L.gc_limit = 0;  // Cache only the last state for fastest copy.
 
-  ProjectFst<LogArc> other_to_in(ComposeFst<LogArc>(other_fst, *other_to_in_fst_, copts_L), 
+  ProjectFst<LogArc> other_to_in(ComposeFst<LogArc>(other_fst, *other_to_in_fst_, copts_L),
                                  PROJECT_OUTPUT);
-  ProjectFst<LogArc> other_to_out(ComposeFst<LogArc>(other_fst, *other_to_out_fst_, copts_L), 
-                                  PROJECT_OUTPUT);  
+  ProjectFst<LogArc> other_to_out(ComposeFst<LogArc>(other_fst, *other_to_out_fst_, copts_L),
+                                  PROJECT_OUTPUT);
 
   ArcSortFst<LogArc, OLabelCompare<LogArc> > other_to_in_sorted(other_to_in, OLabelCompare<LogArc>());
   ArcSortFst<LogArc, ILabelCompare<LogArc> > other_to_out_sorted(other_to_out, ILabelCompare<LogArc>());
@@ -258,21 +258,21 @@ void ObjectiveFunctionFstCondotherLenmatch::ProcessInputOutputPair(
   typedef ComposeFst<MDExpectationArc> EComposeFst;
   EComposeFst unclamped(EComposeFst(other_to_in_final, GetFst(), copts),
                         other_to_out_final, copts);
-  EComposeFst clamped(EComposeFst(inputFst, unclamped, copts), 
-                      outputFst, copts);            
+  EComposeFst clamped(EComposeFst(inputFst, unclamped, copts),
+                      outputFst, copts);
   double* gradients = GetGradients();
-  // may throw:    
+  // may throw:
   double clamped_result = GetFeatureMDExpectations<double, double*>(
-      clamped, &gradients, GetNumParameters(), 
+      clamped, &gradients, GetNumParameters(),
       false, 1.0,
-      GetFstDelta(), GetTimelimit());   
+      GetFstDelta(), GetTimelimit());
   FSTR_TRAIN_DBG_MSG(10, "CLAMPED=" << clamped_result << std::endl);
   SetFunctionValue(GetFunctionValue() + clamped_result);
   long unlimited = (long)1e8;
   util::Timer unclamped_timer;
-  double unclamped_result = 
+  double unclamped_result =
       GetFeatureMDExpectations<double, double*>(
-          unclamped, &gradients, GetNumParameters(), 
+          unclamped, &gradients, GetNumParameters(),
           true, 1.0,
           GetFstDelta(), call_counter == 0 ? &unlimited : GetTimelimit());
   FSTR_TRAIN_DBG_EXEC(100, util::printFst(&unclamped, NULL, NULL, false, std::cerr));
@@ -282,8 +282,8 @@ void ObjectiveFunctionFstCondotherLenmatch::ProcessInputOutputPair(
     double new_limit = 4.0 * unclamped_timer.get_elapsed_time_millis();
     SetTimelimit((long)new_limit);
   }
-  SetFunctionValue(GetFunctionValue() - unclamped_result);  
-  
+  SetFunctionValue(GetFunctionValue() - unclamped_result);
+
 }
 
 } } // end namespace fstrain/train

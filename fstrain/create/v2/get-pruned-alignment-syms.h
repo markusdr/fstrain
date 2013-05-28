@@ -16,11 +16,11 @@ void AddIdentityCharacters(const fst::SymbolTable& isyms,
                            fst::SymbolTable* align_syms){
   fst::SymbolTableIterator sit(isyms);
   sit.Next(); // ignore eps
-  for(; !sit.Done(); sit.Next()){      
+  for(; !sit.Done(); sit.Next()){
     if(osyms.Find(sit.Symbol()) != fst::kNoLabel){
       std::stringstream ss;
       ss << sit.Symbol() << "|" << sit.Symbol();
-      align_syms->AddSymbol(ss.str());  
+      align_syms->AddSymbol(ss.str());
     }
   }
 }
@@ -31,15 +31,15 @@ class StreamAndSymbolTableWriter {
   fst::SymbolTable* source_syms_;
   fst::SymbolTable* target_syms_;
  public:
-  StreamAndSymbolTableWriter(OutputStream* out, fst::SymbolTable* target_syms) 
+  StreamAndSymbolTableWriter(OutputStream* out, fst::SymbolTable* target_syms)
       : out_(out), target_syms_(target_syms) {
-    target_syms->AddSymbol("eps", 0); 
+    target_syms->AddSymbol("eps", 0);
   }
   void SetSourceSyms(fst::SymbolTable* source_syms) {
     source_syms_ = source_syms;
   }
   // for std::endl:
-  OutputStream& operator<<(OutputStream& (*f)(OutputStream&)){ 
+  OutputStream& operator<<(OutputStream& (*f)(OutputStream&)){
     return f(*out_);
   }
   OutputStream& operator<<(const std::string& str) {
@@ -51,10 +51,10 @@ class StreamAndSymbolTableWriter {
       else {
         int64 label = source_syms_->Find(str);
         if(label == fst::kNoLabel){
-          FSTR_CREATE_EXCEPTION("Could not find symbol '" << str 
+          FSTR_CREATE_EXCEPTION("Could not find symbol '" << str
                                 << "' in source alignment symbols table");
         }
-        target_syms_ ->AddSymbol(str, label);      
+        target_syms_ ->AddSymbol(str, label);
       }
     }
     return *out_;
@@ -62,7 +62,7 @@ class StreamAndSymbolTableWriter {
 };
 
 template<class Arc>
-void GetPrunedAlignmentSyms(const util::Data& data, 
+void GetPrunedAlignmentSyms(const util::Data& data,
                             const fst::SymbolTable& isyms,
                             const fst::SymbolTable& osyms,
                             const fst::Fst<Arc>& align_fst,
@@ -71,12 +71,12 @@ void GetPrunedAlignmentSyms(const util::Data& data,
   util::AlignStringsDefaultOutputStream<std::stringstream> writer(&aligned_data, result);
   // StreamAndSymbolTableWriter<std::stringstream> writer(&aligned_data, result);
   // writer.SetSourceSyms(all_align_syms);
-  util::AlignStringsOptions opts;  
+  util::AlignStringsOptions opts;
   opts.n_best_alignments = 1; // one-best
   if(fstrain::util::options.has("sigma_label")){
     opts.sigma_label = fstrain::util::options.get<int>("sigma_label");
   }
-  util::AlignStrings(data, isyms, osyms, align_fst, &writer, opts);  
+  util::AlignStrings(data, isyms, osyms, align_fst, &writer, opts);
 }
 
 } } // end namespace

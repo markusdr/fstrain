@@ -18,12 +18,12 @@
 
 namespace fstrain { namespace util {
 
-void PrintLabel(int64 label, const fst::SymbolTable* syms, 
+void PrintLabel(int64 label, const fst::SymbolTable* syms,
                 std::ostream* out) {
   if(syms){
-    const std::string symbol = 
-        label == 0 
-        ? "-" 
+    const std::string symbol =
+        label == 0
+        ? "-"
         : syms->Find(label);
     (*out) << symbol;
   }

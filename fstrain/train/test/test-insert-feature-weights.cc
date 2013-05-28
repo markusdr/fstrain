@@ -30,7 +30,7 @@
 
 int main(int argc, char** argv){
   try{
-    
+
     using namespace fst;
     using namespace fstrain;
 
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     int highest = std::max(getHighestFeatureIndex(*fst1),
 			   getHighestFeatureIndex(*fst2));
     std::cerr << "# Found " << (highest + 1) << " features." << std::endl;
-    
+
     std::vector<double> weights(highest + 1);
     for(int i = 0; i <= highest; ++i){
       weights[i] = 2.0 * (i+1);
@@ -86,7 +86,7 @@ int main(int argc, char** argv){
       std::cout << "FAIL" << std::endl;
       throw std::runtime_error("FAIL");
     }
-    
+
     delete fst1;
     delete fst2;
 

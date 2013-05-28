@@ -50,9 +50,9 @@ using namespace fstrain;
 class MultipleAnswersCompare {
   std::string separator_;
  public:
-  MultipleAnswersCompare(const std::string& sep) 
+  MultipleAnswersCompare(const std::string& sep)
       : separator_(sep) {}
-  bool operator()(const std::string& hypothesis, 
+  bool operator()(const std::string& hypothesis,
                   const std::string& truths) const {
     std::list<std::string> tok_list;
     boost::iter_split(tok_list, truths, boost::first_finder(separator_));
@@ -76,14 +76,14 @@ struct DecodeDataOptions {
 
 LogArc::Weight GetPathsum(const Fst<LogArc>& fst) {
   std::vector<LogArc::Weight> betas;
-  ShortestDistance(fst, &betas, true); // reverse      
+  ShortestDistance(fst, &betas, true); // reverse
   if(betas.size() == 0){
     return LogWeight::Zero();
   }
   return betas[0];
 }
 
-LogArc::Weight GetLoglik(const Fst<LogArc>& input_fst, 
+LogArc::Weight GetLoglik(const Fst<LogArc>& input_fst,
                          const Fst<LogArc>& output_fst,
                          const Fst<LogArc>& model_fst) {
   ComposeFst<LogArc> denominator(input_fst, model_fst);
@@ -94,11 +94,11 @@ LogArc::Weight GetLoglik(const Fst<LogArc>& input_fst,
   VectorFst<LogArc> composed;
   Compose(denominator, output_fst, &composed);
   LogWeight numerator_sum = GetPathsum(composed);
-  return Divide(numerator_sum, denominator_sum);        
+  return Divide(numerator_sum, denominator_sum);
 }
 
 template<class EqualFct>
-void DecodeData(const util::Data& data, 
+void DecodeData(const util::Data& data,
 		const Fst<LogArc>& model_fst,
                 EqualFct equal_fct,
 		DecodeDataOptions opts) {
@@ -108,10 +108,10 @@ void DecodeData(const util::Data& data,
   int excluded_count = 0;
   for(util::Data::const_iterator it = data.begin(); it != data.end(); ++it){
     const std::string input_string = it->first;
-    const std::string output_string = it->second; 
+    const std::string output_string = it->second;
     LogWeight best_of_multiple(LogWeight::Zero());
     std::list<std::string> alternatives_list;
-    boost::iter_split(alternatives_list, output_string, 
+    boost::iter_split(alternatives_list, output_string,
                       boost::first_finder(separator));
     int cnt = 1;
     BOOST_FOREACH(std::string output_alternative, alternatives_list) {
@@ -124,7 +124,7 @@ void DecodeData(const util::Data& data,
         util::ConvertStringToFst(output_alternative, opts.isymbols, &output_fst);
       }
       catch(...) {
-        std::cerr << "WARNING: Could not decode " 
+        std::cerr << "WARNING: Could not decode "
                   << input_string << " / " << output_alternative << std::endl;
       }
       LogWeight loglik = GetLoglik(input_fst, output_fst, model_fst);
@@ -140,10 +140,10 @@ void DecodeData(const util::Data& data,
       ++excluded_count;
     }
   }
-  std::cout << corpus_loglik.Value() << " / " << data.size() << " = " 
-            << (corpus_loglik.Value() / data.size()) 
-            << " Excluded: " << excluded_count << " examples with zero prob." 
-            << std::endl;      
+  std::cout << corpus_loglik.Value() << " / " << data.size() << " = "
+            << (corpus_loglik.Value() / data.size())
+            << " Excluded: " << excluded_count << " examples with zero prob."
+            << std::endl;
 }
 
 int main(int ac, char** av){
@@ -156,7 +156,7 @@ int main(int ac, char** av){
         ("isymbols", po::value<std::string>(), "symbol table for input words")
         ("osymbols", po::value<std::string>(), "symbol table for output words")
         ("fst", po::value<std::string>(), "tranducer file name for decoding")
-        ("multiple-truths", po::value<bool>()->default_value(true), 
+        ("multiple-truths", po::value<bool>()->default_value(true),
          "multiple truths, separated by ' ### '")
         ;
 
@@ -164,7 +164,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -210,11 +210,11 @@ int main(int ac, char** av){
     }
 
     SymbolTable* isymbols = SymbolTable::ReadText(vm["isymbols"].as<std::string>());
-    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());    
+    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());
 
     const std::string data_filename = vm["input-file"].as<std::string>();
     const std::string fst_filename = vm["fst"].as<std::string>();
-    
+
     util::Data data(data_filename);
     const Fst<LogArc>* fst = util::GetVectorFst<LogArc>(fst_filename);
     DecodeDataOptions opts(*isymbols, *osymbols);

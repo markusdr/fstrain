@@ -50,9 +50,9 @@ using namespace fstrain;
 class MultipleAnswersCompare {
   std::string separator_;
  public:
-  MultipleAnswersCompare(const std::string& sep) 
+  MultipleAnswersCompare(const std::string& sep)
       : separator_(sep) {}
-  bool operator()(const std::string& hypothesis, 
+  bool operator()(const std::string& hypothesis,
                   const std::string& truths) const {
     std::list<std::string> tok_list;
     boost::iter_split(tok_list, truths, boost::first_finder(separator_));
@@ -77,7 +77,7 @@ struct DecodeDataOptions {
   {}
 };
 
-void PrintTransducerOutput(const Fst<StdArc>& input, const Fst<StdArc>& model, 
+void PrintTransducerOutput(const Fst<StdArc>& input, const Fst<StdArc>& model,
 			   DecodeDataOptions opts) {
   ComposeFst<StdArc> composed(input, model);
   ProjectFst<StdArc> all_output_paths(composed, PROJECT_OUTPUT);
@@ -91,16 +91,16 @@ void PrintTransducerOutput(const Fst<StdArc>& input, const Fst<StdArc>& model,
 }
 
 template<class EqualFct>
-void DecodeData(const util::Data& data, 
-		const Fst<StdArc>& model_fst,                
+void DecodeData(const util::Data& data,
+		const Fst<StdArc>& model_fst,
                 EqualFct equal_fct,
 		DecodeDataOptions opts) {
   int num_correct = 0;
   for(util::Data::const_iterator it = data.begin(); it != data.end(); ++it){
     const std::string input_string = it->first;
     VectorFst<StdArc> input_fst;
-    const bool delete_unknown_chars = true; 
-    util::ConvertStringToFst(input_string, opts.isymbols, 
+    const bool delete_unknown_chars = true;
+    util::ConvertStringToFst(input_string, opts.isymbols,
                              &input_fst, delete_unknown_chars);
     if(opts.do_evaluate){
       std::stringstream ss;
@@ -124,7 +124,7 @@ void DecodeData(const util::Data& data,
   }
   if(opts.do_evaluate){
     double accuracy = num_correct / (double)data.size();
-    fprintf(stderr, "%d / %d = %2.4f correct\n", 
+    fprintf(stderr, "%d / %d = %2.4f correct\n",
 	    num_correct, (int)data.size(), accuracy);
   }
 }
@@ -139,7 +139,7 @@ int main(int ac, char** av){
         ("isymbols", po::value<std::string>(), "symbol table for input words")
         ("osymbols", po::value<std::string>(), "symbol table for output words")
         ("fst", po::value<std::string>(), "tranducer file name for decoding")
-        ("multiple-truths-separator", po::value<std::string>()->default_value(" ### "), 
+        ("multiple-truths-separator", po::value<std::string>()->default_value(" ### "),
          "multiple truths separator")
         ("evaluate", po::value<bool>()->default_value(true), "evaluate accuracy?")
         ;
@@ -148,7 +148,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -189,7 +189,7 @@ int main(int ac, char** av){
     }
 
     SymbolTable* isymbols = SymbolTable::ReadText(vm["isymbols"].as<std::string>());
-    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());    
+    SymbolTable* osymbols = SymbolTable::ReadText(vm["osymbols"].as<std::string>());
 
     util::Data* data = 0;
     if (vm.count("input-file") == 0) {
@@ -202,10 +202,10 @@ int main(int ac, char** av){
     }
 
     const std::string fst_filename = vm["fst"].as<std::string>();
-    
+
     const Fst<StdArc>* fst = util::GetVectorFst<StdArc>(fst_filename);
     DecodeDataOptions opts(*isymbols, *osymbols);
-    opts.do_evaluate = vm["evaluate"].as<bool>();    
+    opts.do_evaluate = vm["evaluate"].as<bool>();
     const std::string separator = vm["multiple-truths-separator"].as<std::string>();
     if(separator.length()) {
       DecodeData(*data, *fst, MultipleAnswersCompare(separator), opts);

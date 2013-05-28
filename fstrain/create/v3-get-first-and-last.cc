@@ -36,13 +36,13 @@ void CreateAlignmentSymbolTable(const fst::SymbolTable& isymbols,
   result->AddSymbol("eps");
   for(fst::SymbolTableIterator iit(isymbols); !iit.Done(); iit.Next()) {
     const bool in_is_eps = iit.Value() == 0;
-    const std::string isym = in_is_eps ? "-" : iit.Symbol();    
+    const std::string isym = in_is_eps ? "-" : iit.Symbol();
     for(fst::SymbolTableIterator oit(osymbols); !oit.Done(); oit.Next()) {
       const bool out_is_eps = oit.Value() == 0;
       if(in_is_eps && out_is_eps) {
         continue;
       }
-      const std::string osym = out_is_eps ? "-" : oit.Symbol();    
+      const std::string osym = out_is_eps ? "-" : oit.Symbol();
       if((isym == "S" && osym != "S") || (isym == "E" && osym != "E")
          || (osym == "S" && isym != "S") || (osym == "E" && isym != "E")) {
         continue;
@@ -103,8 +103,8 @@ void getChangeSegSymbolTable(const SymbolTable& syms, int segs, SymbolTable* res
     if(sepPos == std::string::npos || alc.length() == sepPos + 1){
       FSTR_CREATE_EXCEPTION("Did not find separator or output side in " << alc);
     }
-    std::string up = alc.substr(0,sepPos); 
-    std::string down = alc.substr(sepPos+1); 
+    std::string up = alc.substr(0,sepPos);
+    std::string down = alc.substr(sepPos+1);
 
     // This test assumes alignments of single characters
     // as symbols
@@ -112,15 +112,15 @@ void getChangeSegSymbolTable(const SymbolTable& syms, int segs, SymbolTable* res
     {
       if(up == "S"){ // start symbol
         // alc += "-g0";
-        result->AddSymbol(alc.c_str());	// S|S-g0  
+        result->AddSymbol(alc.c_str());	// S|S-g0
       }
       else if(up == "E"){ // end symbol
         // alc += "-g" + toString(segs * 2);   // E|E-g6
-        result->AddSymbol(alc.c_str());		    
+        result->AddSymbol(alc.c_str());
       }
       else{
         alc += "-g";
-        for(int j=0; j<=segs*2; j+=2){ 
+        for(int j=0; j<=segs*2; j+=2){
           new_alc = alc + toString(j);      // a|a-0, a|a-2, a|a-4, a|a-6
           result->AddSymbol(new_alc.c_str());
         }
@@ -188,12 +188,12 @@ void GetFirstAndLast(const fst::SymbolTable* iSyms,
 
   const char sepChar = '|';
 
-  // Alignment character symbol table 
+  // Alignment character symbol table
   SymbolTable *alSyms = new SymbolTable("align-syms");
   CreateAlignmentSymbolTable(*iSyms, *oSyms, alSyms);
-	
+
   // Add latent annotations
-  SymbolTable* resultOsyms = NULL; 
+  SymbolTable* resultOsyms = NULL;
   SymbolTable* resultOsyms2 = NULL;
   SymbolTable* resultOsyms3 = NULL;
   if (conjs > 0) {
@@ -241,17 +241,17 @@ void GetFirstAndLast(const fst::SymbolTable* iSyms,
     if(sepPos == std::string::npos || al.length() == sepPos + 1){
       FSTR_CREATE_EXCEPTION("Did not find separator or output side in " << al);
     }
-    up = al.substr(0,sepPos); 
+    up = al.substr(0,sepPos);
     if(up == "-"){
       up = "eps";
     }
-    down = al.substr(sepPos+1);  // a|x-c1 => x-c1, OR a|--c1 => --c1    
+    down = al.substr(sepPos+1);  // a|x-c1 => x-c1, OR a|--c1 => --c1
     if(down[0] == '-'){
       down = "eps";
     }
     else {
       std::string::size_type hyphenpos = down.find('-');
-      if(hyphenpos != std::string::npos){        
+      if(hyphenpos != std::string::npos){
         down = down.substr(0, hyphenpos);
       }
     }
@@ -278,7 +278,7 @@ void GetFirstAndLast(const fst::SymbolTable* iSyms,
     sit.Next();
   }
 //  if(conjs > 0 || segs > 0 || types > 0){
-//    delete alSyms; 
+//    delete alSyms;
 //  }
   delete alSyms; // can always delete b/c it was copied into the FST
 }

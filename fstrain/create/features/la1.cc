@@ -8,14 +8,14 @@
 namespace fstrain { namespace create { namespace features {
 
 extern "C" {
-  
+
   // la1 creates only 'anchored' features, e.g not "c1-c2" from
   // "a|x-c1-c2" because it is not anchored at an actual character.
-  void ExtractFeatures(const std::string& window, 
+  void ExtractFeatures(const std::string& window,
                        IFeatureSet* featset) {
     const bool anchored = true;
     LatentAnnotationFeatures f(window, anchored);
-    for(LatentAnnotationFeatures::const_iterator it = f.begin(); 
+    for(LatentAnnotationFeatures::const_iterator it = f.begin();
         it != f.end(); ++it) {
       featset->insert(*it);
     }

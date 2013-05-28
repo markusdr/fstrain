@@ -57,7 +57,7 @@ struct BackoffSyms_tlm : public BackoffSymsFct {
     std::string la = both.second;
     std::string::size_type sep_pos = FindSeparator(sym, in_out_sep);
     std::string new_sym = sym.substr(sep_pos + 1);
-    return new_sym + la; 
+    return new_sym + la;
   }
 };
 
@@ -65,8 +65,8 @@ struct BackoffSyms_vc : public BackoffSymsFct {
   std::string name;
   char in_out_sep;
   char la_sep;
-  BackoffSyms_vc() : name("vc"), in_out_sep('|'), la_sep('-') {}  
-  const std::string& GetName() {return name;} 
+  BackoffSyms_vc() : name("vc"), in_out_sep('|'), la_sep('-') {}
+  const std::string& GetName() {return name;}
   char ReduceChar(const char c) {
     const bool is_vowel = (c=='a'||c=='e'||c=='i'||c=='o'||c=='u');
     return is_vowel ? 'V' : c=='-' ? '-' : 'C';
@@ -77,7 +77,7 @@ struct BackoffSyms_vc : public BackoffSymsFct {
     std::string la = both.second;
     std::string::size_type sep_pos = FindSeparator(sym, in_out_sep);
     if(!(sep_pos == 1 && sym.length() == 3)) {
-      FSTR_CREATE_EXCEPTION("BackoffSyms_vc needs simple in" << in_out_sep 
+      FSTR_CREATE_EXCEPTION("BackoffSyms_vc needs simple in" << in_out_sep
                             << "out chars, but got " << sym);
     }
     char left = ReduceChar(sym[0]);
@@ -95,15 +95,15 @@ struct BackoffSyms_id : public BackoffSymsFct {
   std::string name;
   char in_out_sep;
   char la_sep;
-  BackoffSyms_id() : name("id"), in_out_sep('|'), la_sep('-') {}  
-  const std::string& GetName() {return name;} 
+  BackoffSyms_id() : name("id"), in_out_sep('|'), la_sep('-') {}
+  const std::string& GetName() {return name;}
   std::string operator()(const std::string& sym0) {
     std::pair<std::string,std::string> both = features::SplitMainFromLatentAnnotations(sym0, la_sep);
     std::string sym = both.first;
     std::string la = both.second;
     std::string::size_type sep_pos = FindSeparator(sym, in_out_sep);
     if(!(sep_pos == 1 && sym.length() == 3)) {
-      FSTR_CREATE_EXCEPTION("BackoffSyms_id needs simple in" << in_out_sep 
+      FSTR_CREATE_EXCEPTION("BackoffSyms_id needs simple in" << in_out_sep
                             << "out chars, but got " << sym);
     }
     std::string new_sym;

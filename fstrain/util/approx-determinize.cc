@@ -30,10 +30,10 @@ void approxDeterminize(const fst::Fst<fst::StdArc>& ifst, fst::MutableFst<fst::S
   ShortestPath(ifst, &bestpaths, k);
   MapFst<StdArc, LogArc, StdToLogMapper > bestPathsMappedToLog(bestpaths, StdToLogMapper());
   VectorFst<LogArc> determinized;
-  Determinize<LogArc>(RmEpsilonFst<LogArc>(bestPathsMappedToLog), 
+  Determinize<LogArc>(RmEpsilonFst<LogArc>(bestPathsMappedToLog),
                       &determinized);
   //DeterminizeOptions(CacheOptions(true, 0), delta));
-  Map<LogArc, StdArc, LogToStdMapper >(determinized, ofst, LogToStdMapper());  
+  Map<LogArc, StdArc, LogToStdMapper >(determinized, ofst, LogToStdMapper());
 }
 
 void approxDeterminize(const fst::Fst<fst::LogArc>& ifst, fst::MutableFst<fst::LogArc>* ofst, int k, float delta){
@@ -44,7 +44,7 @@ void approxDeterminize(const fst::Fst<fst::LogArc>& ifst, fst::MutableFst<fst::L
   ShortestPath(MapFst<LogArc, StdArc, LogToStdMapper >(ifst, toStdMapper), &bestpaths, k);
 
   StdToLogMapper toLogMapper;
-  *ofst = DeterminizeFst<LogArc>(RmEpsilonFst<LogArc>(MapFst<StdArc, LogArc, StdToLogMapper >(bestpaths, toLogMapper)), 
+  *ofst = DeterminizeFst<LogArc>(RmEpsilonFst<LogArc>(MapFst<StdArc, LogArc, StdToLogMapper >(bestpaths, toLogMapper)),
                                  DeterminizeFstOptions<LogArc>(CacheOptions(true, 0), delta));
 
 }

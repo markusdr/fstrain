@@ -63,7 +63,7 @@ int main(int ac, char** av){
     hidden.add_options()
         ("input-file", po::value< std::string >(), "input file")
         ;
-    
+
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(hidden);
 
@@ -109,17 +109,17 @@ int main(int ac, char** av){
     }
 
     fst::SymbolTable* isymbols = fst::SymbolTable::ReadText(vm["isymbols"].as<std::string>());
-    fst::SymbolTable* osymbols = fst::SymbolTable::ReadText(vm["osymbols"].as<std::string>());    
+    fst::SymbolTable* osymbols = fst::SymbolTable::ReadText(vm["osymbols"].as<std::string>());
 
     const std::string data_filename = vm["train-data"].as<std::string>();
     const std::string fst_filename = vm["fst"].as<std::string>();
 
     const bool l1 = vm["l1"].as<bool>();
-    
+
     fstrain::util::Data data(data_filename);
-    fst::MutableFst<fst::MDExpectationArc>* fst = 
+    fst::MutableFst<fst::MDExpectationArc>* fst =
         fstrain::util::GetVectorFst<fst::MDExpectationArc>(fst_filename);
-   
+
     int highest_feat_index = fstrain::util::getHighestFeatureIndex(*fst);
     std::vector<double> weights(highest_feat_index + 1);
 
@@ -127,8 +127,8 @@ int main(int ac, char** av){
 
     // Batches* batches = new MockBatches();
     const int batch_size = 1;
-    Batches* batches = 
-        new FstBatches<fst::MDExpectationArc>(*fst, &(weights[0]), *isymbols, *osymbols, 
+    Batches* batches =
+        new FstBatches<fst::MDExpectationArc>(*fst, &(weights[0]), *isymbols, *osymbols,
                                             data, batch_size);
     // LearningRateFct* rate_fct = new ConstantLearningRateFct(0.25);
     LearningRateFct* rate_fct = new ExponentialLearningRateFct(data.size());
@@ -138,11 +138,11 @@ int main(int ac, char** av){
 //    if (vm.count("dev-data") == 0) {
 //      std::cerr << "Please give dev data with --dev-data" << std::endl;
 //      return EXIT_FAILURE;
-//    }    
+//    }
 //    const std::string dev_data_filename = vm["dev-data"].as<std::string>();
 //    util::Data dev_data(dev_data_filename);
-    
-    if(l1) {       
+
+    if(l1) {
       CumulativeL1Trainer trainer(num_passes, *batches, *rate_fct, C, &weights);
       trainer.Train();
     }

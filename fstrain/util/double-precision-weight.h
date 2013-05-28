@@ -19,7 +19,7 @@
 
 namespace fstrain { namespace util {
 
-// Double precision 
+// Double precision
 typedef fst::LogWeightTpl<double> LogDWeight;
 typedef fst::ArcTpl<LogDWeight> LogDArc;
 

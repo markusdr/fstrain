@@ -42,7 +42,7 @@ class MDExpectations {
   typedef Container::iterator iterator;
   typedef Container::size_type size_type;
   typedef Container::key_type key_type;       // type of key
-  typedef Container::mapped_type mapped_type; // typed of mapped data 
+  typedef Container::mapped_type mapped_type; // typed of mapped data
   typedef Container::value_type value_type;   // type of key/value pair
 
   MDExpectations() : count_(1) {}
@@ -76,9 +76,9 @@ class MDExpectations {
       }
       token = strtok(0, delims);
     }
-  } 
-  
-  NeglogNum operator[] (unsigned index) const { 
+  }
+
+  NeglogNum operator[] (unsigned index) const {
     const_iterator found = expectations_.find(index);
     if(found != expectations_.end()){
       return found->second;
@@ -86,14 +86,14 @@ class MDExpectations {
     return NeglogNum(kPosInfinity);
   }
 
-  NeglogNum& operator[] (unsigned index) { 
+  NeglogNum& operator[] (unsigned index) {
     return expectations_[index];
   }
 
-  void update(int i, NeglogNum d) { 
+  void update(int i, NeglogNum d) {
     expectations_.erase(i);
     if(d != kPosInfinity){
-      expectations_.insert(std::make_pair(i,d)); 
+      expectations_.insert(std::make_pair(i,d));
     }
   }
 
@@ -102,12 +102,12 @@ class MDExpectations {
     expectations_.insert(first, last);
   }
 
-  void insert(int i, NeglogNum d) { 
+  void insert(int i, NeglogNum d) {
     if(d == kPosInfinity){
       expectations_.erase(i);
     }
     else {
-      expectations_.insert(std::make_pair(i,d)); 
+      expectations_.insert(std::make_pair(i,d));
     }
   }
 
@@ -115,7 +115,7 @@ class MDExpectations {
 
   iterator end() { return expectations_.end(); }
 
-  void clear() { return expectations_.clear(); } 
+  void clear() { return expectations_.clear(); }
 
   const_iterator find(const int& index) const  { return expectations_.find(index); }
 
@@ -125,7 +125,7 @@ class MDExpectations {
 
   const_iterator end() const { return expectations_.end(); }
 
-  unsigned size() const { return expectations_.size(); } 
+  unsigned size() const { return expectations_.size(); }
 
   std::ostream& print(std::ostream& out) const {
     if(expectations_.size()){
@@ -135,7 +135,7 @@ class MDExpectations {
         if(!start){
           out << ",";
         }
-        out << it->first << "=" << it->second; 
+        out << it->first << "=" << it->second;
         start = false;
       }
       out << "]";
@@ -145,35 +145,35 @@ class MDExpectations {
 
   // TODO: take static functions out of class
 
-  static void timesValue(const MDExpectations& e, 
-                         const NeglogNum& d, 
+  static void timesValue(const MDExpectations& e,
+                         const NeglogNum& d,
                          MDExpectations& result) {
     for(const_iterator it = e.begin(); it != e.end(); ++it){
       result.insert(it->first, NeglogTimes(it->second, d));
-    }    
+    }
   }
 
-  static void divideBy(const MDExpectations& e, 
-                       const NeglogNum& d, 
+  static void divideBy(const MDExpectations& e,
+                       const NeglogNum& d,
                        MDExpectations& result) {
     for(const_iterator it = e.begin(); it != e.end(); ++it){
       result.insert(it->first, NeglogDivide(it->second, d));
-    }    
+    }
   }
 
   unsigned getCount() const { return count_; }
 
   unsigned incCount() { return __sync_add_and_fetch(&count_, 1); }
-  unsigned decCount() { 
-    if(count_ > 0) 
+  unsigned decCount() {
+    if(count_ > 0)
       __sync_sub_and_fetch(&count_, 1);
     return count_;
   }
 
 //  unsigned incCount(){ return ++count_; }
-//  unsigned decCount(){ 
+//  unsigned decCount(){
 //    if(count_ > 0){
-//      --count_; 
+//      --count_;
 //    }
 //    return count_;
 //  }
@@ -195,17 +195,17 @@ inline bool ApproxEqual(double d1, double d2, double delta) {
   return d1 <= d2 + delta && d2 <= d1 + delta;
 }
 
-inline bool ApproxEqual(NeglogNum d1, NeglogNum d2, 
+inline bool ApproxEqual(NeglogNum d1, NeglogNum d2,
                         double delta) {
   return d1.sign_x == d2.sign_x && ApproxEqual(d1.lx, d2.lx, delta);
 }
 
 inline bool ApproxEqual(const MDExpectations& e1,
                         const MDExpectations& e2,
-                        double delta) {    
+                        double delta) {
   if (e1.size() != e2.size()) {
     return false;
-  }    
+  }
   MDExpectations::const_iterator found;
   for(MDExpectations::const_iterator i1 = e1.begin(); i1 != e1.end(); ++i1) {
     found = e2.find(i1->first);
@@ -215,7 +215,7 @@ inline bool ApproxEqual(const MDExpectations& e1,
   }
   return true;
 }
-  
+
 } } // end namespace fstrain/core
 
 #endif

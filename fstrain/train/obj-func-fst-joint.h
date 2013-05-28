@@ -37,16 +37,16 @@ class ObjectiveFunctionFstJoint : public ObjectiveFunctionFst {
    * @brief Constructor; all passed objects will be deleted by
    * destructor.
    */
-  ObjectiveFunctionFstJoint(fst::MutableFst<fst::MDExpectationArc>* fst,      
+  ObjectiveFunctionFstJoint(fst::MutableFst<fst::MDExpectationArc>* fst,
                             const fstrain::util::Data* data,
                             const fst::SymbolTable* isymbols,
                             const fst::SymbolTable* osymbols,
-                            double variance = 10.0); 
+                            double variance = 10.0);
 
   virtual ~ObjectiveFunctionFstJoint();
 
  protected:
-  
+
   virtual void ComputeGradientsAndFunctionValue(const double* params);
 
  private:

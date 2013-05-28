@@ -14,7 +14,7 @@
 //
 /**
  * Singleton displays the current usage of virtual memory.
- * 
+ *
  * Usage: MemoryInfo::instance().getSize();
  *        MemoryInfo::instance().getSizeInMB();
  *

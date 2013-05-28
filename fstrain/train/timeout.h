@@ -36,10 +36,10 @@ class Timeout : public ITimeout {
 
   /**
    * @brief Constructor.
-   * @param time_limit The time limit in milliseconds. 
+   * @param time_limit The time limit in milliseconds.
    *                   Value -1 means no time limit.
    */
-  Timeout(long time_limit) 
+  Timeout(long time_limit)
       : time_limit_(time_limit) {
     gettimeofday(&start_time, NULL);
   }
@@ -59,7 +59,7 @@ class Timeout : public ITimeout {
   long GetElapsedTime() const {
     struct timeval curr_time;
     gettimeofday(&curr_time, NULL);
-    return (curr_time.tv_sec - start_time.tv_sec) * 1000 
+    return (curr_time.tv_sec - start_time.tv_sec) * 1000
         + (curr_time.tv_usec - start_time.tv_usec) / 1000;
   }
 
@@ -67,7 +67,7 @@ class Timeout : public ITimeout {
   struct timeval start_time;
   long time_limit_;
 };
- 
+
 } } // end namespace fstrain::train
 
 #endif

@@ -22,7 +22,7 @@ void PrintFeatures(const std::string& s) {
   std::cerr << s << std::endl;
   using fstrain::create::features::LatentAnnotationFeatures;
   LatentAnnotationFeatures f(s);
-  for(LatentAnnotationFeatures::const_iterator it = f.begin(); 
+  for(LatentAnnotationFeatures::const_iterator it = f.begin();
       it != f.end(); ++it) {
     std::cerr << "F: '" << *it << "'" << std::endl;
   }
@@ -31,7 +31,7 @@ void PrintFeatures(const std::string& s) {
 
 BOOST_AUTO_TEST_SUITE(la);
 
-BOOST_AUTO_TEST_CASE( MyTestCase ) {   
+BOOST_AUTO_TEST_CASE( MyTestCase ) {
 
   const std::string s = "a|x-c1-g3 b|--c2-g1 b|y-c2-g3";
   PrintFeatures(s);
@@ -41,13 +41,13 @@ BOOST_AUTO_TEST_CASE( MyTestCase ) {
 
   const std::string s3 = "-|x a|- --c2";
   PrintFeatures(s3);
-  
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()
 
 
-  
-  
-  
-  
+
+
+
+

@@ -56,9 +56,9 @@ struct ConvertAndUpdateWeightMapper {
 namespace fstrain { namespace train { namespace online {
 
 template<class Arc, class Map>
-void AddFeatMDExpectations(const fst::Fst<Arc>& fst, 
+void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
                          const double* weights,
-                         bool negate, 
+                         bool negate,
                          Map* result) {
   using fstrain::util::LogDArc;
   using fstrain::util::LogDWeight;
@@ -66,8 +66,8 @@ void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
   using fstrain::core::NeglogNum;
   typedef typename Arc::Weight Weight;
   typedef typename Arc::StateId StateId;
-  typedef fst::WeightConvertMapper<fst::MDExpectationArc, LogDArc> Map_EL;  
-  // typedef fst::ConvertAndUpdateWeightMapper<fst::MDExpectationArc, LogDArc> Map_EL;  
+  typedef fst::WeightConvertMapper<fst::MDExpectationArc, LogDArc> Map_EL;
+  // typedef fst::ConvertAndUpdateWeightMapper<fst::MDExpectationArc, LogDArc> Map_EL;
 
   fst::MapFstOptions map_opts;
   map_opts.gc_limit = 0;  // no caching to save memory
@@ -85,11 +85,11 @@ void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
   }
 
   MDExpectations feat_expectations;
-  for (fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter(fst); 
+  for (fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter(fst);
        !siter.Done(); siter.Next()){
     StateId in = siter.Value();
     assert(alphas.size() > in);
-    for (fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter(fst, in); 
+    for (fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter(fst, in);
          !aiter.Done(); aiter.Next()){
       StateId out = aiter.Value().nextstate;
       if(betas.size() > out && betas[out] != LogDWeight::Zero()
@@ -98,9 +98,9 @@ void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
         for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
           const int index = it->first;
           const NeglogNum& expectation = it->second;
-	  NeglogNum addval = 
+	  NeglogNum addval =
               NeglogTimes(NeglogTimes(alphas[in].Value(), expectation),
-                          betas[out].Value()); 
+                          betas[out].Value());
 	  MDExpectations::iterator found = feat_expectations.find(index);
 	  if(found != feat_expectations.end()) {
 	    found->second = NeglogPlus(found->second, addval);
@@ -113,23 +113,23 @@ void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
     }
   }
 
-  for(MDExpectations::const_iterator it = feat_expectations.begin(); 
+  for(MDExpectations::const_iterator it = feat_expectations.begin();
       it != feat_expectations.end(); ++it){
     int index = it->first;
-    double expected_count = 
+    double expected_count =
         GetOrigNum(NeglogDivide(it->second, betas[start_state].Value()));
-    (*result)[index] += (negate ? -expected_count : expected_count);    
+    (*result)[index] += (negate ? -expected_count : expected_count);
   }
-  
+
 }
 
 template<class Arc, class Map>
-void AddGradients(const fst::Fst<Arc>& fst, 
+void AddGradients(const fst::Fst<Arc>& fst,
                   const double* weights,
                   const fst::SymbolTable& isyms,
                   const fst::SymbolTable& osyms,
                   const fstrain::util::Data& data,
-                  int data_index, 
+                  int data_index,
                   Map* result) {
   using namespace fst;
   const std::pair<std::string,std::string>& data_point = data[data_index];
@@ -154,19 +154,19 @@ class FstBatches : public Batches {
   double* weights_;
   const fst::SymbolTable& isyms_;
   const fst::SymbolTable& osyms_;
-  const fstrain::util::Data& data_; 
+  const fstrain::util::Data& data_;
   const int batch_size_;
   int data_index_;
 
  public:
 
-  FstBatches(const fst::Fst<Arc>& model_fst, 
+  FstBatches(const fst::Fst<Arc>& model_fst,
              double* weights,
              const fst::SymbolTable& isyms,
              const fst::SymbolTable& osyms,
              const fstrain::util::Data& data,
-             int batch_size) 
-      : orig_fst_(model_fst), model_fst_(NULL), weights_(weights), isyms_(isyms), osyms_(osyms), 
+             int batch_size)
+      : orig_fst_(model_fst), model_fst_(NULL), weights_(weights), isyms_(isyms), osyms_(osyms),
         data_(data), batch_size_(batch_size), data_index_(0)
   {
     // UpdateWeights();
@@ -193,7 +193,7 @@ class FstBatches : public Batches {
     ++data_index_;
   }
 
-  Batches::Map Value() const {     
+  Batches::Map Value() const {
     Batches::Map gradients;
     AddGradients(orig_fst_, weights_, isyms_, osyms_, data_, data_index_, &gradients);
     // AddGradients(*model_fst_, weights_, isyms_, osyms_, data_, data_index_, &gradients);
@@ -214,7 +214,7 @@ class FstBatches : public Batches {
     opts.gc_limit = 0;
     delete model_fst_;
     model_fst_ = new fst::MapFst<Arc, Arc, WInsMapper> (orig_fst_,
-                                                        WInsMapper(weights_), 
+                                                        WInsMapper(weights_),
                                                         opts);
   }
 

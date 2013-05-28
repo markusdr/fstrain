@@ -30,7 +30,7 @@
 namespace fstrain { namespace util {
 
   class Data {
-  
+
   private:
 
     typedef std::vector< std::pair<std::string,std::string> > Container;
@@ -43,7 +43,7 @@ namespace fstrain { namespace util {
 
     typedef Container::const_iterator const_iterator;
     typedef Container::size_type size_type;
-  
+
     Data() {}
 
     Data(const std::string& filename){
@@ -65,7 +65,7 @@ namespace fstrain { namespace util {
     const_iterator end () const {
       return data_.end();
     }
-    
+
     void push_back(const std::string& in, const std::string& out);
 
     size_type size() const {

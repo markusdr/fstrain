@@ -25,14 +25,14 @@ namespace fstrain { namespace create {
 /**
  * @brief Creates all alignment symbols.
  */
-void CreateAlignmentSymbols(const fst::SymbolTable& isymbols, 
+void CreateAlignmentSymbols(const fst::SymbolTable& isymbols,
                             const fst::SymbolTable& osymbols,
                             const std::string start_symbol,
                             const std::string end_symbol,
                             fst::SymbolTable* result) {
   const std::string separator = "|";
   result->AddSymbol("eps");
-  for(fst::SymbolTableIterator in_iter(isymbols); !in_iter.Done(); in_iter.Next()){    
+  for(fst::SymbolTableIterator in_iter(isymbols); !in_iter.Done(); in_iter.Next()){
     for(fst::SymbolTableIterator out_iter(osymbols); !out_iter.Done(); out_iter.Next()){
       if((in_iter.Value() == 0 && out_iter.Value() == 0)
          || (in_iter.Symbol() == start_symbol && out_iter.Symbol() != start_symbol)
@@ -54,7 +54,7 @@ void CreateAlignmentSymbols(const fst::SymbolTable& isymbols,
       result->AddSymbol(ss.str());
     }
   }
-  FSTR_CREATE_DBG_EXEC(10, std::cerr << "Align syms:" << std::endl; 
+  FSTR_CREATE_DBG_EXEC(10, std::cerr << "Align syms:" << std::endl;
                        result->WriteText(std::cerr));
 }
 

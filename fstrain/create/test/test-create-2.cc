@@ -36,7 +36,7 @@
 
 BOOST_AUTO_TEST_SUITE(create2)
 
-    BOOST_AUTO_TEST_CASE( GetProjUpDown ) {   
+    BOOST_AUTO_TEST_CASE( GetProjUpDown ) {
   using namespace fst;
 
   SymbolTable isyms("isyms");
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_SUITE(create2)
 
   const char sep_char = '|';
 
-  fstrain::create::GetProjUpDown(isyms, osyms, align_syms, sep_char, 
+  fstrain::create::GetProjUpDown(isyms, osyms, align_syms, sep_char,
                                  &proj_up, &proj_down);
   fstrain::create::ConcatStartAndEndLabels(kStartLabel, kEndLabel, true, false, &proj_up);
   fstrain::create::ConcatStartAndEndLabels(kStartLabel, kEndLabel, false, true, &proj_down);
@@ -117,11 +117,11 @@ BOOST_AUTO_TEST_SUITE(create2)
 
   size_t ngram_order = 3;
   VectorFst<Arc> scoring_fsa;
-  fstrain::create::CreateNgramTrieFromData(data, 
-                                           isyms, osyms, 
-                                           proj_up, proj_down, 
+  fstrain::create::CreateNgramTrieFromData(data,
+                                           isyms, osyms,
+                                           proj_up, proj_down,
                                            align_syms,
-                                           ngram_order, 
+                                           ngram_order,
                                            &scoring_fsa);
   int64 kPhiLabel = align_syms.Find("phi");
   SymbolTable feature_names("feature_names");
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_SUITE(create2)
   std::cout << "NUMERATOR:" << std::endl;
   fstrain::util::printTransducer(&numerator, &isyms, &align_syms, std::cout);
   // fstrain::util::printTransducer(&numerator, NULL, NULL, std::cout);
-  
+
 }
 
 

@@ -23,8 +23,8 @@
 
 namespace fstrain { namespace train {
 
-enum ObjectiveFunctionType { OBJ_JOINT = 0, 
-			     OBJ_CONDITIONAL = 1, 
+enum ObjectiveFunctionType { OBJ_JOINT = 0,
+			     OBJ_CONDITIONAL = 1,
 			     OBJ_CONDITIONAL_LENMATCH = 2,
 			     OBJ_CONDOTHER_LENMATCH = 3};
 
@@ -35,7 +35,7 @@ enum ObjectiveFunctionType { OBJ_JOINT = 0,
  */
 ObjectiveFunctionFst* CreateObjectiveFunctionFst(
     ObjectiveFunctionType type,
-    fst::MutableFst<fst::MDExpectationArc>* fst, 
+    fst::MutableFst<fst::MDExpectationArc>* fst,
     const std::string& dataFilename,
     const std::string& isymbolsFilename,
     const std::string& osymbolsFilename,

@@ -22,7 +22,7 @@ namespace fstrain { namespace train {
 class ObjectiveFunctionVisitor;
 
 class ObjectiveFunction {
-  
+
  public:
 
   ObjectiveFunction() {}
@@ -38,13 +38,13 @@ class ObjectiveFunction {
   virtual double GetFunctionValue() const = 0;
 
   virtual const double* GetGradients() const = 0;
-  
+
   virtual void Accept(ObjectiveFunctionVisitor*) = 0;
 
 };
 
-class ObjectiveFunctionVisitor {  
- public:  
+class ObjectiveFunctionVisitor {
+ public:
   virtual ~ObjectiveFunctionVisitor() {}
   virtual void Visit(ObjectiveFunction*) = 0;
 };

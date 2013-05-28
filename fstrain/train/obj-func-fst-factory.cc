@@ -35,11 +35,11 @@ using namespace fst;
 
 ObjectiveFunctionFst* CreateObjectiveFunctionFst(
     ObjectiveFunctionType type,
-    MutableFst<MDExpectationArc>* fst, 
+    MutableFst<MDExpectationArc>* fst,
     const std::string& data_filename,
     SymbolTable* isymbols,
     SymbolTable* osymbols,
-    double variance) 
+    double variance)
 {
   ObjectiveFunctionFst* result = NULL;
   if(type == OBJ_JOINT){
@@ -74,15 +74,15 @@ ObjectiveFunctionFst* CreateObjectiveFunctionFst(
 
 ObjectiveFunctionFst* CreateObjectiveFunctionFst(
     ObjectiveFunctionType type,
-    MutableFst<MDExpectationArc>* fst, 
+    MutableFst<MDExpectationArc>* fst,
     const std::string& data_filename,
     const std::string& isymbols,
     const std::string& osymbols,
-    double variance) 
+    double variance)
 {
   fstrain::util::ThrowExceptionIfFileNotFound(isymbols);
   fstrain::util::ThrowExceptionIfFileNotFound(osymbols);
-  return CreateObjectiveFunctionFst(type, fst, data_filename, 
+  return CreateObjectiveFunctionFst(type, fst, data_filename,
 				    SymbolTable::ReadText(isymbols),
 				    SymbolTable::ReadText(osymbols),
 				    variance);
@@ -94,7 +94,7 @@ ObjectiveFunctionFst* CreateObjectiveFunctionFst_FromFile(
     const std::string& data_filename,
     const std::string& isymbols_filename,
     const std::string& osymbols_filename,
-    double variance) 
+    double variance)
 {
   return CreateObjectiveFunctionFst(
       type,
@@ -105,4 +105,4 @@ ObjectiveFunctionFst* CreateObjectiveFunctionFst_FromFile(
       variance);
 }
 
-} } // end namespaces 
+} } // end namespaces

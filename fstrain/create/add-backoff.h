@@ -27,14 +27,14 @@
 namespace fstrain { namespace create {
 
 template<class Arc>
-void AddBackoff(fst::MutableFst<Arc>* fst, 
-                typename Arc::StateId state, 
-                typename Arc::StateId backoff_state, 
-                int64 kPhiLabel) 
+void AddBackoff(fst::MutableFst<Arc>* fst,
+                typename Arc::StateId state,
+                typename Arc::StateId backoff_state,
+                int64 kPhiLabel)
 {
   using namespace fst;
   typedef typename Arc::StateId StateId;
-  for(MutableArcIterator< MutableFst<Arc> > ait(fst, state); 
+  for(MutableArcIterator< MutableFst<Arc> > ait(fst, state);
       !ait.Done(); ait.Next()) {
     StateId next_backoff_state;
     if(state == backoff_state) {
@@ -50,15 +50,15 @@ void AddBackoff(fst::MutableFst<Arc>* fst,
       matcher.SetState(backoff_state);
       bool found = matcher.Find(label);
       if(!found) {
-        std::cerr << "Error at state " << state << ": Could not find label " << label 
-                  << " at " << backoff_state 
+        std::cerr << "Error at state " << state << ": Could not find label " << label
+                  << " at " << backoff_state
                   << ". Is bigram '? " << label
-                  << "' included, but not unigram '" << label << "'?" 
+                  << "' included, but not unigram '" << label << "'?"
                   << std::endl;
       }
       assert(found);
       next_backoff_state = matcher.Value().nextstate;
-    }    
+    }
     if(util::HasOutArcs(*fst, ait.Value().nextstate)) {
       AddBackoff(fst, ait.Value().nextstate, next_backoff_state, kPhiLabel);
     }
@@ -69,26 +69,26 @@ void AddBackoff(fst::MutableFst<Arc>* fst,
     }
   }
   if(state != backoff_state) {
-    fst->AddArc(state, 
+    fst->AddArc(state,
                 Arc(kPhiLabel, kPhiLabel, Arc::Weight::One(), backoff_state));
   }
 }
 
 template<class Arc>
-void AddBackoff(fst::MutableFst<Arc>* fst, 
-                const int64 kPhiLabel) 
+void AddBackoff(fst::MutableFst<Arc>* fst,
+                const int64 kPhiLabel)
 {
   AddBackoff(fst, fst->Start(), fst->Start(), kPhiLabel);
 }
 
 /**
  * @brief Takes trie that encodes all ngrams and converts it to an
- * ngram model topology.  
+ * ngram model topology.
  */
 template<class Arc>
-void ConvertTrieToModel(const int64 kStartLabel, 
-                        const int64 kEndLabel, 
-                        const int64 kPhiLabel, 
+void ConvertTrieToModel(const int64 kStartLabel,
+                        const int64 kEndLabel,
+                        const int64 kPhiLabel,
                         fst::MutableFst<Arc>* fst) {
   using namespace fst;
   typedef typename Arc::StateId StateId;
@@ -102,9 +102,9 @@ void ConvertTrieToModel(const int64 kStartLabel,
       !ait.Done(); ait.Next()) {
     if(ait.Value().ilabel == kStartLabel){
       Arc arc = ait.Value();
-      StateId new_start_state = fst->AddState();        
-      fst->AddArc(new_start_state, 
-                    Arc(kStartLabel, kStartLabel, 
+      StateId new_start_state = fst->AddState();
+      fst->AddArc(new_start_state,
+                    Arc(kStartLabel, kStartLabel,
                         Arc::Weight::One(), arc.nextstate));
       fst->SetStart(new_start_state);
       arc.nextstate = delete_state;
@@ -129,9 +129,9 @@ void ConvertTrieToModel(const int64 kStartLabel,
         arc.nextstate = final_state;
         ait.SetValue(arc);
       }
-    }    
+    }
   }
-  fst->SetFinal(final_state, Arc::Weight::One()); 
+  fst->SetFinal(final_state, Arc::Weight::One());
   Connect(fst);
 }
 

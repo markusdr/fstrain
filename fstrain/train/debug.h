@@ -30,7 +30,7 @@
 #ifdef FSTR_TRAIN_DBG_WITH_LINEINFO
 #define FSTR_TRAIN_DBG_LINE_INFO << __FILE__ << ":" << __LINE__ << ":"
 #else
-#define FSTR_TRAIN_DBG_LINE_INFO 
+#define FSTR_TRAIN_DBG_LINE_INFO
 #endif
 
 #ifndef NDEBUG

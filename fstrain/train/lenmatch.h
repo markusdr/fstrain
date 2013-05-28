@@ -49,7 +49,7 @@ struct AddLengthRegularizationOpts {
   fstrain::core::MDExpectations* expected_lengths;
   double length_variance;
 
-  // constructor                                                                                                                           
+  // constructor
   explicit AddLengthRegularizationOpts(const fstrain::core::MDExpectations& empirical_lengths_)
     : empirical_lengths(empirical_lengths_),
       fst_delta(1e-8),
@@ -71,8 +71,8 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   typedef fst::MDExpectationArc::StateId StateId;
 
   std::vector<Weight> alphas;
-  bool success1 = TimedShortestDistance(fst_mapped, &alphas, false, 
-                                        opts.fst_delta, 
+  bool success1 = TimedShortestDistance(fst_mapped, &alphas, false,
+                                        opts.fst_delta,
                                         opts.shortestdistance_timelimit);
   if(!success1) {
     SetAllGradientsTo(opts.gradients, opts.num_params, 0.0);
@@ -86,8 +86,8 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   // long unlimited = -1; // if we reached this the FST converges [not
   // true]
   std::vector<Weight> betas;
-  bool success2 = TimedShortestDistance(fst_mapped, &betas, true, 
-                                        opts.fst_delta, 
+  bool success2 = TimedShortestDistance(fst_mapped, &betas, true,
+                                        opts.fst_delta,
                                         opts.shortestdistance_timelimit);
   if(!success2){
     SetAllGradientsTo(opts.gradients, opts.num_params, 0.0);
@@ -97,7 +97,7 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   if(betas.size() == 0){
     throw std::runtime_error("no paths: bad fst");
   }
- 
+
   using fstrain::core::MDExpectations;
   using fst::LogWeight;
 
@@ -109,12 +109,12 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
 
   NeglogNum pathsum = betas[start_state].Value();
 
-  MDExpectations::divideBy(betas[start_state].GetMDExpectations(), pathsum, 
+  MDExpectations::divideBy(betas[start_state].GetMDExpectations(), pathsum,
                          *opts.expected_lengths);
 
-  for(MDExpectations::const_iterator it = opts.expected_lengths->begin(); 
+  for(MDExpectations::const_iterator it = opts.expected_lengths->begin();
       it != opts.expected_lengths->end(); ++it){
-    assert(it->second.sign_x); // length is positive 
+    assert(it->second.sign_x); // length is positive
     retval = NeglogPlus(retval, it->second);
   }
 
@@ -129,7 +129,7 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
     bool in_state_ok = alphas.size() > in && alphas[in].Value() != core::kPosInfinity
 	&& alphas[in].Value() == alphas[in].Value(); // fails for NaN
     if(!in_state_ok) {
-      // std::cerr << "Warning (lenmatch.h): State " << in << " not reachable." 
+      // std::cerr << "Warning (lenmatch.h): State " << in << " not reachable."
       //           << std::endl;
       continue;
     }
@@ -150,32 +150,32 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
 	FSTR_TRAIN_DBG_MSG(10, "p=" << GetOrigNum(p) << std::endl);
         double one_over_variance = 1.0 / opts.length_variance;
 	FSTR_TRAIN_DBG_MSG(10, "one_over_variance = " << one_over_variance << std::endl);
-        const MDExpectations& feat_expectations0 = aiter1.Value().weight.GetMDExpectations(); 
+        const MDExpectations& feat_expectations0 = aiter1.Value().weight.GetMDExpectations();
 	MDExpectations feat_expectations;
-	MDExpectations::divideBy(feat_expectations0, NeglogNum(aiter1.Value().weight.Value()), 
+	MDExpectations::divideBy(feat_expectations0, NeglogNum(aiter1.Value().weight.Value()),
 			       feat_expectations);
-        for(MDExpectations::const_iterator it = feat_expectations.begin(); 
+        for(MDExpectations::const_iterator it = feat_expectations.begin();
             it != feat_expectations.end(); ++it){
           int feat_index = it->first;
           double feat_fire_cnt = GetOrigNum(it->second);
 	  NeglogNum fp(NeglogTimes(p, -log(feat_fire_cnt)));
 	  FSTR_TRAIN_DBG_MSG(10, "feat_fire_cnt["<<feat_index<<"]=" << feat_fire_cnt << std::endl);
-          for(MDExpectations::const_iterator it2 = opts.expected_lengths->begin(); 	      
+          for(MDExpectations::const_iterator it2 = opts.expected_lengths->begin();
               it2 != opts.expected_lengths->end(); ++it2){
-	    double length_diff_overall = GetOrigNum((*opts.expected_lengths)[it2->first]) 
+	    double length_diff_overall = GetOrigNum((*opts.expected_lengths)[it2->first])
 	      - GetOrigNum(opts.empirical_lengths[it2->first]);
 	    FSTR_TRAIN_DBG_MSG(10, "E[len thru this arc] = " << GetOrigNum(expected_lengths[it2->first]) << std::endl);
-	    double length_diff_this_arc = 
+	    double length_diff_this_arc =
 	      GetOrigNum(expected_lengths[it2->first]) - GetOrigNum((*opts.expected_lengths)[it2->first]);
-	    FSTR_TRAIN_DBG_MSG(10, "length_diff_overall = " << length_diff_overall << std::endl;);	    
-	    FSTR_TRAIN_DBG_MSG(10, "length_diff_this_arc = " << length_diff_this_arc << std::endl;);	    
+	    FSTR_TRAIN_DBG_MSG(10, "length_diff_overall = " << length_diff_overall << std::endl;);
+	    FSTR_TRAIN_DBG_MSG(10, "length_diff_this_arc = " << length_diff_this_arc << std::endl;);
             // double add_term = feat_fire_cnt * GetOrigNum(p) * length_diff_this_arc
 	    double add_term = GetOrigNum(fp) * length_diff_this_arc
 	      * one_over_variance * length_diff_overall;
-	    opts.gradients[feat_index] -= add_term; 
+	    opts.gradients[feat_index] -= add_term;
             FSTR_TRAIN_DBG_MSG(10, "g["<<feat_index<<"] += " << add_term << std::endl);
           }
-        }        
+        }
       }
     }
   }

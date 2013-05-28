@@ -28,8 +28,8 @@ extern "C" {
    * obj-func-fst-factory.h
    */
   void Init_FromFile(int* func_type,
-                     char** fst_file, char** data_file, 
-                     char** isymbols_file, char** osymbols_file, 
+                     char** fst_file, char** data_file,
+                     char** isymbols_file, char** osymbols_file,
                      double* variance) {
     using namespace fstrain::train;
     std::string fst_file_str(*fst_file);
@@ -40,7 +40,7 @@ extern "C" {
     std::cerr << "Obj. func type: " << type << std::endl;
     obj = CreateObjectiveFunctionFst_FromFile(
         type,
-        fst_file_str, data_file_str, 
+        fst_file_str, data_file_str,
         isymbols_file_str, osymbols_file_str,
 	*variance);
   }

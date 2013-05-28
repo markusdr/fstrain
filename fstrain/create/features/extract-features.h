@@ -14,7 +14,7 @@ namespace fstrain { namespace create { namespace features {
 struct ExtractFeaturesFct {
   typedef boost::shared_ptr<ExtractFeaturesFct> Ptr;
   virtual ~ExtractFeaturesFct() {}
-  virtual void operator()(const std::string& window, 
+  virtual void operator()(const std::string& window,
                           IFeatureSet* featset) = 0;
 };
 
@@ -23,7 +23,7 @@ struct ExtractFeaturesFct_Simple : public ExtractFeaturesFct {
   ExtractFeaturesFct_Simple() {}
   ExtractFeaturesFct_Simple(const std::string& prefix_) : prefix(prefix_ + ":") {}
   virtual ~ExtractFeaturesFct_Simple() {}
-  virtual void operator()(const std::string& window, 
+  virtual void operator()(const std::string& window,
                           IFeatureSet* featset) {
     featset->insert(prefix + window);
     std::string::const_iterator s = window.begin();
@@ -40,7 +40,7 @@ struct ExtractFeaturesFctPlugin : public ExtractFeaturesFct {
     LoadExtractFeaturesFunction(libname);
   }
   virtual ~ExtractFeaturesFctPlugin() {}
-  void operator()(const std::string& window, 
+  void operator()(const std::string& window,
                   IFeatureSet* featset) {
     loaded_fct_(window, featset);
   }
@@ -48,18 +48,18 @@ struct ExtractFeaturesFctPlugin : public ExtractFeaturesFct {
 
   void LoadExtractFeaturesFunction(const std::string& libname) {
     using namespace fstrain::util;
-    std::cerr << "# Loading feature extraction library '" 
+    std::cerr << "# Loading feature extraction library '"
               << libname << "'" << std::endl;
     my_lib_t hMyLib = NULL;
     if (!(hMyLib = LoadLib(std::string(libname + ".so").c_str()))) {
       FSTR_CREATE_EXCEPTION(dlerror());
     }
-    if (!(loaded_fct_ = (ExtractFeatures_t)LoadProc(hMyLib, "ExtractFeatures"))) { 
+    if (!(loaded_fct_ = (ExtractFeatures_t)LoadProc(hMyLib, "ExtractFeatures"))) {
       FSTR_CREATE_EXCEPTION(dlerror());
     }
   }
 
-  typedef void (*ExtractFeatures_t)(const std::string&, 
+  typedef void (*ExtractFeatures_t)(const std::string&,
                                     fstrain::create::features::IFeatureSet*);
   ExtractFeatures_t loaded_fct_;
 };

@@ -30,9 +30,9 @@ namespace fstrain { namespace create {
  */
 struct GetAlignmentSymbolsFct {
   virtual ~GetAlignmentSymbolsFct() {}
-  virtual void operator()(std::istream& aligned_data, 
-                          const fst::SymbolTable& isymbols, 
-                          const fst::SymbolTable& osymbols, 
+  virtual void operator()(std::istream& aligned_data,
+                          const fst::SymbolTable& isymbols,
+                          const fst::SymbolTable& osymbols,
                           fst::SymbolTable* syms) = 0;
 };
 
@@ -41,9 +41,9 @@ struct GetAlignmentSymbolsFct {
  * adding any more symbols).
  */
 struct GetAlignmentSymbolsFct_Simple : public GetAlignmentSymbolsFct {
-  void operator()(std::istream& aligned_data, 
-                  const fst::SymbolTable& isymbols, 
-                  const fst::SymbolTable& osymbols, 
+  void operator()(std::istream& aligned_data,
+                  const fst::SymbolTable& isymbols,
+                  const fst::SymbolTable& osymbols,
                   fst::SymbolTable* syms) {
     syms->AddSymbol("eps");
     std::string symbol;
@@ -54,9 +54,9 @@ struct GetAlignmentSymbolsFct_Simple : public GetAlignmentSymbolsFct {
 };
 
 struct GetAlignmentSymbolsFct_AddIdentityChars : public GetAlignmentSymbolsFct {
-  void operator()(std::istream& aligned_data, 
-                  const fst::SymbolTable& isymbols, 
-                  const fst::SymbolTable& osymbols, 
+  void operator()(std::istream& aligned_data,
+                  const fst::SymbolTable& isymbols,
+                  const fst::SymbolTable& osymbols,
                   fst::SymbolTable* syms) {
     syms->AddSymbol("eps");
     std::string symbol;
@@ -66,11 +66,11 @@ struct GetAlignmentSymbolsFct_AddIdentityChars : public GetAlignmentSymbolsFct {
     // add identity characters:
     fst::SymbolTableIterator sit(isymbols);
     sit.Next(); // ignore eps
-    for(; !sit.Done(); sit.Next()){      
+    for(; !sit.Done(); sit.Next()){
       if(osymbols.Find(sit.Symbol()) != fst::kNoLabel){
         std::stringstream ss;
         ss << sit.Symbol() << "|" << sit.Symbol();
-        syms->AddSymbol(ss.str());  
+        syms->AddSymbol(ss.str());
       }
     }
   }
@@ -79,9 +79,9 @@ struct GetAlignmentSymbolsFct_AddIdentityChars : public GetAlignmentSymbolsFct {
 struct GetAlignmentSymbolsFct_AddIdentityChars_Countsyms : public GetAlignmentSymbolsFct {
   typedef std::map<std::string, std::map<int64,std::size_t> > Counts;
   Counts counts_;
-  void operator()(std::istream& aligned_data, 
-                  const fst::SymbolTable& isymbols, 
-                  const fst::SymbolTable& osymbols, 
+  void operator()(std::istream& aligned_data,
+                  const fst::SymbolTable& isymbols,
+                  const fst::SymbolTable& osymbols,
                   fst::SymbolTable* syms) {
     syms->AddSymbol("eps");
     std::string symbol;
@@ -97,11 +97,11 @@ struct GetAlignmentSymbolsFct_AddIdentityChars_Countsyms : public GetAlignmentSy
     // add identity characters:
     fst::SymbolTableIterator sit(isymbols);
     sit.Next(); // ignore eps
-    for(; !sit.Done(); sit.Next()){      
+    for(; !sit.Done(); sit.Next()){
       if(osymbols.Find(sit.Symbol()) != fst::kNoLabel){
         std::stringstream ss;
         ss << sit.Symbol() << "|" << sit.Symbol();
-        syms->AddSymbol(ss.str());  
+        syms->AddSymbol(ss.str());
       }
     }
   }

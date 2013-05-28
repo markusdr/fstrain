@@ -11,13 +11,13 @@ extern "C" {
 
   const char sep_char = '|';
   const char eps_char = '-';
-  
+
   /**
    * Adds simple features and length penalty features, e.g. for "a|x
    * b|-" (history "a|x" with outgoing arc "b|-") it adds "a|x b|-",
    * "b|-", LENGTH_IN
    */
-  void ExtractFeatures(const std::string& window, 
+  void ExtractFeatures(const std::string& window,
                        IFeatureSet* featset) {
     std::string feature_str;
     std::string::const_iterator s = window.begin();

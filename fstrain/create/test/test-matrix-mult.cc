@@ -23,8 +23,8 @@
 
 int main(int argc, char** argv) {
   try {
-    
-    fst::MutableFst<fst::LogArc>* fst = 
+
+    fst::MutableFst<fst::LogArc>* fst =
         fst::VectorFst<fst::LogArc>::Read(std::string(argv[1]));
 
     std::vector<fst::LogArc::Weight> alphas;

@@ -33,9 +33,9 @@ struct CreateNgramTrieOptions {
   const fst::SymbolTable& kSyms;
   const Label kStartLabel;
   const Label kEndLabel;
-  std::set<Label>* exclude_labels;      
-  explicit 
-  CreateNgramTrieOptions(const size_t ngram_order, 
+  std::set<Label>* exclude_labels;
+  explicit
+  CreateNgramTrieOptions(const size_t ngram_order,
                          const fst::SymbolTable& syms,
                          const Label& start_label, const Label& end_label)
       : kNgramOrder(ngram_order), kSyms(syms),
@@ -57,7 +57,7 @@ void CreateNgramTrie(fst::MutableFst<Arc>* ofst,
   StateId start = ofst->AddState();
   ofst->SetStart(start);
   std::queue<StateId> states_queue;
-  states_queue.push(start);  
+  states_queue.push(start);
   for(int n = 0; n < opts.kNgramOrder; ++n){
     int num_states = states_queue.size();
     while(--num_states >= 0){
@@ -67,20 +67,20 @@ void CreateNgramTrie(fst::MutableFst<Arc>* ofst,
       symIt.Next(); // ignore eps
       for(; !symIt.Done(); symIt.Next()){
         Label label = symIt.Value();
-        bool is_exclude_label = opts.exclude_labels != NULL 
+        bool is_exclude_label = opts.exclude_labels != NULL
 	  && opts.exclude_labels->find(label) != opts.exclude_labels->end();
         if(is_exclude_label || (s != start && label == opts.kStartLabel)){
           continue;
         }
         StateId nextstate = ofst->AddState();
         ofst->SetFinal(nextstate, Weight::One());
-        ofst->AddArc(s, Arc(label, label, 
+        ofst->AddArc(s, Arc(label, label,
 			    Weight::One(), nextstate));
         if(label != opts.kEndLabel){
           states_queue.push(nextstate);
         }
       }
-    }    
+    }
   }
 }
 

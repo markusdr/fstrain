@@ -7,8 +7,8 @@
 namespace fstrain { namespace create { namespace features {
 
 extern "C" {
-  
-  void ExtractFeatures(const std::string& window, 
+
+  void ExtractFeatures(const std::string& window,
                        IFeatureSet* featset) {
     featset->insert(window);
     std::string::const_iterator s = window.begin();

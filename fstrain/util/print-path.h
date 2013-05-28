@@ -23,7 +23,7 @@
 
 namespace fstrain { namespace util {
 
-void PrintLabel(int64 label, const fst::SymbolTable* syms, 
+void PrintLabel(int64 label, const fst::SymbolTable* syms,
                 std::ostream* out);
 
 /**
@@ -35,11 +35,11 @@ struct PrintTransducerArcFct {
   const fst::SymbolTable* osymbols;
   OutputStream* out;
   std::string separator;
-  PrintTransducerArcFct(const fst::SymbolTable* isymbols_, 
+  PrintTransducerArcFct(const fst::SymbolTable* isymbols_,
                         const fst::SymbolTable* osymbols_,
                         OutputStream* out_)
-      : isymbols(isymbols_), osymbols(osymbols_), 
-        out(out_), 
+      : isymbols(isymbols_), osymbols(osymbols_),
+        out(out_),
         separator("|") {}
   void operator()(const Arc& arc) {
     std::stringstream ss;
@@ -57,8 +57,8 @@ template<class Arc>
 struct PrintAcceptorArcFct {
   const fst::SymbolTable* isymbols;
   std::ostream* out;
-  PrintAcceptorArcFct(const fst::SymbolTable* isymbols_, 
-                      std::ostream* out_ = &std::cout) 
+  PrintAcceptorArcFct(const fst::SymbolTable* isymbols_,
+                      std::ostream* out_ = &std::cout)
       : isymbols(isymbols_), out(out_) {}
   void operator()(const Arc& arc) {
     PrintLabel(arc.ilabel, isymbols, out);
@@ -71,7 +71,7 @@ struct PrintAcceptorArcFct {
  * the output path.
  */
 template<class Arc, class PrintArcFctT>
-void PrintPath(const fst::Fst<Arc>& f, PrintArcFctT& print_arc_fct, 
+void PrintPath(const fst::Fst<Arc>& f, PrintArcFctT& print_arc_fct,
                bool add_blanks = true){
   int s = f.Start();
   bool first = true;

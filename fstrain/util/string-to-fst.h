@@ -29,28 +29,28 @@ namespace fstrain { namespace util {
    * @param The string to convert; it is read token by token.
    */
   template<class Arc>
-    void ConvertStringToFst(const std::string& str, const fst::SymbolTable& syms, 
+    void ConvertStringToFst(const std::string& str, const fst::SymbolTable& syms,
 			    typename Arc::Weight final_weight,
 			    fst::MutableFst<Arc>* ofst, bool delete_unknown = false) {
     using namespace fst;
     typedef typename Arc::StateId StateId;
     typedef typename Arc::Weight Weight;
     StateId prevState = ofst->AddState();
-    ofst->SetStart(prevState);    
+    ofst->SetStart(prevState);
     StateId next_state = kNoStateId;
     std::stringstream ss(str);
     std::string token;
     while(ss >> token){
-      next_state = ofst->AddState();            
+      next_state = ofst->AddState();
       int64 label = syms.Find(token);
       if(label == -1) {
-        if(delete_unknown) {          
-          std::cerr << "Warning: Removed unknown token '" << token 
+        if(delete_unknown) {
+          std::cerr << "Warning: Removed unknown token '" << token
                     << "' from " << str << "." << std::endl;
           label = 0; // replace with eps
-        } 
+        }
         else {
-          FSTR_UTIL_EXCEPTION("Could not find id for token '" << token 
+          FSTR_UTIL_EXCEPTION("Could not find id for token '" << token
                               << "' when trying to convert '" <<str << "'");
         }
       }
@@ -63,12 +63,12 @@ namespace fstrain { namespace util {
   }
 
   template<class Arc>
-    void ConvertStringToFst(const std::string& str, const fst::SymbolTable& syms, 
+    void ConvertStringToFst(const std::string& str, const fst::SymbolTable& syms,
 			    fst::MutableFst<Arc>* ofst, bool delete_unknown = false) {
     typename Arc::Weight final_weight = Arc::Weight::One();
     ConvertStringToFst(str, syms, final_weight, ofst, delete_unknown);
   }
-  
+
 } } // end namespaces
 
 #endif

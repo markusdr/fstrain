@@ -26,9 +26,9 @@ extern "C" {
     }
     return sep;
   }
-  
-  void ExtractFeatures0(const std::string& window, 
-                        IFeatureSet* featset) {  
+
+  void ExtractFeatures0(const std::string& window,
+                        IFeatureSet* featset) {
     featset->insert(window);
     std::string::const_iterator s = window.begin();
     while((s = find_if(s, window.end(), isblank)) != window.end()){
@@ -37,11 +37,11 @@ extern "C" {
     }
   }
 
-  void ExtractFeatures(const std::string& window, 
-                       IFeatureSet* featset) {  
+  void ExtractFeatures(const std::string& window,
+                       IFeatureSet* featset) {
     ExtractFeatures0(window, featset);
     const std::string target_lm = HideInput(window);
-    ExtractFeatures0(target_lm, featset);            
+    ExtractFeatures0(target_lm, featset);
   }
 }
 

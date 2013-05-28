@@ -35,7 +35,7 @@ ObjectiveFunctionFst::ObjectiveFunctionFst(MutableFst<MDExpectationArc>* fst)
     : fst_(fst), value_(0.0), fst_delta_(1e-8), timelimit_ms_(1000), num_threads_(1)
 {
   std::cerr << "# Constructing ObjectiveFunctionFst" << std::endl;
-  int highest_feature_index = 
+  int highest_feature_index =
       (fst_ == NULL) ? -1 : fstrain::util::getHighestFeatureIndex(*fst_);
   num_params_ = highest_feature_index + 1;
   gradients_ = (double*) calloc(num_params_, sizeof(double));
@@ -62,26 +62,26 @@ void ObjectiveFunctionFst::SquashFunction() {
   for(int i = 0; i < num_params_; ++i){
     gradients_[i] /= divide_by;
   }
-  value_ /= changed_val;   
+  value_ /= changed_val;
 }
 
- bool ConvergesForAnyInput(ObjectiveFunctionFst* theFunction, 
-                           const double* x, 
-                           size_t maxiter, 
+ bool ConvergesForAnyInput(ObjectiveFunctionFst* theFunction,
+                           const double* x,
+                           size_t maxiter,
                            double eigenval_convergence_tol) {
   using util::LogDArc;
   SetFeatureWeights(x, theFunction->fst_);
-  typedef WeightConvertMapper<MDExpectationArc, LogDArc> Map_EL;  
-  MapFst<MDExpectationArc, LogDArc, Map_EL> mapped(*(theFunction->fst_), Map_EL());  
+  typedef WeightConvertMapper<MDExpectationArc, LogDArc> Map_EL;
+  MapFst<MDExpectationArc, LogDArc, Map_EL> mapped(*(theFunction->fst_), Map_EL());
   util::CheckConvergenceOptions opts(maxiter, eigenval_convergence_tol);
-  return util::CheckConvergence(mapped, opts);  
+  return util::CheckConvergence(mapped, opts);
 }
 
 void Save(const ObjectiveFunctionFst& theFunction, const std::string& filename) {
-  std::cerr << "# Enter Save(), using " << util::MemoryInfo::instance().getSizeInMB() 
+  std::cerr << "# Enter Save(), using " << util::MemoryInfo::instance().getSizeInMB()
             << " MB." << std::endl;
   theFunction.GetFst().Write(filename);
-  std::cerr << "# Exit Save(), using " << util::MemoryInfo::instance().getSizeInMB() 
+  std::cerr << "# Exit Save(), using " << util::MemoryInfo::instance().getSizeInMB()
             << " MB." << std::endl;
 }
 

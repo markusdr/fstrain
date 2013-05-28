@@ -7,8 +7,8 @@
 namespace fstrain { namespace create { namespace features {
 
 extern "C" {
-  
-  void ExtractFeatures_(const std::string& window, 
+
+  void ExtractFeatures_(const std::string& window,
                         IFeatureSet* featset) {
     featset->insert(window);
     std::string::const_iterator s = window.begin();
@@ -31,11 +31,11 @@ extern "C" {
       else {
         collapsed.push_back(str[i]);
       }
-    }        
+    }
     return collapsed;
   }
 
-  void ExtractFeatures(const std::string& window, 
+  void ExtractFeatures(const std::string& window,
                        IFeatureSet* featset) {
     ExtractFeatures_(window, featset);
     std::string collapsed = CollapseString(window);

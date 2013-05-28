@@ -65,9 +65,9 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
 
   const bool symmetric = false;
   const int max_insertions_nolimit = -1;
-  ConstructLatticeFct_UpDown construct_lattice_fct(max_insertions_nolimit, 
-                                                   num_conjugations, 
-                                                   num_change_regions, 
+  ConstructLatticeFct_UpDown construct_lattice_fct(max_insertions_nolimit,
+                                                   num_conjugations,
+                                                   num_change_regions,
                                                    symmetric);
 
   Fst<StdArc>* proj_up = construct_lattice_fct.GetProjUpFst();
@@ -77,7 +77,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
   util::Timer timer;
   SymbolTable* align_syms = NULL;
   GetAlignmentSymbolsFct_AddIdentityChars get_align_syms_fct;
-  CountNgramsInData(data, *isymbols, *osymbols, 
+  CountNgramsInData(data, *isymbols, *osymbols,
                     alignment_fst, prune_fct,
                     &get_align_syms_fct, &construct_lattice_fct,
                     ngram_order,
@@ -88,17 +88,17 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
                        std::cerr << "Trie 1:" << std::endl;
                        util::printTransducer(result, align_syms, align_syms, std::cout););
 
-  AddUnobservedUnigrams(*align_syms, MDExpectationArc::Weight::One(), result);  
+  AddUnobservedUnigrams(*align_syms, MDExpectationArc::Weight::One(), result);
 
   FSTR_CREATE_DBG_EXEC(10,
                        std::cerr << "Trie 2:" << std::endl;
-                       util::printTransducer(result, align_syms, align_syms, std::cout););                         
+                       util::printTransducer(result, align_syms, align_syms, std::cout););
 
   Map(result, RmWeightMapper<MDExpectationArc>());
   // TrieInsertFeatures(*align_syms, feature_names, extract_features_fct, "", result);
   timer.stop();
-  fprintf(stderr, "Done creating trie [%2.2f ms, %2.2f MB]\n", 
-          timer.get_elapsed_time_millis(), 
+  fprintf(stderr, "Done creating trie [%2.2f ms, %2.2f MB]\n",
+          timer.get_elapsed_time_millis(),
           util::MemoryInfo::instance().getSizeInMB());
 
   const int64 kPhiLabel = -3;
@@ -114,8 +114,8 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
     features::ExtractFeaturesFct::Ptr backoff_feats_fct = boost::get<1>(backoff[i]);
     std::size_t backoff_ngram_order = boost::get<2>(backoff[i]);
     MutableFst<MDExpectationArc>* backoff_model_fst = new VectorFst<MDExpectationArc>();
-    fstrain::create::CreateBackoffModel(*result, 
-                                        all_align_syms, 
+    fstrain::create::CreateBackoffModel(*result,
+                                        all_align_syms,
                                         feature_names,
                                         *backoff_syms_fct,
                                         *backoff_feats_fct,
@@ -123,7 +123,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
                                         *wellformed_fst,
                                         backoff_model_fst);
     backoff_model_fsts.push_back(backoff_model_fst);
-  }  
+  }
 
   if(max_insertions > -1) {
     MutableFst<MDExpectationArc>* limit_fst = new VectorFst<MDExpectationArc>();
@@ -135,7 +135,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
 
   MutableFst<MDExpectationArc>* combined_backoff_model = NULL;
   if(!backoff_model_fsts.empty()) {
-    fprintf(stderr, "Adding backoff / insertion limit [%2.2f MB]\n", 
+    fprintf(stderr, "Adding backoff / insertion limit [%2.2f MB]\n",
             util::MemoryInfo::instance().getSizeInMB());
     combined_backoff_model = new VectorFst<MDExpectationArc>();
     util::Intersect_vec(backoff_model_fsts, combined_backoff_model, false);
@@ -144,7 +144,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
     }
     ArcSort(combined_backoff_model, ILabelCompare<MDExpectationArc>());
   }
-  
+
   FSTR_CREATE_DBG_EXEC(10,
                        std::cerr << "FEATURES:" << std::endl;
                        for(SymbolTableIterator sit(*feature_names); !sit.Done(); sit.Next()) {
@@ -162,13 +162,13 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
                            wellformed_fst,
                            insert_feats_fct,
                            combined_backoff_model);
-  delete combined_backoff_model;    
+  delete combined_backoff_model;
   delete align_syms;
   ArcSort(result, ILabelCompare<fst::MDExpectationArc>());
 
   fst_timer.stop();
-  fprintf(stderr, "Done converting to model FST [%2.2f ms, %2.2f MB]\n", 
-          fst_timer.get_elapsed_time_millis(), 
+  fprintf(stderr, "Done converting to model FST [%2.2f ms, %2.2f MB]\n",
+          fst_timer.get_elapsed_time_millis(),
           util::MemoryInfo::instance().getSizeInMB());
 }
 

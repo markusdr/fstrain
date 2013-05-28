@@ -20,7 +20,7 @@ void InitHookMachine(fst::MutableFst<Arc>* fst) {
   fst->SetFinal(s, Weight::One());
 }
 
-} // end namespace 
+} // end namespace
 
 /**
  * @brief Constructs two machines: One that projects up (from a to
@@ -34,7 +34,7 @@ void GetProjUpDown(
     const fst::SymbolTable& align_syms,
     const char sep_char,
     fst::MutableFst<Arc>* proj_up,
-    fst::MutableFst<Arc>* proj_down) {  
+    fst::MutableFst<Arc>* proj_down) {
   using namespace nsGetProjUpDownUtil;
   using namespace fst;
   typedef typename Arc::StateId StateId;
@@ -42,7 +42,7 @@ void GetProjUpDown(
   InitHookMachine(proj_up);
   InitHookMachine(proj_down);
   StateId proj_up_s = proj_up->Start();
-  StateId proj_down_s = proj_down->Start();  
+  StateId proj_down_s = proj_down->Start();
   for(SymbolTableIterator ait(align_syms); !ait.Done(); ait.Next()){
     const std::string asym_string = ait.Symbol();
     // examples for special syms: eps, START, END, phi, ...
@@ -54,7 +54,7 @@ void GetProjUpDown(
       std::getline(asym, out, sep_char);
       if(std::getline(asym, tmp)) { // no more
         FSTR_CREATE_EXCEPTION("Wrong alignment symbol format: " << asym.str());
-      }    
+      }
       if(in == "-"){
         in = "eps";
       }
@@ -65,14 +65,14 @@ void GetProjUpDown(
       if(isym == kNoLabel){
         FSTR_CREATE_EXCEPTION("Could not find input symbol '"<<in<<"' in input_syms");
       }
-      proj_up->AddArc(proj_up_s, 
+      proj_up->AddArc(proj_up_s,
                       Arc(isym, ait.Value(), Weight::One(), proj_up_s));
 
       int64 osym = output_syms.Find(out);
       if(osym == kNoLabel){
         FSTR_CREATE_EXCEPTION("Could not find output symbol '"<<out<<"' in output_syms");
       }
-      proj_down->AddArc(proj_down_s, 
+      proj_down->AddArc(proj_down_s,
                         Arc(ait.Value(), osym, Weight::One(), proj_down_s));
     }
   }
