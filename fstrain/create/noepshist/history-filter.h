@@ -26,7 +26,7 @@ class HistoryFilter_Length : public HistoryFilter {
   bool operator()(const std::string& hist) {
     typedef std::string::size_type stype;
     stype sep_pos = hist.find(sep_char_);
-    if(sep_pos == std::string::npos){
+    if (sep_pos == std::string::npos) {
       FSTR_CREATE_EXCEPTION("HistoryFilter_Length: No separator '"<< sep_char_
                             <<"' in " << hist);
     }
@@ -53,7 +53,7 @@ class HistoryFilter_LengthDiff : public HistoryFilter {
   bool operator()(const std::string& hist) {
     typedef std::string::size_type stype;
     stype sep_pos = hist.find(sep_char_);
-    if(sep_pos == std::string::npos){
+    if (sep_pos == std::string::npos) {
       FSTR_CREATE_EXCEPTION("HistoryFilter_LengthDiff: No separator '"<< sep_char_
                             <<"' in " << hist);
     }

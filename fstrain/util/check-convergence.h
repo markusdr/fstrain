@@ -38,12 +38,12 @@ void DoOneStep(const fst::Fst<Arc>& fst,
   typedef typename Arc::Weight Weight;
   typedef typename Arc::StateId StateId;
   std::vector<Weight> next_distances(curr_distances->size(), Weight::Zero());
-  for(StateIterator< Fst<Arc> > siter(fst); !siter.Done(); siter.Next()) {
+  for (StateIterator< Fst<Arc> > siter(fst); !siter.Done(); siter.Next()) {
     StateId s = siter.Value();
-    if((*curr_distances)[s] == Weight::Zero()){
+    if ((*curr_distances)[s] == Weight::Zero()) {
       continue;
     }
-    for(ArcIterator< Fst<Arc> > aiter(fst, s); !aiter.Done(); aiter.Next()){
+    for (ArcIterator< Fst<Arc> > aiter(fst, s); !aiter.Done(); aiter.Next()) {
       const Arc& arc = aiter.Value();
       next_distances[arc.nextstate] = Plus(next_distances[arc.nextstate],
                                            Times((*curr_distances)[s],
@@ -61,11 +61,11 @@ template<class Arc>
 void ScaleDistances(std::vector<typename Arc::Weight>* distances) {
   typedef typename Arc::Weight Weight;
   Weight sum = Weight::Zero();
-  for(int i = 0; i < distances->size(); ++i){
+  for (int i = 0; i < distances->size(); ++i) {
     sum = Plus(sum, (*distances)[i]);
   }
-  for(int i = 0; i < distances->size(); ++i){
-    if(sum == Weight::Zero()){
+  for (int i = 0; i < distances->size(); ++i) {
+    if (sum == Weight::Zero()) {
       assert((*distances)[i] == Weight::Zero());
     }
     else{
@@ -78,8 +78,8 @@ template<class W>
 bool IsGreater(const std::vector<W>& x,
                const std::vector<W>& y) {
   assert(x.size() == y.size());
-  for(int i = 0; i < x.size(); ++i){
-    if(x[i].Value() <= y[i].Value()){
+  for (int i = 0; i < x.size(); ++i) {
+    if (x[i].Value() <= y[i].Value()) {
       return false;
     }
   }
@@ -103,21 +103,21 @@ typename Arc::Weight ComputeEigenvalue (
             next_distances.begin());
   DoOneStep(fst, &next_distances); // Ax
   bool will_converge = IsGreater(next_distances, distances); // greater neglog numbers
-  if(will_converge){
+  if (will_converge) {
     return Weight::Zero();
   }
   Weight numerator = Weight::Zero();
-  for(int i = 0; i < distances.size(); ++i){ // xAx
+  for (int i = 0; i < distances.size(); ++i) { // xAx
     numerator = Plus(numerator,
                      Times(distances[i], next_distances[i]));
   }
   Weight denominator = Weight::Zero();
-  for(int i = 0; i < distances.size(); ++i){ // t(x) %*% x
+  for (int i = 0; i < distances.size(); ++i) { // t(x) %*% x
     denominator = Plus(denominator,
                        Times(distances[i], distances[i]));
   }
   Weight result = Weight::Zero();
-  if(denominator == Weight::Zero()){
+  if (denominator == Weight::Zero()) {
     assert(numerator == Weight::Zero());
   }
   else {
@@ -151,11 +151,11 @@ struct CheckConvergenceOptions {
         return_eigenvalue(return_eigenvalue_)
   {
     // for now, these global options will overwrite
-    if(options.has("eigenvalue-maxiter")) {
+    if (options.has("eigenvalue-maxiter")) {
       max_iter = options.get<int>("eigenvalue-maxiter");
       std::cerr << "Setting eigenvalue maxiter " << max_iter << std::endl;
     }
-    if(options.has("eigenvalue-convergence-tol")) {
+    if (options.has("eigenvalue-convergence-tol")) {
       eigenval_converge_tol = options.get<double>("eigenvalue-convergence-tol");
       std::cerr << "Setting eigenvalue convergence tol " << eigenval_converge_tol << std::endl;
     }
@@ -173,9 +173,9 @@ template<class W>
 bool AbortFromBadEigenvals(const W& eigenvalue, size_t successive_bad_eigenval,
                            size_t *num_bad_eigenval) {
   bool do_abort = false;
-  if(!IsSmallerThanOne(eigenvalue)){ // bad
+  if (!IsSmallerThanOne(eigenvalue)) { // bad
     ++(*num_bad_eigenval);
-    if(*num_bad_eigenval >= successive_bad_eigenval){
+    if (*num_bad_eigenval >= successive_bad_eigenval) {
       do_abort = true;
     }
   }
@@ -189,9 +189,9 @@ template<class W>
 bool AbortFromGoodEigenvals(const W& eigenvalue, size_t successive_good_eigenval,
                             size_t *num_good_eigenval) {
   bool do_abort = false;
-  if(IsSmallerThanOne(eigenvalue)){ // good
+  if (IsSmallerThanOne(eigenvalue)) { // good
     ++(*num_good_eigenval);
-    if(*num_good_eigenval >= successive_good_eigenval){
+    if (*num_good_eigenval >= successive_good_eigenval) {
       do_abort = true;
     }
   }
@@ -222,13 +222,13 @@ bool CheckConvergence(
   bool converges = true;
 
   size_t num_states = 0;
-  for(StateIterator< Fst<Arc> > siter(fst); !siter.Done(); siter.Next()) {
+  for (StateIterator< Fst<Arc> > siter(fst); !siter.Done(); siter.Next()) {
     ++num_states;
   }
   std::vector<Weight> distances(num_states, Weight::Zero());
   distances[fst.Start()] = Weight::One();
   //srand(time(NULL));
-  //for(int i = 0; i < distances.size(); ++i){
+  //for (int i = 0; i < distances.size(); ++i) {
   //  distances[i] = -1.0 * rand();
   //}
 
@@ -238,8 +238,8 @@ bool CheckConvergence(
   size_t num_converged = 0;
   // size_t num_good_eigenval = 0;
   size_t num_bad_eigenval = 0;
-  while(!done && iter < opts.max_iter){
-    if((iter + 1) % 1000 == 0){
+  while (!done && iter < opts.max_iter) {
+    if ((iter + 1) % 1000 == 0) {
       std::cerr << "Convergence test, iteration " << iter << " ..."
 		<< std::endl;
     }
@@ -251,19 +251,19 @@ bool CheckConvergence(
         / (exp(-eigenvalue.Value())+10e-16);
     bool eigenvalue_converged = iter == 0 ? false
         : std::abs(relative_change) < opts.eigenval_converge_tol;
-    if(eigenvalue_converged){
+    if (eigenvalue_converged) {
       ++num_converged;
-      if(num_converged >= opts.successive_eigenval_convergence
-         && iter >= opts.min_iter){
+      if (num_converged >= opts.successive_eigenval_convergence
+         && iter >= opts.min_iter) {
         break;
       }
     }
     else {
-      if(AbortFromBadEigenvals(new_eigenvalue, opts.successive_bad_eigenval, &num_bad_eigenval)) {
+      if (AbortFromBadEigenvals(new_eigenvalue, opts.successive_bad_eigenval, &num_bad_eigenval)) {
         std::cerr << "Seen " << num_bad_eigenval << " bad eigenvalues. Diverge." << std::endl;
         break;
       }
-//      else if(AbortFromGoodEigenvals(new_eigenvalue, opts.successive_good_eigenval, &num_good_eigenval)) {
+//      else if (AbortFromGoodEigenvals(new_eigenvalue, opts.successive_good_eigenval, &num_good_eigenval)) {
 //        std::cerr << "Seen " << num_good_eigenval << " good eigenvalues. Converge." << std::endl;
 //        break;
 //      }
@@ -278,17 +278,17 @@ bool CheckConvergence(
 		    "eigenvalue=" << exp(-eigenvalue.Value())
 		    << ", " << iter << " iterations." << std::endl;);
 
-  if(iter >= opts.max_iter){
+  if (iter >= opts.max_iter) {
     std::cerr << "Reached max iter " << opts.max_iter << std::endl;
     // TODO: pass option in, do not use global options
     const bool max_iter_means_diverge = !(options.has("eigenvalue-maxiter-checkvalue")
 					  && options.get<bool>("eigenvalue-maxiter-checkvalue"));
-    if(max_iter_means_diverge) {
+    if (max_iter_means_diverge) {
       std::cerr << "Returning divergence." << std::endl;
       converges = false;
     }
   }
-  if(!IsSmallerThanOne(eigenvalue)) {
+  if (!IsSmallerThanOne(eigenvalue)) {
     FSTR_UTIL_DBG_MSG(1, "Divergence. Eigenvalue = "
                       << exp(-1.0 * eigenvalue.Value()) << std::endl);
     converges = false;
@@ -296,7 +296,7 @@ bool CheckConvergence(
 
   FSTR_UTIL_DBG_MSG(10, "Eigenvalue = "
                     << exp(-1.0 * eigenvalue.Value()) << std::endl);
-  if(opts.return_eigenvalue != NULL){
+  if (opts.return_eigenvalue != NULL) {
     *opts.return_eigenvalue = exp(-1.0 * eigenvalue.Value());
   }
   return converges;

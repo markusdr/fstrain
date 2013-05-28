@@ -141,8 +141,8 @@ template <class A> class FstPrinter {
 
 template<class A>
 void printFst(const fst::Fst<A>* fst, const fst::SymbolTable* isymbols,
-              const fst::SymbolTable* osymbols, bool isAcceptor, std::ostream& out){
-  if(fst != NULL){
+              const fst::SymbolTable* osymbols, bool isAcceptor, std::ostream& out) {
+  if (fst != NULL) {
     print_util::FstPrinter<A> fstPrinter(*fst, isymbols, osymbols, NULL, isAcceptor, true);
     fstPrinter.Print(&out, "fst");
   }
@@ -152,19 +152,19 @@ void printFst(const fst::Fst<A>* fst, const fst::SymbolTable* isymbols,
   out << std::endl;
 }
 template<class A>
-void printAcceptor(const fst::Fst<A>* fst, const fst::SymbolTable* isymbols, std::ostream& out){
+void printAcceptor(const fst::Fst<A>* fst, const fst::SymbolTable* isymbols, std::ostream& out) {
   printFst(fst, isymbols, NULL, true, out);
 }
 template<class A>
 void printTransducer(const fst::Fst<A>* fst, const fst::SymbolTable* isymbols,
-                     const fst::SymbolTable* osymbols, std::ostream& out){
+                     const fst::SymbolTable* osymbols, std::ostream& out) {
   printFst(fst, isymbols, osymbols, false, out);
 }
 
 template<class A>
 void printFstSize(const std::string& title, const fst::Fst<A>* fst, std::ostream& out) {
   out << title << std::endl;
-  if(fst != NULL){
+  if (fst != NULL) {
     //fst::FstInfo<A> fstInfo(*fst, true);
     //out << fstInfo.NumStates() << " states, " << fstInfo.NumArcs() << " arcs.";
     out << "Warning: printFstSize not implemented" << std::endl;

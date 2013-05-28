@@ -24,13 +24,13 @@
 #include "fstrain/train/length-feat-mapper.h"
 #include "fstrain/util/get-highest-feature-index.h"
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
   try{
 
     using namespace fst;
     using namespace fstrain;
 
-    if(argc != 2){
+    if (argc != 2) {
       throw std::runtime_error("Please give FST as input");
     }
 
@@ -60,14 +60,14 @@ int main(int argc, char** argv){
 
     std::cout << "Expected length: " << expected_length << std::endl;
     std::cout << "Gradients:" << std::endl;
-    for(int i = 0; i < num_feats; ++i){
+    for (int i = 0; i < num_feats; ++i) {
       std::cout << i << ": " << gradients[i] << std::endl;
     }
 
     delete fst;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

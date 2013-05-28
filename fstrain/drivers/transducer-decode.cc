@@ -57,7 +57,7 @@ class MultipleAnswersCompare {
     std::list<std::string> tok_list;
     boost::iter_split(tok_list, truths, boost::first_finder(separator_));
     BOOST_FOREACH(std::string token, tok_list) {
-      if(hypothesis == token){
+      if (hypothesis == token) {
         return true;
       }
     }
@@ -96,13 +96,13 @@ void DecodeData(const util::Data& data,
                 EqualFct equal_fct,
 		DecodeDataOptions opts) {
   int num_correct = 0;
-  for(util::Data::const_iterator it = data.begin(); it != data.end(); ++it){
+  for (util::Data::const_iterator it = data.begin(); it != data.end(); ++it) {
     const std::string input_string = it->first;
     VectorFst<StdArc> input_fst;
     const bool delete_unknown_chars = true;
     util::ConvertStringToFst(input_string, opts.isymbols,
                              &input_fst, delete_unknown_chars);
-    if(opts.do_evaluate){
+    if (opts.do_evaluate) {
       std::stringstream ss;
       std::ostream* out = opts.out;
       opts.out = &ss;
@@ -113,7 +113,7 @@ void DecodeData(const util::Data& data,
       }
       opts.out = out;
       (*out) << ss.str() << std::endl;
-      if(equal_fct(ss.str(), it->second)){
+      if (equal_fct(ss.str(), it->second)) {
         ++num_correct;
       }
     }
@@ -122,14 +122,14 @@ void DecodeData(const util::Data& data,
       (*opts.out) << std::endl;
     }
   }
-  if(opts.do_evaluate){
+  if (opts.do_evaluate) {
     double accuracy = num_correct / (double)data.size();
     fprintf(stderr, "%d / %d = %2.4f correct\n",
 	    num_correct, (int)data.size(), accuracy);
   }
 }
 
-int main(int ac, char** av){
+int main(int ac, char** av) {
   try{
 
     po::options_description generic("Allowed options");
@@ -162,7 +162,7 @@ int main(int ac, char** av){
     store(po::command_line_parser(ac, av).
 	  options(cmdline_options).positional(p).run(), vm);
 
-    if(vm.count("config-file")){
+    if (vm.count("config-file")) {
       ifstream ifs(vm["config-file"].as<std::string>().c_str());
       store(parse_config_file(ifs, config_file_options), vm);
       notify(vm);
@@ -207,7 +207,7 @@ int main(int ac, char** av){
     DecodeDataOptions opts(*isymbols, *osymbols);
     opts.do_evaluate = vm["evaluate"].as<bool>();
     const std::string separator = vm["multiple-truths-separator"].as<std::string>();
-    if(separator.length()) {
+    if (separator.length()) {
       DecodeData(*data, *fst, MultipleAnswersCompare(separator), opts);
     }
     else {
@@ -220,7 +220,7 @@ int main(int ac, char** av){
     delete osymbols;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

@@ -12,10 +12,10 @@ inline std::pair<std::string,std::string> SplitMainFromLatentAnnotations(const s
   // "-|x" or "a|-" or the first hyphen in "a|--c1"
   const bool search_for_next_sep =
       la_sep_pos == 0 || la_sep_pos == sym.size() - 1 || sym[la_sep_pos + 1] == la_sep;
-  if(search_for_next_sep) {
+  if (search_for_next_sep) {
     la_sep_pos = sym.find(la_sep, la_sep_pos + 1);
   }
-  if(la_sep_pos == std::string::npos) {
+  if (la_sep_pos == std::string::npos) {
     return std::make_pair(sym, "");
   }
   else { // e.g. sym="a|--c1"

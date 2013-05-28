@@ -27,15 +27,15 @@
 #endif
 
 #ifndef NDEBUG
-#define FSTR_CREATE_DBG_MSG(n,x) { char* level_xyz = getenv("FSTR_CREATE_DBG_LEVEL"); int level_xyz_int =level_xyz ? atoi(level_xyz) : 0; if(level_xyz_int>=n){std::stringstream ss123; ss123 << x; std::cerr FSTR_CREATE_DBG_LINE_INFO << ss123.str();} }
-#define FSTR_CREATE_DBG_EXEC(n,x) { char* level_xyz = getenv("FSTR_CREATE_DBG_LEVEL"); int level_xyz_int = level_xyz ? atoi(level_xyz) : 0; if(level_xyz_int>=n){x;} }
+#define FSTR_CREATE_DBG_MSG(n,x) { char* level_xyz = getenv("FSTR_CREATE_DBG_LEVEL"); int level_xyz_int =level_xyz ? atoi(level_xyz) : 0; if (level_xyz_int>=n) {std::stringstream ss123; ss123 << x; std::cerr FSTR_CREATE_DBG_LINE_INFO << ss123.str();} }
+#define FSTR_CREATE_DBG_EXEC(n,x) { char* level_xyz = getenv("FSTR_CREATE_DBG_LEVEL"); int level_xyz_int = level_xyz ? atoi(level_xyz) : 0; if (level_xyz_int>=n) {x;} }
 #else
 #define FSTR_CREATE_DBG_MSG(n,x)
 #define FSTR_CREATE_DBG_EXEC(n,x)
 #endif
 
-#define FSTR_CREATE_ERROR(x){std::stringstream ss123; ss123 << "fstrain train error: " << x; std::cerr << __FILE__ << ":" << __LINE__ << ":" << ss123.str() << std::endl; exit(EXIT_FAILURE);}
+#define FSTR_CREATE_ERROR(x) {std::stringstream ss123; ss123 << "fstrain train error: " << x; std::cerr << __FILE__ << ":" << __LINE__ << ":" << ss123.str() << std::endl; exit(EXIT_FAILURE);}
 
-#define FSTR_CREATE_EXCEPTION(x){std::stringstream ss123; ss123 << __FILE__ << ":" << __LINE__ << ":" << x << std::endl; throw std::runtime_error(ss123.str());}
+#define FSTR_CREATE_EXCEPTION(x) {std::stringstream ss123; ss123 << __FILE__ << ":" << __LINE__ << ":" << x << std::endl; throw std::runtime_error(ss123.str());}
 
 #endif

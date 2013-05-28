@@ -41,7 +41,7 @@
 
 namespace po = boost::program_options;
 
-int main(int ac, char** av){
+int main(int ac, char** av) {
   try{
 
     po::options_description generic("Allowed options");
@@ -77,7 +77,7 @@ int main(int ac, char** av){
     store(po::command_line_parser(ac, av).
 	  options(cmdline_options).positional(p).run(), vm);
 
-    if(vm.count("config-file")){
+    if (vm.count("config-file")) {
       std::ifstream ifs(vm["config-file"].as<std::string>().c_str());
       store(parse_config_file(ifs, config_file_options), vm);
       notify(vm);
@@ -142,7 +142,7 @@ int main(int ac, char** av){
 //    const std::string dev_data_filename = vm["dev-data"].as<std::string>();
 //    util::Data dev_data(dev_data_filename);
 
-    if(l1) {
+    if (l1) {
       CumulativeL1Trainer trainer(num_passes, *batches, *rate_fct, C, &weights);
       trainer.Train();
     }
@@ -172,7 +172,7 @@ int main(int ac, char** av){
     delete osymbols;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

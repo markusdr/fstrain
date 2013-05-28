@@ -22,7 +22,7 @@ void PrintFeatures(const std::string& s) {
   std::cerr << s << std::endl;
   using fstrain::create::features::LatentAnnotationFeatures;
   LatentAnnotationFeatures f(s);
-  for(LatentAnnotationFeatures::const_iterator it = f.begin();
+  for (LatentAnnotationFeatures::const_iterator it = f.begin();
       it != f.end(); ++it) {
     std::cerr << "F: '" << *it << "'" << std::endl;
   }

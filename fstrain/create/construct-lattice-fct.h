@@ -105,7 +105,7 @@ class ConstructLatticeFct_UpDown : public ConstructLatticeFct {
     result->SetOutputSymbols(la_syms);
     SymbolTableIterator it(*la_syms);
     it.Next(); // ignore eps
-    for(; !it.Done(); it.Next()) {
+    for (; !it.Done(); it.Next()) {
       std::string la_sym = it.Symbol();
       int64 la_val = it.Value();
       // HACK: does not work for longer symbols, e.g. "the|DT-c2-g3" or "the|--c2-g3":
@@ -124,7 +124,7 @@ class ConstructLatticeFct_UpDown : public ConstructLatticeFct {
                          std::map<int64, std::set<int64> >* result) {
     fst::SymbolTableIterator it(la_syms);
     it.Next(); // ignore eps
-    for(; !it.Done(); it.Next()) {
+    for (; !it.Done(); it.Next()) {
       std::string la_sym = it.Symbol();
       int64 la_val = it.Value();
       // HACK: does not work for longer symbols, e.g. "the|DT-c2-g3" or "the|--c2-g3":
@@ -185,7 +185,7 @@ class ConstructLatticeFct_UpDown : public ConstructLatticeFct {
                   NULL, symmetric_);
     fst::ArcSort(wellformed_, fst::ILabelCompare<fst::StdArc>());
     assert(wellformed_->InputSymbols() != NULL);
-    if(num_conj_ > 0 || num_regions_ > 0) {
+    if (num_conj_ > 0 || num_regions_ > 0) {
       proj_nola_to_la_ = new fst::VectorFst<fst::StdArc>();
       CreateNolaToLaFst(align_syms_, wellformed_->InputSymbols(),
                         proj_nola_to_la_);
@@ -235,7 +235,7 @@ class ConstructLatticeFct_UpDown : public ConstructLatticeFct {
     VectorFst<StdArc> aligned;
     ComposeFst<StdArc> in_align(in_fst, align_fst, copts);
     Compose(in_align, out_fst, &aligned);
-    if(prune_fct != NULL){
+    if (prune_fct != NULL) {
       (*prune_fct)(in, out, &aligned);
     }
     Map(&aligned,
@@ -243,7 +243,7 @@ class ConstructLatticeFct_UpDown : public ConstructLatticeFct {
     aligned.SetInputSymbols(align_syms_);
     aligned.SetOutputSymbols(align_syms_);
 
-    if(proj_nola_to_la_ != NULL) {
+    if (proj_nola_to_la_ != NULL) {
       Compose(ComposeFst<StdArc>(aligned, *proj_nola_to_la_), *wellformed_, result);
       Project(result, PROJECT_OUTPUT);
     }

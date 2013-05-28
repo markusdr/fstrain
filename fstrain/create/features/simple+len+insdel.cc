@@ -25,20 +25,20 @@ extern "C" {
     std::string::const_iterator s = window.begin();
     bool first = true;
     do {
-      if(!first) {
+      if (!first) {
         ++s;
       }
       feature_str = std::string(s, window.end());
       featset->insert(feature_str);
       first = false;
-    } while((s = find_if(s, window.end(), isblank)) != window.end());
+    } while ((s = find_if (s, window.end(), isblank)) != window.end());
 
     // Note the following are only unigram features:
 
-    if(!feature_str.empty()) {
+    if (!feature_str.empty()) {
       AddLengthPenalties(feature_str, sep_char, eps_char, featset);
     }
-    if(!feature_str.empty()) {
+    if (!feature_str.empty()) {
       FSTR_CREATE_EXCEPTION("unimplemented");
       // AddInsDelFeatures(feature_str, sep_char, eps_char, featset);
     }

@@ -53,10 +53,10 @@ void getDummyMachine(MutableFst<Arc> *dummy,
   initWellformedMachine(dummy, syms);
   SymbolTableIterator i(*syms);
   i.Next(); // skip epsilon
-  for(; !i.Done(); i.Next())
+  for (; !i.Done(); i.Next())
   {
     const std::string symbol = i.Symbol();
-    //if(symbol != "S|S" && symbol != "E|E") {
+    //if (symbol != "S|S" && symbol != "E|E") {
     dummy->AddArc(0,
                   Arc(i.Value(), i.Value(), Weight::One(), 0));
     //}
@@ -82,7 +82,7 @@ void getConjMachine(MutableFst<Arc> *conjMachine,
   // Create self loops for all arcs of the correct conjugation
   SymbolTableIterator i(*syms);
   i.Next(); // skip epsilon
-  while(!i.Done())
+  while (!i.Done())
   {
     const std::string symbol = i.Symbol();
     int currentConj = getLA(i.Symbol(), "-c");
@@ -100,37 +100,37 @@ void getChgSegMachine3(MutableFst<Arc> *chgSegMachine,
 {
   // initWellformedMachine(chgSegMachine, syms);
   int num_states = segs * 2 + 2;
-  for(int i = 0; i < num_states; ++i){
+  for (int i = 0; i < num_states; ++i) {
     chgSegMachine->AddState();
   }
   chgSegMachine->SetStart(0);
   chgSegMachine->SetInputSymbols(syms);
   chgSegMachine->SetOutputSymbols(syms);
-  for(int i = 1; i < num_states; ++i) {
+  for (int i = 1; i < num_states; ++i) {
     chgSegMachine->AddArc(0, Arc(0, 0, Weight::One(), i));
     chgSegMachine->SetFinal(i, Weight::One());
   }
 
   SymbolTableIterator it(*syms);
   it.Next(); // ignore eps
-  for(; !it.Done(); it.Next()){
+  for (; !it.Done(); it.Next()) {
     const std::string symbol = it.Symbol();
     FSTR_CREATE_DBG_MSG(10, "Symbol " + symbol << std::endl);
-    if(symbol == "S|S" || symbol == "E|E") {
+    if (symbol == "S|S" || symbol == "E|E") {
       continue;
     }
     int currentRegion = getLA(symbol, "-g");
     bool isChangeSymbol = (symbol[0] != symbol[2]);
-    if(isChangeSymbol){
+    if (isChangeSymbol) {
       assert(currentRegion % 2 != 0); // odd
-      for(int fromState=1; fromState < currentRegion + 1; fromState+=2){
+      for (int fromState=1; fromState < currentRegion + 1; fromState+=2) {
         chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
       }
       chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop
     }
     else { // not a change sym (identity)
       assert(currentRegion % 2 == 0); // even
-      for(int fromState = 2; fromState < currentRegion + 1; fromState+=2){
+      for (int fromState = 2; fromState < currentRegion + 1; fromState+=2) {
         chgSegMachine->AddArc(fromState, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1));
       }
       chgSegMachine->AddArc(currentRegion+1, Arc(it.Value(), it.Value(), Weight::One(), currentRegion+1)); // self-loop

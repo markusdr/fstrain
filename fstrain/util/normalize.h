@@ -30,7 +30,7 @@ void Normalize(fst::MutableFst<Arc>* the_fst, typename Arc::Weight pathsum) {
   typedef typename Arc::Weight Weight;
   typedef typename Arc::StateId StateId;
   const bool already_normalized = (pathsum == Weight::One());
-  if(!already_normalized) {
+  if (!already_normalized) {
     VectorFst<Arc> tmp;
     StateId s1 = tmp.AddState();
     tmp.SetStart(s1);
@@ -51,7 +51,7 @@ typename Arc::Weight ComputePathsum(const fst::Fst<Arc>& the_fst) {
   const bool reverse = true;
   FSTR_UTIL_DBG_EXEC(10, std::cerr << "ComputePathsum" << std::endl; printTransducer(&the_fst, NULL, NULL, std::cerr));
   fst::ShortestDistance(the_fst, &betas, reverse);
-  if(betas.size() == 0) {
+  if (betas.size() == 0) {
     FSTR_CREATE_EXCEPTION("no betas found");
   }
   StateId start_state = the_fst.Start();

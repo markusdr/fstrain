@@ -44,10 +44,10 @@ struct LengthFeatMapper_XY {
     static_cast<core::MutableWeight<Weight>&>(w).SetValue(arc.weight.Value());
 
     fstrain::core::MDExpectations& e = w.GetMDExpectations();
-    if(arc.ilabel != 0){
+    if (arc.ilabel != 0) {
       e.insert(LENGTH_X, w.Value());
     }
-    if(arc.olabel != 0){
+    if (arc.olabel != 0) {
       e.insert(LENGTH_Y, w.Value());
     }
     return new_arc;
@@ -89,7 +89,7 @@ struct LengthFeatMapper_Y {
     static_cast<core::MutableWeight<Weight>&>(w).SetValue(arc.weight.Value());
 
     fstrain::core::MDExpectations& e = w.GetMDExpectations();
-    if(arc.olabel != 0){
+    if (arc.olabel != 0) {
       int index = 0;
       e.insert(index, w.Value());
     }

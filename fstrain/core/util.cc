@@ -17,11 +17,11 @@
 namespace fstrain { namespace core {
 
 // TODO: use StrToInt64 (see text-io.h)
-unsigned long stringToUnsignedLong(const std::string& s){
+unsigned long stringToUnsignedLong(const std::string& s) {
   unsigned long i;
   char *check;
   i = strtol(s.c_str(), &check, 10);
-  if (check < s.c_str() + s.size()){
+  if (check < s.c_str() + s.size()) {
     std::stringstream ss;
     ss << "Format error: Not an int value (" << s << ")";
     throw std::runtime_error(ss.str());
@@ -29,7 +29,7 @@ unsigned long stringToUnsignedLong(const std::string& s){
   return i;
 }
 
-double stringToDouble(const std::string& s){
+double stringToDouble(const std::string& s) {
   double d;
   if (s == "Infinity") {
     d = kPosInfinity;
@@ -39,7 +39,7 @@ double stringToDouble(const std::string& s){
   else{
     char *check;
     d = strtod(s.c_str(), &check);
-    if (check < s.c_str() + s.size()){
+    if (check < s.c_str() + s.size()) {
       std::stringstream ss;
       ss << "Format error: Not a double value (" << s << ")";
       throw std::runtime_error(ss.str());
@@ -59,8 +59,8 @@ void tokenize(const std::string& str,
 
   while (std::string::npos != pos || std::string::npos != lastPos)
   {
-    if(removeLeadingBlanks){
-      while(str[lastPos] == ' '){
+    if (removeLeadingBlanks) {
+      while (str[lastPos] == ' ') {
         ++lastPos;
       }
     }
@@ -74,9 +74,9 @@ void tokenize(const std::string& str,
 }
 
 //  double log_add(double lx,double ly) {
-//    if(lx == kNegInfinity)
+//    if (lx == kNegInfinity)
 //      return ly;
-//    if(ly == kNegInfinity)
+//    if (ly == kNegInfinity)
 //      return lx;
 //    double d = lx - ly;
 //    if (d >= 0) {

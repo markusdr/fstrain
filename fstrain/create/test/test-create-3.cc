@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_SUITE(create3)
   typedef fst::MDExpectationArc Arc;
   VectorFst<Arc> trie;
 
-  for(int i = 0; i < 11; ++i){
+  for (int i = 0; i < 11; ++i) {
     trie.AddState();
     trie.SetFinal(i, Arc::Weight::One());
   }
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_SUITE(create3)
   fstrain::util::printTransducer(&final, &align_syms, &align_syms, std::cerr);
 
   std::cerr << "Features:" << std::endl;
-  for(SymbolTableIterator sit(feature_ids); !sit.Done(); sit.Next()) {
+  for (SymbolTableIterator sit(feature_ids); !sit.Done(); sit.Next()) {
     std::cerr << sit.Value() << " " << sit.Symbol() << std::endl;
   }
 }

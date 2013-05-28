@@ -29,7 +29,7 @@ template<class Arc>
 void Add(const std::vector<typename Arc::Weight>& vec1,
          std::vector<typename Arc::Weight>* vec2) {
   assert(vec1.size() == vec2->size());
-  for(std::size_t i = 0; i < vec1.size(); ++i) {
+  for (std::size_t i = 0; i < vec1.size(); ++i) {
     (*vec2)[i] = Plus(vec1[i], (*vec2)[i]);
   }
 }
@@ -46,13 +46,13 @@ void DoOneStep(const fst::Fst<Arc>& fst,
   typedef typename Arc::StateId StateId;
   using namespace fst;
   std::vector<Weight> next_distances(curr_distances->size(), Weight::Zero());
-  for(StateIterator< Fst<Arc> > siter(fst); !siter.Done(); siter.Next()) {
+  for (StateIterator< Fst<Arc> > siter(fst); !siter.Done(); siter.Next()) {
     StateId s = siter.Value();
     assert(curr_distances->size() > s || (!(std::cerr << curr_distances->size() << " vs " << s << std::endl)));
-    if((*curr_distances)[s] == Weight::Zero()){
+    if ((*curr_distances)[s] == Weight::Zero()) {
       continue;
     }
-    for(ArcIterator< Fst<Arc> > aiter(fst, s); !aiter.Done(); aiter.Next()){
+    for (ArcIterator< Fst<Arc> > aiter(fst, s); !aiter.Done(); aiter.Next()) {
       const Arc& arc = aiter.Value();
       assert(next_distances.size() > arc.nextstate);
       Weight sum = Plus(next_distances[arc.nextstate],
@@ -67,7 +67,7 @@ void DoOneStep(const fst::Fst<Arc>& fst,
 template<class Arc>
 std::size_t DetermineNumStates(const fst::Fst<Arc>& fst) {
   std::size_t result = 0;
-  for(fst::StateIterator< fst::Fst<Arc> > siter(fst); !siter.Done();
+  for (fst::StateIterator< fst::Fst<Arc> > siter(fst); !siter.Done();
       siter.Next()) {
     ++result;
   }
@@ -96,7 +96,7 @@ bool ShortestDistanceM(const fst::Fst<Arc>& fst,
 
   const fst::Fst<Arc>* fst_ptr = &fst;
   fst::MutableFst<Arc>* reversed = NULL;
-  if(reverse) {
+  if (reverse) {
     reversed = new fst::VectorFst<Arc>();
     fst::Reverse(fst, reversed);
     fst_ptr = reversed;
@@ -121,15 +121,15 @@ bool ShortestDistanceM(const fst::Fst<Arc>& fst,
   bool converged = false;
   Weight prev_sum(Weight::Zero());
   int iter = 0;
-  while(iter < miniter || iter < maxiter) {
+  while (iter < miniter || iter < maxiter) {
     DoOneStep(*fst_ptr, &tmp, delta);
     Add<Arc>(tmp, distance);
     Weight sum(Weight::Zero());
-    for(typename std::vector<Weight>::const_iterator it = distance->begin();
+    for (typename std::vector<Weight>::const_iterator it = distance->begin();
         it != distance->end(); ++it) {
       sum = Plus(sum, *it);
     }
-    if(fst::ApproxEqual(prev_sum, sum, delta)) {
+    if (fst::ApproxEqual(prev_sum, sum, delta)) {
       FSTR_UTIL_DBG_MSG(10, "ShortestDistanceM converged after "
                         << iter << " iterations." << std::endl);
       converged = true;
@@ -139,11 +139,11 @@ bool ShortestDistanceM(const fst::Fst<Arc>& fst,
     ++iter;
   }
   delete reversed;
-  if(!converged) {
+  if (!converged) {
     std::cerr << "Not converged after " << maxiter << " iterations." << std::endl;
   }
-  if(reverse) {
-    for(std::size_t i = 1; i < distance->size(); ++i) {
+  if (reverse) {
+    for (std::size_t i = 1; i < distance->size(); ++i) {
       (*distance)[i-1] = (*distance)[i].Reverse();
     }
     distance->resize(distance->size() - 1);

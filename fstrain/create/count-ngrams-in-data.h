@@ -54,7 +54,7 @@ void CountNgramsInData(const util::Data& data,
                        ConstructLatticeFct* construct_lattice_fct,
                        int ngram_order,
                        fst::SymbolTable*& ngram_trie_symbols,
-                       fst::MutableFst<Arc>* ngram_trie){
+                       fst::MutableFst<Arc>* ngram_trie) {
   using namespace fst;
   typedef WeightConvertMapper<StdArc, Arc> Map_SL;
   std::stringstream aligned_data;
@@ -62,7 +62,7 @@ void CountNgramsInData(const util::Data& data,
   util::AlignStringsDefaultOutputStream<std::stringstream> out(&aligned_data, &align_symbols);
   util::AlignStringsOptions opts;
   opts.n_best_alignments = 1; // one-best
-  if(fstrain::util::options.has("sigma_label")){
+  if (fstrain::util::options.has("sigma_label")) {
     opts.sigma_label = fstrain::util::options.get<int>("sigma_label");
   }
   util::AlignStrings(data, isymbols, osymbols, align_fst, &out, opts);
@@ -78,10 +78,10 @@ void CountNgramsInData(const util::Data& data,
 
   NgramCounter<Arc>* ngram_counter = new NgramCounter<Arc>(ngram_order);
 
-  for(util::Data::const_iterator d = data.begin(); d != data.end(); ++d) {
+  for (util::Data::const_iterator d = data.begin(); d != data.end(); ++d) {
     // std::cerr << d->first << " -- " << d->second << std::endl;
     VectorFst<StdArc> lattice;
-    if(prune_fct == NULL) {
+    if (prune_fct == NULL) {
       // old version uses proj_up and proj_down:
       (*construct_lattice_fct)(d->first, d->second, &lattice);
     }

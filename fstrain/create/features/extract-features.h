@@ -27,7 +27,7 @@ struct ExtractFeaturesFct_Simple : public ExtractFeaturesFct {
                           IFeatureSet* featset) {
     featset->insert(prefix + window);
     std::string::const_iterator s = window.begin();
-    while((s = find_if(s, window.end(), isblank)) != window.end()){
+    while ((s = find_if (s, window.end(), isblank)) != window.end()) {
       std::string backoff_feat(++s, window.end());
       featset->insert(prefix + backoff_feat);
     }

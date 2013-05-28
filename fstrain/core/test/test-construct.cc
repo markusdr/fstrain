@@ -24,7 +24,7 @@
 
 using namespace fst;
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
   try{
     using fstrain::core::NeglogNum;
     typedef MDExpectationArc::StateId StateId;
@@ -47,7 +47,7 @@ int main(int argc, char** argv){
     fstrain::util::printTransducer(fst, NULL, NULL, std::cerr);
     fst->Write(std::cout, FstWriteOptions()); // writes binary
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

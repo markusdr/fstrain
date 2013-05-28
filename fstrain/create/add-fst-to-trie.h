@@ -31,20 +31,20 @@ void AddFstToTrie0(const fst::Fst<Arc>& fst, typename Arc::StateId fst_state,
   typedef typename Arc::Label Label;
   typedef typename Arc::Weight Weight;
   trie->SetFinal(trie_state, Weight::One());
-  for(fst::ArcIterator<fst::Fst<Arc> > fst_iter(fst, fst_state);
+  for (fst::ArcIterator<fst::Fst<Arc> > fst_iter(fst, fst_state);
       !fst_iter.Done(); fst_iter.Next()) {
     const Arc& fst_arc = fst_iter.Value();
     Label fst_label = fst_arc.ilabel;
     fst::MutableArcIterator<fst::MutableFst<Arc> > trie_iter(trie, trie_state);
-    for(; !trie_iter.Done(); trie_iter.Next()) {
-      if(trie_iter.Value().ilabel == fst_label){
+    for (; !trie_iter.Done(); trie_iter.Next()) {
+      if (trie_iter.Value().ilabel == fst_label) {
         break;
       }
     }
     bool found_fst_label = !trie_iter.Done();
     StateId trie_nextstate = fst::kNoStateId;
     Weight count = Times(fst_arc.weight, fst.Final(fst_arc.nextstate));
-    if(found_fst_label) {
+    if (found_fst_label) {
       Arc trie_arc = trie_iter.Value();
       trie_arc.weight = Plus(trie_arc.weight, count);
       trie_iter.SetValue(trie_arc);
@@ -77,8 +77,8 @@ void AddFstToTrie0(const fst::Fst<Arc>& fst, typename Arc::StateId fst_state,
 template<class Arc>
 void AddFstToTrie(const fst::Fst<Arc>& fst, fst::MutableFst<Arc>* trie) {
   typedef typename Arc::Weight Weight;
-  if(fst.Start() != fst::kNoStateId){
-    if(trie->Start() == fst::kNoStateId) {
+  if (fst.Start() != fst::kNoStateId) {
+    if (trie->Start() == fst::kNoStateId) {
       typename Arc::StateId s = trie->AddState();
       trie->SetStart(s);
     }

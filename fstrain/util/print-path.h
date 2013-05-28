@@ -72,25 +72,25 @@ struct PrintAcceptorArcFct {
  */
 template<class Arc, class PrintArcFctT>
 void PrintPath(const fst::Fst<Arc>& f, PrintArcFctT& print_arc_fct,
-               bool add_blanks = true){
+               bool add_blanks = true) {
   int s = f.Start();
   bool first = true;
   do {
-    if(s == fst::kNoStateId){
+    if (s == fst::kNoStateId) {
       FSTR_UTIL_EXCEPTION("PrintPath: Not a valid path");
     }
     fst::ArcIterator< fst::Fst<Arc> > it(f, s);
-    if(!first && add_blanks){
+    if (!first && add_blanks) {
       (*print_arc_fct.out) << " ";
     }
     print_arc_fct(it.Value());
     first = false;
     s = it.Value().nextstate;
     it.Next();
-    if(!it.Done()){
+    if (!it.Done()) {
       FSTR_UTIL_EXCEPTION("PrintPath: Not a linear machine");
     }
-  } while(f.Final(s) == Arc::Weight::Zero());
+  } while (f.Final(s) == Arc::Weight::Zero());
 }
 
 } } // end namespaces

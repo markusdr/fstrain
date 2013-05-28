@@ -66,10 +66,10 @@ void CreateScoringFstFromTrie(fst::MutableFst<Arc>* ngram_trie,
                      ngram_trie);
 
   typedef fst::WeightConvertMapper<fst::StdArc, fst::MDExpectationArc> Map_SE;
-  if(wellformed_fsa == NULL) {
+  if (wellformed_fsa == NULL) {
     FSTR_CREATE_EXCEPTION("Currently, wellformed should be there");
   }
-  if(wellformed_fsa != NULL) {
+  if (wellformed_fsa != NULL) {
     FSTR_CREATE_DBG_EXEC(10, std::cerr << "WELLFORMED:" << std::endl;
                          util::printTransducer(wellformed_fsa,
                                                wellformed_fsa->InputSymbols(),
@@ -84,7 +84,7 @@ void CreateScoringFstFromTrie(fst::MutableFst<Arc>* ngram_trie,
     typedef fst::PhiMatcher<M> PM;
     typedef fst::SelectivePhiMatcher<M> SPM;
     SPM::LabelSet essential_align_syms_set;
-    for(fst::SymbolTableIterator it(essential_align_syms); !it.Done(); it.Next()) {
+    for (fst::SymbolTableIterator it(essential_align_syms); !it.Done(); it.Next()) {
       essential_align_syms_set.insert(it.Value());
     }
     fst::ComposeFstOptions<fst::MDExpectationArc, SPM> copts;
@@ -99,7 +99,7 @@ void CreateScoringFstFromTrie(fst::MutableFst<Arc>* ngram_trie,
     ngram_trie->SetOutputSymbols(NULL);
   }
 
-  if(other_scoring_fsa != NULL) {
+  if (other_scoring_fsa != NULL) {
     fprintf(stderr, "Adding FSAs (backoffs, insertion limit, etc.) [%2.2f MB]\n",
             util::MemoryInfo::instance().getSizeInMB());
     FSTR_CREATE_DBG_EXEC(10,
@@ -120,7 +120,7 @@ void CreateScoringFstFromTrie(fst::MutableFst<Arc>* ngram_trie,
   fst::ComposeFstOptions<fst::MDExpectationArc> copts2;
   copts2.gc_limit = 0;
 
-  if(proj_up != NULL){
+  if (proj_up != NULL) {
     FSTR_CREATE_DBG_EXEC(10, std::cerr << "PROJ_UP:" << std::endl;
                          util::printTransducer(proj_up,
                                                proj_up->InputSymbols(),
@@ -134,7 +134,7 @@ void CreateScoringFstFromTrie(fst::MutableFst<Arc>* ngram_trie,
     *ngram_trie = fst::ComposeFst<fst::MDExpectationArc>(mapped2, *ngram_trie, copts2);
   }
 
-  if(proj_down != NULL){
+  if (proj_down != NULL) {
     FSTR_CREATE_DBG_EXEC(10, std::cerr << "PROJ_DOWN:" << std::endl;
                          util::printTransducer(proj_down,
                                                proj_down->InputSymbols(),

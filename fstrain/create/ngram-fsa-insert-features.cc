@@ -58,14 +58,14 @@ void NgramFsaInsertFeatures(const fst::SymbolTable& symbols,
   std::vector<StrWeight> alphas;
   fst::ShortestDistance(mapped, &alphas);
 
-  for(StateIterator< Fst<MDExpectationArc> > siter(*fst); !siter.Done();
+  for (StateIterator< Fst<MDExpectationArc> > siter(*fst); !siter.Done();
       siter.Next()) {
     MDExpectationArc::StateId s = siter.Value();
     std::stringstream state_history;
     bool first = true;
-    for(StringWeightIterator<int, STRING_RIGHT> iter(alphas[s]); !iter.Done();
+    for (StringWeightIterator<int, STRING_RIGHT> iter(alphas[s]); !iter.Done();
         iter.Next()) {
-      if(!first) {
+      if (!first) {
         // state_history.push_back(' ');
         state_history << " ";
       }
@@ -75,8 +75,8 @@ void NgramFsaInsertFeatures(const fst::SymbolTable& symbols,
     }
     const std::string state_history_str = state_history.str();
     FSTR_CREATE_DBG_MSG(10, "history(" << s << ") = " << state_history_str << std::endl);
-    for(MutableArcIterator< MutableFst<MDExpectationArc> > aiter(fst, s);
-        !aiter.Done(); aiter.Next()){
+    for (MutableArcIterator< MutableFst<MDExpectationArc> > aiter(fst, s);
+        !aiter.Done(); aiter.Next()) {
       MDExpectationArc arc = aiter.Value();
       const std::string blank = (state_history_str.empty() ? "" : " ");
       const std::string window = state_history_str + blank + symbols.Find(arc.olabel);

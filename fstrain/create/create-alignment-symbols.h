@@ -32,9 +32,9 @@ void CreateAlignmentSymbols(const fst::SymbolTable& isymbols,
                             fst::SymbolTable* result) {
   const std::string separator = "|";
   result->AddSymbol("eps");
-  for(fst::SymbolTableIterator in_iter(isymbols); !in_iter.Done(); in_iter.Next()){
-    for(fst::SymbolTableIterator out_iter(osymbols); !out_iter.Done(); out_iter.Next()){
-      if((in_iter.Value() == 0 && out_iter.Value() == 0)
+  for (fst::SymbolTableIterator in_iter(isymbols); !in_iter.Done(); in_iter.Next()) {
+    for (fst::SymbolTableIterator out_iter(osymbols); !out_iter.Done(); out_iter.Next()) {
+      if ((in_iter.Value() == 0 && out_iter.Value() == 0)
          || (in_iter.Symbol() == start_symbol && out_iter.Symbol() != start_symbol)
          || (in_iter.Symbol() == end_symbol && out_iter.Symbol() != end_symbol)
          || (out_iter.Symbol() == start_symbol && in_iter.Symbol() != start_symbol)
@@ -44,10 +44,10 @@ void CreateAlignmentSymbols(const fst::SymbolTable& isymbols,
       std::stringstream ss;
       std::string in = in_iter.Symbol();
       std::string out = out_iter.Symbol();
-      if(in == "eps"){
+      if (in == "eps") {
         in = "-";
       }
-      if(out == "eps"){
+      if (out == "eps") {
         out = "-";
       }
       ss << in << separator << out;

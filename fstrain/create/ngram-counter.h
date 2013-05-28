@@ -99,11 +99,11 @@ void CreateNgramCountFst(int ngram_order, const int64 kSigmaLabel,
   ofst->SetStart(s);
   ofst->AddArc(0, Arc(kSigmaLabel, kEpsilonLabel, Arc::Weight::One(), 0));
   StateId prev_state = s;
-  for(int i = 1; i <= ngram_order; ++i) {
+  for (int i = 1; i <= ngram_order; ++i) {
     s = ofst->AddState();
     ofst->AddArc(prev_state,
                  Arc(kSigmaLabel, kSigmaLabel, Arc::Weight::One(), s));
-    if(i != ngram_order){
+    if (i != ngram_order) {
       ofst->AddArc(s,
                    Arc(kEpsilonLabel, kEpsilonLabel, Arc::Weight::One(), ngram_order));
     }
@@ -160,10 +160,10 @@ template<class Arc>
 void DistributeWeights(fst::MutableFst<Arc>* fst) {
   using namespace fst;
   typedef typename Arc::StateId StateId;
-  for(StateIterator< MutableFst<Arc> > siter(*fst); !siter.Done(); siter.Next()) {
+  for (StateIterator< MutableFst<Arc> > siter(*fst); !siter.Done(); siter.Next()) {
     StateId s = siter.Value();
-    for(MutableArcIterator< MutableFst<Arc> > aiter(fst, s);
-        !aiter.Done(); aiter.Next()){
+    for (MutableArcIterator< MutableFst<Arc> > aiter(fst, s);
+        !aiter.Done(); aiter.Next()) {
       Arc arc = aiter.Value();
       arc.weight = fst->Final(arc.nextstate);
       aiter.SetValue(arc);

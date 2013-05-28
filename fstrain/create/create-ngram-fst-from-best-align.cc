@@ -64,17 +64,17 @@ void AddIdentitySymbols(const fst::SymbolTable& input_table,
                         fst::SymbolTable* output_table) {
   fst::SymbolTableIterator it(input_table);
   it.Next(); // ignore eps
-  for(; !it.Done(); it.Next()) {
+  for (; !it.Done(); it.Next()) {
     const std::string symbol = it.Symbol();
     std::size_t sep_pos = symbol.find("|"); // e.g. in "a|x"
-    if(sep_pos == std::string::npos) {
+    if (sep_pos == std::string::npos) {
       FSTR_CREATE_EXCEPTION("Not an alignment char: " << symbol);
     }
     std::string input_sym = symbol.substr(0, sep_pos); // e.g. "a"
     std::string id_sym = input_sym + "|" + input_sym;  // e.g. "a|a"
     const bool is_identity_sym =
         symbol.substr(0, id_sym.length()) == id_sym;
-    if(is_identity_sym) {
+    if (is_identity_sym) {
       output_table->AddSymbol(it.Symbol(), it.Value());
     }
   }
@@ -118,7 +118,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
 
   fst::SymbolTable pruned_syms("pruned-syms");
   double sym_cond_prob_threshold = 0.99;
-  if(util::options.has("sym-cond-prob-threshold")) {
+  if (util::options.has("sym-cond-prob-threshold")) {
     sym_cond_prob_threshold = util::options.get<double>("sym-cond-prob-threshold");
   }
   fstrain::create::v3::ExtractEssentialAlignSyms(counts_trie, *align_syms,
@@ -153,7 +153,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
   // Creates combined backoff scoring machine, e.g. for target LM and vowel/consonant
   std::vector<Fst<MDExpectationArc>*> backoff_model_fsts;
   backoff_model_fsts.reserve(backoff.size());
-  for(std::size_t i = 0; i < backoff.size(); ++i) {
+  for (std::size_t i = 0; i < backoff.size(); ++i) {
     BackoffSymsFct::Ptr backoff_syms_fct = boost::get<0>(backoff[i]);
     features::ExtractFeaturesFct::Ptr backoff_feats_fct = boost::get<1>(backoff[i]);
     std::size_t backoff_ngram_order = boost::get<2>(backoff[i]);
@@ -169,7 +169,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
     backoff_model_fsts.push_back(backoff_model_fst);
   }
 
-  if(max_insertions > -1) {
+  if (max_insertions > -1) {
     MutableFst<MDExpectationArc>* limit_fst = new VectorFst<MDExpectationArc>();
     getLimitMachine(limit_fst, align_syms, max_insertions);
     limit_fst->SetInputSymbols(NULL);
@@ -178,7 +178,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
   }
 
   MutableFst<MDExpectationArc>* combined_backoff_model = NULL;
-  if(!backoff_model_fsts.empty()) {
+  if (!backoff_model_fsts.empty()) {
     fprintf(stderr, "Adding backoff / insertion limit [%2.2f MB]\n",
             util::MemoryInfo::instance().getSizeInMB());
     combined_backoff_model = new VectorFst<MDExpectationArc>();
@@ -191,7 +191,7 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
 
   FSTR_CREATE_DBG_EXEC(10,
                        std::cerr << "FEATURES:" << std::endl;
-                       for(SymbolTableIterator sit(*feature_names); !sit.Done(); sit.Next()) {
+                       for (SymbolTableIterator sit(*feature_names); !sit.Done(); sit.Next()) {
                          std::cerr << sit.Value() << " " << sit.Symbol() << std::endl;
                        });
 

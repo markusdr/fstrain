@@ -32,7 +32,7 @@ class RemoveWeightsKeepFeaturesMapper {
   Arc operator()(const Arc &arc) const {
     using namespace fst;
     Arc new_arc = arc;
-    if(new_arc.weight != Weight::Zero()){
+    if (new_arc.weight != Weight::Zero()) {
       new_arc.weight = Divide(arc.weight,
 			      Weight(arc.weight.Value()));
     }

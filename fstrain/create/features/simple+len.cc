@@ -23,17 +23,17 @@ extern "C" {
     std::string::const_iterator s = window.begin();
     bool first = true;
     do {
-      if(!first) {
+      if (!first) {
         ++s;
       }
       feature_str = std::string(s, window.end());
       // std::cerr << "feature_str=" << feature_str << std::endl;
       featset->insert(feature_str);
       first = false;
-    } while((s = find_if(s, window.end(), isblank)) != window.end());
+    } while ((s = find_if (s, window.end(), isblank)) != window.end());
 
     // Note these are only unigram features:
-    if(!feature_str.empty()) {
+    if (!feature_str.empty()) {
       AddLengthPenalties(feature_str, sep_char, eps_char, featset);
     }
   }

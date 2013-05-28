@@ -47,7 +47,7 @@ struct GetAlignmentSymbolsFct_Simple : public GetAlignmentSymbolsFct {
                   fst::SymbolTable* syms) {
     syms->AddSymbol("eps");
     std::string symbol;
-    while(aligned_data >> symbol){
+    while (aligned_data >> symbol) {
       syms->AddSymbol(symbol);
     }
   }
@@ -60,14 +60,14 @@ struct GetAlignmentSymbolsFct_AddIdentityChars : public GetAlignmentSymbolsFct {
                   fst::SymbolTable* syms) {
     syms->AddSymbol("eps");
     std::string symbol;
-    while(aligned_data >> symbol){
+    while (aligned_data >> symbol) {
       syms->AddSymbol(symbol);
     }
     // add identity characters:
     fst::SymbolTableIterator sit(isymbols);
     sit.Next(); // ignore eps
-    for(; !sit.Done(); sit.Next()){
-      if(osymbols.Find(sit.Symbol()) != fst::kNoLabel){
+    for (; !sit.Done(); sit.Next()) {
+      if (osymbols.Find(sit.Symbol()) != fst::kNoLabel) {
         std::stringstream ss;
         ss << sit.Symbol() << "|" << sit.Symbol();
         syms->AddSymbol(ss.str());
@@ -85,10 +85,10 @@ struct GetAlignmentSymbolsFct_AddIdentityChars_Countsyms : public GetAlignmentSy
                   fst::SymbolTable* syms) {
     syms->AddSymbol("eps");
     std::string symbol;
-    while(aligned_data >> symbol){
+    while (aligned_data >> symbol) {
       int64 label = syms->AddSymbol(symbol);
       std::size_t sep_pos = symbol.find("|"); // e.g. in "a|x"
-      if(sep_pos == std::string::npos) {
+      if (sep_pos == std::string::npos) {
         FSTR_CREATE_EXCEPTION("Not an alignment char: " << symbol);
       }
       std::string input_sym = symbol.substr(0, sep_pos); // e.g. "a"
@@ -97,8 +97,8 @@ struct GetAlignmentSymbolsFct_AddIdentityChars_Countsyms : public GetAlignmentSy
     // add identity characters:
     fst::SymbolTableIterator sit(isymbols);
     sit.Next(); // ignore eps
-    for(; !sit.Done(); sit.Next()){
-      if(osymbols.Find(sit.Symbol()) != fst::kNoLabel){
+    for (; !sit.Done(); sit.Next()) {
+      if (osymbols.Find(sit.Symbol()) != fst::kNoLabel) {
         std::stringstream ss;
         ss << sit.Symbol() << "|" << sit.Symbol();
         syms->AddSymbol(ss.str());

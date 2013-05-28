@@ -12,7 +12,7 @@ extern "C" {
                        IFeatureSet* featset) {
     featset->insert(window);
     std::string::const_iterator s = window.begin();
-    while((s = find_if(s, window.end(), isblank)) != window.end()){
+    while ((s = find_if (s, window.end(), isblank)) != window.end()) {
       std::string backoff_feat(++s, window.end());
       featset->insert(backoff_feat);
     }

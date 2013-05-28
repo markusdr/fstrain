@@ -33,19 +33,19 @@ class LatentAnnotationFeatures {
     std::string::size_type sep_pos = str.find(sep);
     StringVec result;
     // "--c2" or "a|--c2" or "a|-"
-    if(sep_pos == 0 || sep_pos == str.size() - 1 || str[sep_pos + 1] == sep) {
+    if (sep_pos == 0 || sep_pos == str.size() - 1 || str[sep_pos + 1] == sep) {
       sep_pos = str.find(sep, sep_pos + 1);
     }
-    if(sep_pos == std::string::npos) {
+    if (sep_pos == std::string::npos) {
       result.push_back(str);
     }
     else {
       result.push_back(str.substr(0, sep_pos));
       std::string la_part = str.substr(sep_pos + 1);
-      if(!la_part.empty()) {
+      if (!la_part.empty()) {
         std::stringstream ss(la_part);
         std::string la;
-        while(std::getline(ss, la, sep)) {
+        while (std::getline(ss, la, sep)) {
           result.push_back(la);
         }
       }
@@ -60,16 +60,16 @@ class LatentAnnotationFeatures {
    */
   std::string GetFeature(int start, int bit_pattern) {
     std::string feature;
-    for(int i = start; i < parts_.size(); ++i) {
+    for (int i = start; i < parts_.size(); ++i) {
       const StringVec& v = parts_[i];
       bool first = true;
-      for(std::size_t bitnum = 0; bitnum < maxnum_; ++bitnum) {
-        if(bit_pattern & (int)pow(2.0, (double)bitnum)){
+      for (std::size_t bitnum = 0; bitnum < maxnum_; ++bitnum) {
+        if (bit_pattern & (int)pow(2.0, (double)bitnum)) {
           feature += (first ? "" : sep_str_) + v[bitnum];
           first = false;
         }
       }
-      if(i < parts_.size() - 1) {
+      if (i < parts_.size() - 1) {
         feature += " ";
       }
     }
@@ -92,24 +92,24 @@ class LatentAnnotationFeatures {
     sep_str_[0] = sep_;
     std::string token;
     std::stringstream ss(str);
-    while(std::getline(ss, token, ' ')) {
+    while (std::getline(ss, token, ' ')) {
       StringVec v = SplitLa(token, sep_);
       parts_.push_back(v);
       maxnum_ = std::max(maxnum_, (int)v.size());
     }
-    for(std::size_t i = 0; i < parts_.size(); ++i) {
-      while(parts_[i].size() < maxnum_) {
+    for (std::size_t i = 0; i < parts_.size(); ++i) {
+      while (parts_[i].size() < maxnum_) {
         parts_[i].push_back("??");
       }
     }
     int max_bit_pattern = (int)pow(2.0, (double)maxnum_) - 1; // all bits on
     int max_bit = (int)pow(2.0, maxnum_ - 1.0); // highest bit
-    for(int start = 0; start < parts_.size(); ++start) {
+    for (int start = 0; start < parts_.size(); ++start) {
       int bit_pattern = max_bit_pattern;
-      while(bit_pattern > 0) {
+      while (bit_pattern > 0) {
         // const bool bad_pattern = anchored_ && !(bit_pattern & max_bit);
         const bool bad_pattern = anchored_ && !(bit_pattern & 1);
-        if(!bad_pattern) {
+        if (!bad_pattern) {
           const std::string feature = GetFeature(start, bit_pattern);
           vec_.push_back(feature);
         }

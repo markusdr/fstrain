@@ -47,14 +47,14 @@ class SymbolsMapper_InOutToAlign {
     std::string osym = arc.olabel == 0 ? "-" : osyms_.Find(arc.olabel);
     std::stringstream ss;
     bool both_eps = arc.ilabel == 0 && arc.olabel == 0;
-    if(both_eps){
+    if (both_eps) {
       ss << "eps";
     }
     else {
       ss << isym << sep_char_ << osym;
     }
     int64 align_label = align_syms_.Find(ss.str());
-    if(align_label == kNoLabel){
+    if (align_label == kNoLabel) {
       //align_label = 1; // TEST
     }
     new_arc.ilabel = align_label;

@@ -49,7 +49,7 @@ namespace po = boost::program_options;
 using namespace fst;
 using namespace fstrain;
 
-int main(int ac, char** av){
+int main(int ac, char** av) {
   try{
 
     po::options_description generic("Allowed options");
@@ -86,7 +86,7 @@ int main(int ac, char** av){
     store(po::command_line_parser(ac, av).
           options(cmdline_options).positional(p).run(), vm);
 
-    if(vm.count("config-file")){
+    if (vm.count("config-file")) {
       ifstream ifs(vm["config-file"].as<std::string>().c_str());
       store(parse_config_file(ifs, config_file_options), vm);
       notify(vm);
@@ -182,7 +182,7 @@ int main(int ac, char** av){
     fstrain::create::v3::AddIdentitySyms(*align_syms, &pruned_syms);
 
     std::cerr << "Features:" << std::endl;
-    for(SymbolTableIterator sit(pruned_syms); !sit.Done(); sit.Next()) {
+    for (SymbolTableIterator sit(pruned_syms); !sit.Done(); sit.Next()) {
       std::cout << sit.Value() << " " << sit.Symbol() << std::endl;
     }
 
@@ -192,7 +192,7 @@ int main(int ac, char** av){
     // delete isymbols;
     // delete osymbols;
   }
-  catch(std::exception const& e){
+  catch(std::exception const& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

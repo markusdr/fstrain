@@ -30,7 +30,7 @@
 
 namespace po = boost::program_options;
 
-int main(int ac, char** av){
+int main(int ac, char** av) {
   try{
 
     po::options_description generic("Allowed options");
@@ -63,7 +63,7 @@ int main(int ac, char** av){
       return EXIT_FAILURE;
     }
 
-    if(vm.count("input-file") == 0) {
+    if (vm.count("input-file") == 0) {
       std::cerr << "Please pass observations as FST" << std::endl;
       exit(EXIT_FAILURE);
     }
@@ -87,7 +87,7 @@ int main(int ac, char** av){
     delete ngram_counter;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

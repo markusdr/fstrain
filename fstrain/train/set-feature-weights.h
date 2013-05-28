@@ -80,11 +80,11 @@ template<class FloatT>
 void SetFeatureWeightsMapper<FloatT>::SetFeatures(fst::MDExpectationWeight* weight) const {
   using namespace fstrain::core;
   MDExpectations& e = weight->GetMDExpectations();
-  if(e.size()){
+  if (e.size()) {
     NeglogNum old_value = weight->Value();
     NeglogNum arc_weight = NeglogNum(0.0);
     std::map<int, NeglogNum> feat_cnt_fire_neglog_map;
-    for(MDExpectations::iterator it = e.begin(); it != e.end(); ++it){
+    for (MDExpectations::iterator it = e.begin(); it != e.end(); ++it) {
       int feat_index = it->first;
       NeglogNum feat_cnt_fire_neglog(NeglogDivide(it->second, old_value));
       feat_cnt_fire_neglog_map[feat_index] = feat_cnt_fire_neglog;
@@ -92,7 +92,7 @@ void SetFeatureWeightsMapper<FloatT>::SetFeatures(fst::MDExpectationWeight* weig
       arc_weight = NeglogTimes(arc_weight,
                                feat_cnt_fire * weights_[feat_index]);
     }
-    for(MDExpectations::iterator it = e.begin(); it != e.end(); ++it){
+    for (MDExpectations::iterator it = e.begin(); it != e.end(); ++it) {
       it->second = NeglogTimes(arc_weight, feat_cnt_fire_neglog_map[it->first]);
     }
     assert(arc_weight.sign_x); // represents a positive num

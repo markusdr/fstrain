@@ -129,13 +129,13 @@ int main(int ac, char** av) {
             fstrain::util::MemoryInfo::instance().getSizeInMB());
 
     const int64 kPhiLabel = pruned_align_syms.Find("phi");
-    if(kPhiLabel == kNoLabel){
+    if (kPhiLabel == kNoLabel) {
       throw std::runtime_error("phi not found");
     }
 
     ArcSort(&proj_up, ILabelCompare<Arc>());
     ArcSort(&scoring_fsa, ILabelCompare<Arc>());
-    for(fstrain::util::Data::const_iterator it = data.begin(); it != data.end(); ++it){
+    for (fstrain::util::Data::const_iterator it = data.begin(); it != data.end(); ++it) {
       VectorFst<Arc> input;
       VectorFst<Arc> output;
       fstrain::util::ConvertStringToFst(it->first, *isymbols, &input);
@@ -160,7 +160,7 @@ int main(int ac, char** av) {
     delete align_fst;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

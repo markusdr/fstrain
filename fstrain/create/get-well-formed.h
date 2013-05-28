@@ -55,7 +55,7 @@ void getLimitMachine(fst::MutableFst<Arc> *limitMachine,
 
   fst::SymbolTableIterator i(*syms);
   i.Next(); // skip epsilon
-  while(!i.Done()) {
+  while (!i.Done()) {
     if (i.Symbol()[0] == '-' || (alsoRestrictDel && i.Symbol()[2] == '-' )) { // Insertion (or deletion)
       for (int j = 0; j < limit; j++) {
         limitMachine->AddArc(j,

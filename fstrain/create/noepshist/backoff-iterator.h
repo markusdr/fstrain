@@ -24,7 +24,7 @@ class BackoffIterator {
 
   void PushOnQueue(const std::string& left, const std::string& right) {
     QueueEntry entry(left, right);
-    if(!IsOnQueue(entry)){
+    if (!IsOnQueue(entry)) {
       queue_.push(entry);
       is_on_queue_.insert(entry);
     }
@@ -70,16 +70,16 @@ class BackoffIterator {
     const std::string left = s.first;
     const std::string right = s.second;
     std::string left0 = left;
-    if(left0.length() > 0){
+    if (left0.length() > 0) {
       left0 = left0.substr(1);
     }
     std::string right0 = right;
-    if(right0.length() > 0){
+    if (right0.length() > 0) {
       right0 = right0.substr(1);
     }
     queue_.pop();
-    if(left0.length() + right.length() >=
-       left.length() + right0.length()){
+    if (left0.length() + right.length() >=
+       left.length() + right0.length()) {
       PushOnQueue(left0, right);
       PushOnQueue(left, right0);
     }

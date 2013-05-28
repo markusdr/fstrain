@@ -100,7 +100,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
   using core::GetOrigNum;
 
   FSTR_TRAIN_DBG_EXEC(10,
-                      for(int i = 0; i < GetNumParameters(); ++i){
+                      for (int i = 0; i < GetNumParameters(); ++i) {
                         std::cerr << "x["<<i<<"] = " << x[i]<< std::endl;
                       });
 
@@ -109,27 +109,27 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
   double* gradients = GetGradients();
 
   SetFunctionValue(0.0);
-  for(size_t i = 0; i < num_params; ++i){
+  for (size_t i = 0; i < num_params; ++i) {
     gradients[i] = 0.0;
   }
 
   // regularize
   double norm = 0.0;
-  for(int i = 0; i < num_params; ++i){
+  for (int i = 0; i < num_params; ++i) {
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
   }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
-  for(size_t i = 0; i < data_->size(); ++i) {
-    if(exclude_data_indices_.find(i) != exclude_data_indices_.end()){
+  for (size_t i = 0; i < data_->size(); ++i) {
+    if (exclude_data_indices_.find(i) != exclude_data_indices_.end()) {
       continue;
     }
     const std::pair<std::string, std::string>& inout = (*data_)[i];
     try {
       const std::string other = (*other_list_)[i];
       ProcessInputOutputPair(inout.first, inout.second, other);
-      if(GetFunctionValue() == core::kPosInfinity){
+      if (GetFunctionValue() == core::kPosInfinity) {
 	break;
       }
     }
@@ -143,19 +143,19 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
 
   // HACK
   const bool add_length_regularization = true;
-  if(add_length_regularization){
+  if (add_length_regularization) {
     const int n = data_->size() - exclude_data_indices_.size();
     double empirical_length_sum = 0.0;
     double len0 = 0.0;
     double len1 = 0.0;
-    for(size_t i = 0; i < data_->size(); ++i) {
-      if(exclude_data_indices_.find(i) != exclude_data_indices_.end()){
+    for (size_t i = 0; i < data_->size(); ++i) {
+      if (exclude_data_indices_.find(i) != exclude_data_indices_.end()) {
         continue;
       }
       const std::pair<std::string, std::string>& inout = (*data_)[i];
       double len_in = (inout.first.length() + 1) / 2 / (double)n; // "S a b E" = len 4, not 7
       double len_out = (inout.second.length() + 1) / 2 / (double)n;
-      if(GetMatchXY()){
+      if (GetMatchXY()) {
 	len0 += len_in;
 	len1 += len_out;
 	empirical_length_sum += len_in + len_out;
@@ -165,7 +165,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
 	empirical_length_sum += len_out;
       }
     }
-    if(call_counter == 0){
+    if (call_counter == 0) {
       SetTimelimit(-1); // disable
     }
     core::MDExpectations empirical_lengths;
@@ -179,7 +179,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
     alrOpts.shortestdistance_timelimit = GetTimelimit();
     alrOpts.expected_lengths = &expected_lengths;
     alrOpts.length_variance = GetLengthVariance();
-    if(GetMatchXY()){
+    if (GetMatchXY()) {
       expected_length =
           AddLengthRegularization<LengthFeatMapper_XY<MDExpectationArc> >(GetFst(),
                                                                         alrOpts);
@@ -190,7 +190,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
                                                                        alrOpts);
     }
     FSTR_TRAIN_DBG_MSG(10, "AddLengthRegularization: "<< expected_length << " - " << empirical_length_sum << std::endl);
-    for(int i = 0; i < expected_lengths.size(); ++i){
+    for (int i = 0; i < expected_lengths.size(); ++i) {
       double expected_len = GetOrigNum(expected_lengths[i]);
       double empirical_len = GetOrigNum(empirical_lengths[i]);
       double penalty0 = expected_len - empirical_len;
@@ -210,7 +210,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ComputeGradientsAndFunctionValue(con
   fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
           timer.get_elapsed_time_millis(), util::MemoryInfo::instance().getSizeInMB());
 
-  if(GetFunctionValue() == core::kPosInfinity){
+  if (GetFunctionValue() == core::kPosInfinity) {
     SetFunctionValue(1.0);
     return;
   }
@@ -278,7 +278,7 @@ void ObjectiveFunctionFstCondotherLenmatch::ProcessInputOutputPair(
   FSTR_TRAIN_DBG_EXEC(100, util::printFst(&unclamped, NULL, NULL, false, std::cerr));
   FSTR_TRAIN_DBG_MSG(10, "UNCLAMPED=" << unclamped_result << std::endl);
   unclamped_timer.stop();
-  if(call_counter == 0){
+  if (call_counter == 0) {
     double new_limit = 4.0 * unclamped_timer.get_elapsed_time_millis();
     SetTimelimit((long)new_limit);
   }

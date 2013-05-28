@@ -43,33 +43,33 @@ void GetProjUpDown(
   InitHookMachine(proj_down);
   StateId proj_up_s = proj_up->Start();
   StateId proj_down_s = proj_down->Start();
-  for(SymbolTableIterator ait(align_syms); !ait.Done(); ait.Next()){
+  for (SymbolTableIterator ait(align_syms); !ait.Done(); ait.Next()) {
     const std::string asym_string = ait.Symbol();
     // examples for special syms: eps, START, END, phi, ...
     bool is_special_symbol = asym_string.find(sep_char) == std::string::npos;
-    if(!is_special_symbol){
+    if (!is_special_symbol) {
       std::stringstream asym(asym_string);
       std::string in, out, tmp;
       std::getline(asym, in, sep_char);
       std::getline(asym, out, sep_char);
-      if(std::getline(asym, tmp)) { // no more
+      if (std::getline(asym, tmp)) { // no more
         FSTR_CREATE_EXCEPTION("Wrong alignment symbol format: " << asym.str());
       }
-      if(in == "-"){
+      if (in == "-") {
         in = "eps";
       }
-      if(out == "-"){
+      if (out == "-") {
         out = "eps";
       }
       int64 isym = input_syms.Find(in);
-      if(isym == kNoLabel){
+      if (isym == kNoLabel) {
         FSTR_CREATE_EXCEPTION("Could not find input symbol '"<<in<<"' in input_syms");
       }
       proj_up->AddArc(proj_up_s,
                       Arc(isym, ait.Value(), Weight::One(), proj_up_s));
 
       int64 osym = output_syms.Find(out);
-      if(osym == kNoLabel){
+      if (osym == kNoLabel) {
         FSTR_CREATE_EXCEPTION("Could not find output symbol '"<<out<<"' in output_syms");
       }
       proj_down->AddArc(proj_down_s,

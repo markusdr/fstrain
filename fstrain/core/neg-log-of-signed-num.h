@@ -91,13 +91,13 @@ inline NeglogNum NeglogPlus_(const NeglogNum& a,
 
 inline NeglogNum NeglogPlus(const NeglogNum& a,
 			    const NeglogNum& b) {
-  if(a.lx == std::numeric_limits<double>::infinity()) {
+  if (a.lx == std::numeric_limits<double>::infinity()) {
     return b;
   }
-  if(b.lx == std::numeric_limits<double>::infinity()) {
+  if (b.lx == std::numeric_limits<double>::infinity()) {
     return a;
   }
-  if(a.lx <= b.lx) {
+  if (a.lx <= b.lx) {
     return NeglogPlus_(a, b);
   }
   else {
@@ -106,10 +106,10 @@ inline NeglogNum NeglogPlus(const NeglogNum& a,
 }
 inline NeglogNum NeglogTimes(const NeglogNum& a,
 			     const NeglogNum& b) {
-  if(a.lx == std::numeric_limits<double>::infinity()){
+  if (a.lx == std::numeric_limits<double>::infinity()) {
     return a;
   }
-  if(b.lx == std::numeric_limits<double>::infinity()){
+  if (b.lx == std::numeric_limits<double>::infinity()) {
     return b;
   }
   return NeglogNum(a.lx + b.lx,

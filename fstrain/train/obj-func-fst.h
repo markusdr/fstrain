@@ -63,7 +63,7 @@ class ObjectiveFunctionFst : public ObjectiveFunction {
   }
 
   virtual void SetTimelimit(long l) {
-    if(l != timelimit_ms_){
+    if (l != timelimit_ms_) {
       std::cerr << "Setting new timelimit " << l << std::endl;
       timelimit_ms_ = l;
     }

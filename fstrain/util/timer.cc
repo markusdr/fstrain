@@ -18,18 +18,18 @@
 
 namespace fstrain { namespace util {
 
-Timer::Timer(){
+Timer::Timer() {
   start();
 }
-Timer::~Timer(){}
+Timer::~Timer() {}
 
-void Timer::start(){
+void Timer::start() {
   gettimeofday(&startTime, NULL);
   running = true;
 }
 
-void Timer::stop(){
-  if(running){
+void Timer::stop() {
+  if (running) {
     gettimeofday(&stopTime, NULL);
     running = false;
 
@@ -41,11 +41,11 @@ void Timer::stop(){
   }
 }
 
-double Timer::get_elapsed_time_millis(){
+double Timer::get_elapsed_time_millis() {
   return (double)elapsedTime;
 }
 
-double Timer::get_elapsed_time_seconds(){
+double Timer::get_elapsed_time_seconds() {
   return elapsedTime / 1000.0f;
 }
 

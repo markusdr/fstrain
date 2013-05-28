@@ -28,7 +28,7 @@ namespace fstrain { namespace create { namespace noepshist {
 void CheckHistory(const std::string& hist, const char sep_char) {
   typedef std::string::size_type stype;
   stype sep_pos = hist.find(sep_char);
-  if(sep_pos == std::string::npos){
+  if (sep_pos == std::string::npos) {
     FSTR_CREATE_EXCEPTION("history '"<< hist <<"' has no separator '"
                           << sep_char << "'");
   }
@@ -37,12 +37,12 @@ void CheckHistory(const std::string& hist, const char sep_char) {
 std::string GetBackoffHistory(const std::string& hist,
                               HistoryFilter* hist_filter,
                               const char sep_char) {
-  if(hist_filter == NULL){
+  if (hist_filter == NULL) {
     return hist;
   }
-  for(BackoffIterator biter(hist, sep_char); !biter.Done(); biter.Next()){
+  for (BackoffIterator biter(hist, sep_char); !biter.Done(); biter.Next()) {
     const std::string backoff = biter.Value();
-    if((*hist_filter)(backoff)){
+    if ((*hist_filter)(backoff)) {
       return backoff;
     }
   }
@@ -67,11 +67,11 @@ std::string ExtendHistory(const std::string& hist, const std::string& sym,
   const char lchar = sym[0]; // a in a|x
   const char rchar = sym[2]; // x in a|x
   result << lhist;
-  if(lchar != eps_char){
+  if (lchar != eps_char) {
     result << lchar;
   }
   result << sep_char << rhist;
-  if(rchar != eps_char){
+  if (rchar != eps_char) {
     result << rchar;
   }
   return result.str();
@@ -103,22 +103,22 @@ void GetStateHistories(const fst::Fst<Arc>& fst,
   typedef typename Id2HistMap::const_iterator Id2HistMapIter;
   Id2HistMap id2hist;
   id2hist.insert(std::make_pair(start_id, start_hist));
-  while(!states_todo.empty()){
+  while (!states_todo.empty()) {
     StateId state_id = states_todo.front();
     states_todo.pop();
     // const std::string state_hist = histories->Find(state_id);
     Id2HistMapIter found = id2hist.find(state_id);
-    if(found == id2hist.end()) {
+    if (found == id2hist.end()) {
       FSTR_CREATE_EXCEPTION("Could not find history of state " << state_id);
     }
     const std::string state_hist = found->second;
     FSTR_CREATE_DBG_MSG(10, "hist("<<state_id<<")=" << state_hist << std::endl);
     ArcIterator<Fst<Arc> > aiter(fst, state_id);
-    for(; !aiter.Done(); aiter.Next() ){
+    for (; !aiter.Done(); aiter.Next() ) {
       const Arc& arc = aiter.Value();
       const std::string sym = align_syms.Find(arc.ilabel);
       bool next_state_is_leaf = !util::HasOutArcs(fst, arc.nextstate);
-      if(next_state_is_leaf && !store_leaves_histories){
+      if (next_state_is_leaf && !store_leaves_histories) {
         continue;
       }
       const std::string arc_hist = ExtendHistory(state_hist, sym,
@@ -126,13 +126,13 @@ void GetStateHistories(const fst::Fst<Arc>& fst,
       FSTR_CREATE_DBG_MSG(10, "arc_hist=" << arc_hist << std::endl);
       std::string next_state_hist = GetBackoffHistory(arc_hist, hist_filter,
                                                       sep_char);
-      if(next_state_is_leaf && all_final_states_have_same_history){
+      if (next_state_is_leaf && all_final_states_have_same_history) {
         next_state_hist = end_align_sym;
       }
       //std::string next_state_hist_lookup = histories->Find(arc.nextstate);
-      //if(next_state_hist_lookup == ""){ // not contained
+      //if (next_state_hist_lookup == "") { // not contained
       Id2HistMapIter found = id2hist.find(arc.nextstate);
-      if(found == id2hist.end()){
+      if (found == id2hist.end()) {
         std::cerr << "Adding hist " << next_state_hist
                   << " (id=" << arc.nextstate << ")" << std::endl;
         // histories->AddSymbol(next_state_hist, arc.nextstate);
@@ -140,7 +140,7 @@ void GetStateHistories(const fst::Fst<Arc>& fst,
         id2hist.insert(std::make_pair(arc.nextstate, next_state_hist));
         states_todo.push(arc.nextstate);
       }
-      else if(next_state_hist != found->second) {
+      else if (next_state_hist != found->second) {
         FSTR_CREATE_EXCEPTION("histories for state " << arc.nextstate
                               << " do not agree: "
                               << next_state_hist << " != " << found->second);
@@ -184,27 +184,27 @@ class InsertFeaturesFct_Default : public InsertFeaturesFct<Container> {
                   const std::string& arcsym,
                   Container* container,
                   fst::SymbolTable* feature_ids) {
-    if(feature_ids == NULL){
+    if (feature_ids == NULL) {
       FSTR_CREATE_EXCEPTION("feature_ids is NULL");
     }
     typedef std::set<std::string> StringSet;
     StringSet new_feats;
-    for(BackoffIterator biter(state_history, sep_char_); !biter.Done(); biter.Next()){
+    for (BackoffIterator biter(state_history, sep_char_); !biter.Done(); biter.Next()) {
       const std::string& backoff = biter.Value();
       const std::string new_feat =
           ExtendHistory(backoff, arcsym, sep_char_, eps_char_);
-      if(hist_filter_ == NULL || (*hist_filter_)(backoff)){
+      if (hist_filter_ == NULL || (*hist_filter_)(backoff)) {
         new_feats.insert(new_feat);
       }
     }
-    if(fstrain::util::options.has("fstrain.create.lengthPenaltyFeatures")){
+    if (fstrain::util::options.has("fstrain.create.lengthPenaltyFeatures")) {
       AddLengthPenalties(arcsym, sep_char_, eps_char_, &new_feats);
     }
-    if(fstrain::util::options.has("fstrain.create.insDelFeatures")){
+    if (fstrain::util::options.has("fstrain.create.insDelFeatures")) {
       FSTR_CREATE_EXCEPTION("unimplemented");
       // AddInsDelFeatures(arcsym, sep_char_, eps_char_, &new_feats);
     }
-    for(StringSet::const_iterator it = new_feats.begin(); it != new_feats.end(); ++it) {
+    for (StringSet::const_iterator it = new_feats.begin(); it != new_feats.end(); ++it) {
       const int64 feature_id = feature_ids->AddSymbol(*it);
       container->insert(feature_id, 0.0);
     }
@@ -285,18 +285,18 @@ class ScoringFstBuilder {
     typedef typename Arc::StateId StateId;
     typedef typename Arc::Weight Weight;
     std::string state_hist = state_ids->Find(state_id);
-    if(state_hist.length() == 0){
+    if (state_hist.length() == 0) {
       FSTR_CREATE_EXCEPTION("no history for state " << state_id);
     }
     fst::SymbolTableIterator aiter(align_syms);
     aiter.Next(); // ignore eps sym
-    for( ; !aiter.Done(); aiter.Next()) {
+    for ( ; !aiter.Done(); aiter.Next()) {
       const std::string sym = aiter.Symbol();
       bool target_state_is_final = sym == end_align_sym;
       std::string target_state_hist = ExtendHistory(state_hist, sym,
                                                     sep_char_, eps_char_);
       const std::string full_history = target_state_hist;
-      if(target_state_is_final){
+      if (target_state_is_final) {
         target_state_hist = end_align_sym;
       }
       else {
@@ -304,14 +304,14 @@ class ScoringFstBuilder {
             GetBackoffHistory(target_state_hist, hist_filter, sep_char_);
       }
       StateId target_state_id = state_ids->Find(target_state_hist);
-      if(target_state_id == fst::kNoStateId){
+      if (target_state_id == fst::kNoStateId) {
         target_state_id = result->AddState();
         state_ids->AddSymbol(target_state_hist, target_state_id);
-        if(!target_state_is_final){
+        if (!target_state_is_final) {
           states_todo->push(target_state_id);
         }
       }
-      if(target_state_is_final){
+      if (target_state_is_final) {
         result->SetFinal(target_state_id, Weight::One());
       }
       FSTR_CREATE_DBG_MSG(10, "Found history " << target_state_hist
@@ -352,7 +352,7 @@ class ScoringFstBuilder {
     state_ids.AddSymbol(start_hist, start_state_id);
     states_todo.push(start_state_id);
     result->SetStart(start_state_id);
-    while(!states_todo.empty()) {
+    while (!states_todo.empty()) {
       StateId sid = states_todo.front();
       states_todo.pop();
       AddArcs(align_syms, end_align_sym,
@@ -362,7 +362,7 @@ class ScoringFstBuilder {
     }
 
     FSTR_CREATE_DBG_EXEC(10,
-                         if(hist_filter != NULL){
+                         if (hist_filter != NULL) {
                            std::cerr << "Running GetStateHistories" << std::endl;
                            // SymbolTable histories("histories");
                            std::set<std::string> histories;
@@ -372,15 +372,15 @@ class ScoringFstBuilder {
                                              sep_char_, eps_char_,
                                              align_syms, end_align_sym, true, true, &histories);
                            std::cerr << "NEW:" << std::endl;
-                           //for(SymbolTableIterator siter(histories); !siter.Done(); siter.Next()){
+                           //for (SymbolTableIterator siter(histories); !siter.Done(); siter.Next()) {
                            // std::cerr << siter.Value() << "\t" << siter.Symbol() << std::endl;
                            //}
-                           for(std::set<std::string>::const_iterator it = histories.begin();
-                               it != histories.end(); ++it){
+                           for (std::set<std::string>::const_iterator it = histories.begin();
+                               it != histories.end(); ++it) {
                              std::cerr << *it << std::endl;
                            }
                            std::cerr << "ORIG:" << std::endl;
-                           for(fst::SymbolTableIterator siter(state_ids); !siter.Done(); siter.Next()){
+                           for (fst::SymbolTableIterator siter(state_ids); !siter.Done(); siter.Next()) {
                              std::cerr << siter.Value() << "\t" << siter.Symbol() << std::endl;
                            }
                          }
@@ -441,18 +441,18 @@ void CreateNgramFstFromBestAlign(size_t ngram_order,
                     *align_syms, end_sym, false, false, &state_histories);
 
   std::cerr << "FOUND HISTORIES:" << std::endl;
-  for(std::set<std::string>::const_iterator it = state_histories.begin();
-      it != state_histories.end(); ++it){
+  for (std::set<std::string>::const_iterator it = state_histories.begin();
+      it != state_histories.end(); ++it) {
     std::cerr << *it << std::endl;
   }
 
   // Adds all alignment syms as allowed (unigram) history
-  for(SymbolTableIterator it(*align_syms); !it.Done(); it.Next()){
+  for (SymbolTableIterator it(*align_syms); !it.Done(); it.Next()) {
     std::string unigram_hist = it.Symbol();
-    if(unigram_hist[0] == '-'){ // -|x
+    if (unigram_hist[0] == '-') { // -|x
       unigram_hist = unigram_hist.substr(1);
     }
-    if(unigram_hist[2] == '-'){ // a|-
+    if (unigram_hist[2] == '-') { // a|-
       unigram_hist = unigram_hist.substr(0, unigram_hist.length() - 1);
     }
     std::cerr << "Adding unigram hist " << unigram_hist << std::endl;

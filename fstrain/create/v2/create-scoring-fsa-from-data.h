@@ -44,7 +44,7 @@ void CreateScoringFsaFromData(const util::Data& data,
 
   std::cerr << "# Getting pruned alignment symbols ..." << std::endl;
   GetPrunedAlignmentSyms(data, isyms, osyms, align_fst, pruned_align_syms);
-  if(add_identity_chars){
+  if (add_identity_chars) {
     AddIdentityCharacters(isyms, osyms, pruned_align_syms);
   }
   std::cerr << "# Done getting pruned alignment symbols." << std::endl;

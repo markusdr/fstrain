@@ -28,13 +28,13 @@
 #include "fstrain/util/print-fst.h"
 #include "fstrain/train/set-feature-weights.h"
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
   try{
 
     using namespace fst;
     using namespace fstrain;
 
-    if(argc != 3){
+    if (argc != 3) {
       throw std::runtime_error("Please give 2 arguments");
     }
 
@@ -50,7 +50,7 @@ int main(int argc, char** argv){
     std::cerr << "# Found " << (highest + 1) << " features." << std::endl;
 
     std::vector<double> weights(highest + 1);
-    for(int i = 0; i <= highest; ++i){
+    for (int i = 0; i <= highest; ++i) {
       weights[i] = 2.0 * (i+1);
     }
 
@@ -79,7 +79,7 @@ int main(int argc, char** argv){
     ComposeFst<MDExpectationArc> result2(UnionFst<MDExpectationArc>(inserted1, inserted2), inserted2);
     util::printTransducer(&result2, NULL, NULL, std::cout);
 
-    if(Equal(result1, result2)){
+    if (Equal(result1, result2)) {
       std::cout << "OK" << std::endl;
     }
     else {
@@ -91,7 +91,7 @@ int main(int argc, char** argv){
     delete fst2;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

@@ -22,12 +22,12 @@
 namespace fstrain { namespace util {
 
 void Data::init_from_stream(std::istream& in) {
-  while(!in.eof()){
+  while (!in.eof()) {
     std::string input;
     std::string output;
     std::getline(in, input);
     std::getline(in, output);
-    if(input.length() && output.length()){
+    if (input.length() && output.length()) {
       input = trim(input);
       output = trim(output);
       data_.push_back(std::make_pair(input, output));

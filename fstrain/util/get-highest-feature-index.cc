@@ -25,17 +25,17 @@ namespace fstrain { namespace util {
   void processWeight(const MDExpectationArc::Weight& w, int& result) {
     typedef MDExpectationArc::Weight::MDExpectations MDExpectations;
     const MDExpectations& e = w.GetMDExpectations();
-    for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
+    for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
       int featureIndex = it->first;
       result = std::max(result, featureIndex);
     }
   }
 
-  int getHighestFeatureIndex(const Fst<MDExpectationArc>& theFst){
+  int getHighestFeatureIndex(const Fst<MDExpectationArc>& theFst) {
     int result = 0;
-    for (StateIterator< Fst<MDExpectationArc> > siter(theFst); !siter.Done(); siter.Next()){
+    for (StateIterator< Fst<MDExpectationArc> > siter(theFst); !siter.Done(); siter.Next()) {
       StateId in = siter.Value();
-      for (ArcIterator<Fst<MDExpectationArc> > aiter(theFst, in); !aiter.Done(); aiter.Next()){
+      for (ArcIterator<Fst<MDExpectationArc> > aiter(theFst, in); !aiter.Done(); aiter.Next()) {
 	processWeight(aiter.Value().weight, result);
       }
       processWeight(theFst.Final(in), result);

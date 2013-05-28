@@ -26,13 +26,13 @@ namespace fstrain { namespace create {
 
 inline std::string::size_type FindSeparator(const std::string& sym, const char sep) {
   std::string::size_type sep_pos = sym.find(sep);
-  if(sep_pos == 0) {
+  if (sep_pos == 0) {
     FSTR_CREATE_EXCEPTION("No input dimension found in " << sym);
   }
-  if(sep_pos == sym.length() - 1) {
+  if (sep_pos == sym.length() - 1) {
     FSTR_CREATE_EXCEPTION("No output dimension found in " << sym);
   }
-  if(sep_pos == std::string::npos) {
+  if (sep_pos == std::string::npos) {
     FSTR_CREATE_EXCEPTION("Could not find separator in " << sym);
   }
   return sep_pos;
@@ -76,7 +76,7 @@ struct BackoffSyms_vc : public BackoffSymsFct {
     std::string sym = both.first;
     std::string la = both.second;
     std::string::size_type sep_pos = FindSeparator(sym, in_out_sep);
-    if(!(sep_pos == 1 && sym.length() == 3)) {
+    if (!(sep_pos == 1 && sym.length() == 3)) {
       FSTR_CREATE_EXCEPTION("BackoffSyms_vc needs simple in" << in_out_sep
                             << "out chars, but got " << sym);
     }
@@ -102,20 +102,20 @@ struct BackoffSyms_id : public BackoffSymsFct {
     std::string sym = both.first;
     std::string la = both.second;
     std::string::size_type sep_pos = FindSeparator(sym, in_out_sep);
-    if(!(sep_pos == 1 && sym.length() == 3)) {
+    if (!(sep_pos == 1 && sym.length() == 3)) {
       FSTR_CREATE_EXCEPTION("BackoffSyms_id needs simple in" << in_out_sep
                             << "out chars, but got " << sym);
     }
     std::string new_sym;
     const char l = sym[0];
     const char r = sym[2];
-    if(l == '-') {
+    if (l == '-') {
       new_sym = "INS";
     }
-    else if(r == '-') {
+    else if (r == '-') {
       new_sym = "DEL";
     }
-    else if(l == r) {
+    else if (l == r) {
       new_sym = "ID";
     }
     else {
@@ -130,13 +130,13 @@ struct BackoffSyms_id : public BackoffSymsFct {
  */
 inline BackoffSymsFct::Ptr CreateBackoffSymsFct(const std::string& name) {
   BackoffSymsFct::Ptr result;
-  if(name == "tlm") {
+  if (name == "tlm") {
     result = BackoffSymsFct::Ptr(new BackoffSyms_tlm());
   }
-  else if(name == "vc") {
+  else if (name == "vc") {
     result = BackoffSymsFct::Ptr(new BackoffSyms_vc());
   }
-  else if(name == "id") {
+  else if (name == "id") {
     result = BackoffSymsFct::Ptr(new BackoffSyms_id());
   }
   // ... add new functions here

@@ -80,11 +80,11 @@ void TrieInsertFeatures0(const fst::SymbolTable& syms,
                          typename Arc::StateId state) {
   using namespace fst;
   typedef typename Arc::StateId StateId;
-  for(fst::MutableArcIterator< MutableFst<Arc> > ait(trie, state);
+  for (fst::MutableArcIterator< MutableFst<Arc> > ait(trie, state);
       !ait.Done(); ait.Next()) {
     Arc arc = ait.Value();
     const std::string symbol = syms.Find(arc.ilabel);
-    if(symbol == ""){
+    if (symbol == "") {
       FSTR_CREATE_EXCEPTION("Could not find label " << arc.ilabel);
     }
     const std::string nexthist = history + (history.length() ? " " : "")

@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     fstrain::util::ShortestDistanceM(*fst, &alphas, true, 1e-4);
 
     std::cout << std::setprecision(12);
-    for(int i = 0; i < alphas.size(); ++i) {
+    for (int i = 0; i < alphas.size(); ++i) {
       std::cout << i << " " << alphas[i] << std::endl;
     }
 

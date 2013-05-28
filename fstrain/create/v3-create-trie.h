@@ -194,7 +194,7 @@ void CreateNolaToLaFst(const fst::SymbolTable* la_syms,
   nola_syms->AddSymbol("eps", 0);
   SymbolTableIterator it(*la_syms);
   it.Next(); // ignore eps
-  for(; !it.Done(); it.Next()) {
+  for (; !it.Done(); it.Next()) {
     std::string la_sym = it.Symbol();
     int64 la_val = it.Value();
     // e.g. splits into "a|x" and "c2-g1"
@@ -256,7 +256,7 @@ void AlignDataAndExtractNgramCounts(v3::AlignmentLatticesIterator<fst::StdArc> l
     aligned->SetOutputSymbols(align_syms_nola);
 
     VectorFst<StdArc> aligned2;
-    if(wellformed_has_latent_annotations) {
+    if (wellformed_has_latent_annotations) {
       ComposeFst<StdArc> tmp(*aligned, *proj_nola_to_la);
       Compose(tmp,
               wellformed_fst,

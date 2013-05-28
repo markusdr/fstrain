@@ -111,7 +111,7 @@ class SelectivePhiMatcher {
         phi_match_ = match_label;
         return true;
       }
-      if(!phi_match_syms_.empty()
+      if (!phi_match_syms_.empty()
          && phi_match_syms_.find(match_label) == phi_match_syms_.end()) {
         return false;
       }

@@ -34,11 +34,11 @@ struct ConvertAndUpdateWeightMapper {
     using fstrain::core::NeglogNum;
     const MDExpectations& e = arc.weight.GetMDExpectations();
     double w = 0.0;
-    if(e.size() == 0) {
+    if (e.size() == 0) {
       w = arc.weight.Value();
     }
     else {
-      for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
+      for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
         w += feat_weights_[it->first]; // assume it fires only once
       }
     }
@@ -80,29 +80,29 @@ void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
   fst::ShortestDistance(mapped, &alphas);
   fst::ShortestDistance(mapped, &betas, true);
   const bool no_paths_fst = (betas.size() == 0);
-  if(no_paths_fst){
+  if (no_paths_fst) {
     throw std::runtime_error("no paths: bad fst");
   }
 
   MDExpectations feat_expectations;
   for (fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter(fst);
-       !siter.Done(); siter.Next()){
+       !siter.Done(); siter.Next()) {
     StateId in = siter.Value();
     assert(alphas.size() > in);
     for (fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter(fst, in);
-         !aiter.Done(); aiter.Next()){
+         !aiter.Done(); aiter.Next()) {
       StateId out = aiter.Value().nextstate;
-      if(betas.size() > out && betas[out] != LogDWeight::Zero()
+      if (betas.size() > out && betas[out] != LogDWeight::Zero()
          && betas[out].Value() == betas[out].Value()) { // fails for NaN
         const MDExpectations& e = aiter.Value().weight.GetMDExpectations();
-        for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
+        for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
           const int index = it->first;
           const NeglogNum& expectation = it->second;
 	  NeglogNum addval =
               NeglogTimes(NeglogTimes(alphas[in].Value(), expectation),
                           betas[out].Value());
 	  MDExpectations::iterator found = feat_expectations.find(index);
-	  if(found != feat_expectations.end()) {
+	  if (found != feat_expectations.end()) {
 	    found->second = NeglogPlus(found->second, addval);
 	  }
 	  else {
@@ -113,8 +113,8 @@ void AddFeatMDExpectations(const fst::Fst<Arc>& fst,
     }
   }
 
-  for(MDExpectations::const_iterator it = feat_expectations.begin();
-      it != feat_expectations.end(); ++it){
+  for (MDExpectations::const_iterator it = feat_expectations.begin();
+      it != feat_expectations.end(); ++it) {
     int index = it->first;
     double expected_count =
         GetOrigNum(NeglogDivide(it->second, betas[start_state].Value()));

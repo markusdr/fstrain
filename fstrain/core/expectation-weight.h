@@ -44,7 +44,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
 
   MDExpectationWeight(const MDExpectationWeight& other)
       : MDExpectationWeightBase(other.Value()), expectations_(other.expectations_) {
-    if(expectations_){
+    if (expectations_) {
       expectations_->incCount();
     }
   }
@@ -52,7 +52,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
   MDExpectationWeight& operator= (const MDExpectationWeight& other) {
     MDExpectations* const old = expectations_;
     expectations_ = other.expectations_;
-    if(expectations_ != 0)
+    if (expectations_ != 0)
       expectations_->incCount();
     if (old != 0 && old->decCount() == 0) {
       delete old;
@@ -62,7 +62,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
   }
 
   virtual ~MDExpectationWeight() {
-    if(expectations_ != 0 && expectations_->decCount() == 0){
+    if (expectations_ != 0 && expectations_->decCount() == 0) {
       delete expectations_;
       expectations_ = 0;
     }
@@ -71,14 +71,14 @@ class MDExpectationWeight : public MDExpectationWeightBase {
   // void SetValue(double v) { value_ = v; }
 
   const MDExpectations& GetMDExpectations() const {
-    if(expectations_ == 0){
+    if (expectations_ == 0) {
       return getEmptyStaticMDExpectations();
     }
     return *expectations_;
   }
 
   MDExpectations& GetMDExpectations() {
-    if(expectations_ == 0){
+    if (expectations_ == 0) {
       expectations_ = new MDExpectations();
     }
     if (expectations_->getCount() > 1) {
@@ -109,15 +109,15 @@ class MDExpectationWeight : public MDExpectationWeightBase {
     // First part fails for IEEE NaN
     bool is_member = Value() == Value()
         && Value() != FloatLimits<double>::PosInfinity();
-    if(!is_member){
+    if (!is_member) {
       return false;
     }
     const MDExpectations& e = GetMDExpectations();
-    for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
+    for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
       const double neglog_val = it->second.lx;
       bool is_member = neglog_val == neglog_val
           && neglog_val != FloatLimits<double>::NegInfinity();
-      if(!is_member){
+      if (!is_member) {
         return false;
       }
     }
@@ -128,7 +128,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
     result.SetValue(MDExpectationWeightBase(Value()).Quantize(delta).Value());
     const MDExpectations& e = GetMDExpectations();
     MDExpectations& result_e = result.GetMDExpectations();
-    for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
+    for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
       result_e.insert(it->first, NeglogQuantize(it->second, delta));
     }
     return result;
@@ -151,7 +151,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
     ReadType(strm, &size0);
     GetMDExpectations().clear();
     MDExpectations::size_type size = static_cast<MDExpectations::size_type>(size0);
-    for(MDExpectations::size_type i = 0; i < size; ++i){
+    for (MDExpectations::size_type i = 0; i < size; ++i) {
       int64 index;
       double expectation;
       ReadType(strm, &index);
@@ -164,8 +164,8 @@ class MDExpectationWeight : public MDExpectationWeightBase {
   ostream &Write(ostream &strm) const {
     WriteType(strm, Value());
     WriteType(strm, (int64)(GetMDExpectations().size()));
-    for(MDExpectations::const_iterator it=GetMDExpectations().begin();
-        it != GetMDExpectations().end(); ++it){
+    for (MDExpectations::const_iterator it=GetMDExpectations().begin();
+        it != GetMDExpectations().end(); ++it) {
       WriteType(strm, (int64)(it->first)); // write all the expectations that fire
       // TODO: write sign too
       WriteType(strm, (it->second.lx));
@@ -177,7 +177,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
     size_t seed = 0;
     boost::hash_combine(seed, Value());
     const MDExpectations& e = GetMDExpectations();
-    for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
+    for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
       boost::hash_combine(seed, it->second.lx);
       boost::hash_combine(seed, it->second.sign_x);
     }
@@ -190,7 +190,7 @@ class MDExpectationWeight : public MDExpectationWeightBase {
 
  protected:
 
-  static const MDExpectations& getEmptyStaticMDExpectations(){
+  static const MDExpectations& getEmptyStaticMDExpectations() {
     static const MDExpectations empty;
     return empty;
   }
@@ -253,7 +253,7 @@ inline MDExpectationWeight Times(const MDExpectationWeight &w1, const MDExpectat
   return w3;
 }
 
-inline MDExpectationWeight OneOver(const MDExpectationWeight& w){
+inline MDExpectationWeight OneOver(const MDExpectationWeight& w) {
   using namespace fstrain::core;
   NeglogNum one_over_p = NeglogDivide(NeglogNum(0.0),
                                       NeglogNum(w.Value()));
@@ -261,7 +261,7 @@ inline MDExpectationWeight OneOver(const MDExpectationWeight& w){
   MDExpectationWeight result(one_over_p.lx);
   const MDExpectations& in = w.GetMDExpectations();
   MDExpectations& out = result.GetMDExpectations();
-  for(MDExpectations::const_iterator it = in.begin(); it != in.end(); ++it){
+  for (MDExpectations::const_iterator it = in.begin(); it != in.end(); ++it) {
     out.insert(it->first, NeglogTimes(NeglogTimes(minus_one_over_p, it->second),
                                       one_over_p));
   }
@@ -294,13 +294,13 @@ inline istream &operator>>(istream &strm, MDExpectationWeight &w) {
   std::string::size_type expectationsStart = s.find('[');
   std::string dStr;
   std::string expectationsStr;
-  if(expectationsStart == std::string::npos){
+  if (expectationsStart == std::string::npos) {
     dStr = s;
     double d = fstrain::core::stringToDouble(dStr);
     w = MDExpectationWeight(d);
   }
   else{
-    if(s.find(']') == std::string::npos){
+    if (s.find(']') == std::string::npos) {
       throw std::runtime_error("Format error in expectations");
     }
     dStr = s.substr(0, expectationsStart);

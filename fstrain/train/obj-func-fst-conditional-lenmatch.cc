@@ -86,7 +86,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
   using core::GetOrigNum;
 
   FSTR_TRAIN_DBG_EXEC(10,
-                     for(int i = 0; i < GetNumParameters(); ++i){
+                     for (int i = 0; i < GetNumParameters(); ++i) {
                        std::cerr << "x["<<i<<"] = " << x[i]<< std::endl;
                      });
 
@@ -95,26 +95,26 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
   double* gradients = GetGradients();
 
   SetFunctionValue(0.0);
-  for(size_t i = 0; i < num_params; ++i){
+  for (size_t i = 0; i < num_params; ++i) {
     gradients[i] = 0.0;
   }
 
   // regularize
   double norm = 0.0;
-  for(int i = 0; i < num_params; ++i){
+  for (int i = 0; i < num_params; ++i) {
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
   }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
-  for(size_t i = 0; i < data_->size(); ++i) {
-    if(exclude_data_indices_.find(i) != exclude_data_indices_.end()){
+  for (size_t i = 0; i < data_->size(); ++i) {
+    if (exclude_data_indices_.find(i) != exclude_data_indices_.end()) {
       continue;
     }
     const std::pair<std::string, std::string>& inout = (*data_)[i];
     try {
       ProcessInputOutputPair(inout.first, inout.second, call_counter);
-      if(GetFunctionValue() == core::kPosInfinity){
+      if (GetFunctionValue() == core::kPosInfinity) {
 	break;
       }
     }
@@ -128,19 +128,19 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
 
   // HACK
   const bool add_length_regularization = true;
-  if(add_length_regularization){
+  if (add_length_regularization) {
     const int n = data_->size() - exclude_data_indices_.size();
     double len0 = 0.0;
     double len1 = 0.0;
     double empirical_length_sum = 0.0;
-    for(size_t i = 0; i < data_->size(); ++i) {
-      if(exclude_data_indices_.find(i) != exclude_data_indices_.end()){
+    for (size_t i = 0; i < data_->size(); ++i) {
+      if (exclude_data_indices_.find(i) != exclude_data_indices_.end()) {
         continue;
       }
       const std::pair<std::string, std::string>& inout = (*data_)[i];
       double len_in = (inout.first.length() + 1) / 2 / (double)n; // "S a b E" = len 4, not 7
       double len_out = (inout.second.length() + 1) / 2 / (double)n;
-      if(match_xy_){
+      if (match_xy_) {
 	len0 += len_in;
 	len1 += len_out;
 	empirical_length_sum += len_in + len_out;
@@ -163,7 +163,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
     alrOpts.fst_delta = GetFstDelta();
     alrOpts.expected_lengths = &expected_lengths;
     alrOpts.length_variance = length_variance_;
-    if(match_xy_){
+    if (match_xy_) {
       expected_length =
           AddLengthRegularization<LengthFeatMapper_XY<MDExpectationArc> >(GetFst(),
                                                                         alrOpts);
@@ -174,7 +174,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
                                                                         alrOpts);
     }
     FSTR_TRAIN_DBG_MSG(10, "AddLengthRegularization: "<< expected_length << " - " << empirical_length_sum << std::endl);
-    for(int i = 0; i < expected_lengths.size(); ++i){
+    for (int i = 0; i < expected_lengths.size(); ++i) {
       double penalty0 = GetOrigNum(expected_lengths[i]) - GetOrigNum(empirical_lengths[i]);
       double penalty = penalty0 * penalty0 / (2.0 * length_variance_);
       std::cerr << "g" << "["<<i<<"]: "
@@ -192,7 +192,7 @@ void ObjectiveFunctionFstConditionalLenmatch::ComputeGradientsAndFunctionValue(c
   fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
           timer.get_elapsed_time_millis(), util::MemoryInfo::instance().getSizeInMB());
 
-  if(GetFunctionValue() == core::kPosInfinity){
+  if (GetFunctionValue() == core::kPosInfinity) {
     SetFunctionValue(1.0);
     return;
   }

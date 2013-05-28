@@ -54,7 +54,7 @@ void GetBackoffSymsFst(const AllSymbols& align_syms,
   result_fst->SetFinal(s, Arc::Weight::One());
   SymbolTableIterator sit(*align_syms.symbol_table);
   sit.Next(); // ignore eps
-  for(; !sit.Done(); sit.Next()) {
+  for (; !sit.Done(); sit.Next()) {
     const int64 old_label = sit.Value();
     int64 new_label;
     const bool is_special_sym =
@@ -64,7 +64,7 @@ void GetBackoffSymsFst(const AllSymbols& align_syms,
     const std::string backoff_sym =
         is_special_sym ? sit.Symbol() : backoff_syms_fct(sit.Symbol());
     new_label = result_syms->AddSymbol(backoff_sym);
-    if(sit.Value() != align_syms.kPhiLabel) {
+    if (sit.Value() != align_syms.kPhiLabel) {
       result_fst->AddArc(s, Arc(sit.Value(), new_label, Weight::One(), s));
     }
   }

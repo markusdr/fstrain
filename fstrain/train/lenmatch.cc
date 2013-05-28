@@ -19,7 +19,7 @@ namespace fstrain { namespace train {
 namespace nsAddLengthRegularizationUtil {
 
 void SetAllGradientsTo(double* g, int num_params, double val) {
-  for(int i = 0; i < num_params; ++i){
+  for (int i = 0; i < num_params; ++i) {
     g[i] = val;
   }
 }

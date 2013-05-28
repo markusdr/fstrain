@@ -22,7 +22,7 @@ void GetSigmaFsa(const fst::SymbolTable& syms,
   result->SetFinal(s2, Weight::One());
   SymbolTableIterator sit(syms);
   sit.Next(); // ignore eps
-  for(; !sit.Done(); sit.Next()) {
+  for (; !sit.Done(); sit.Next()) {
     result->AddArc(s1,
                    Arc(sit.Value(), sit.Value(), Weight::One(), s2));
   }

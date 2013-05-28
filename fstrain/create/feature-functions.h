@@ -34,10 +34,10 @@ void AddLengthPenalties(const std::string& symbol,
   std::stringstream arcsym_ss(symbol);
   std::getline(arcsym_ss, in, sep_char);
   std::getline(arcsym_ss, out, sep_char);
-  if(in[0] != eps_char){
+  if (in[0] != eps_char) {
     featset->insert("*LENGTH_IN*");
   }
-  if(out[0] != eps_char){
+  if (out[0] != eps_char) {
     featset->insert("*LENGTH_OUT*");
   }
 }

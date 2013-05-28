@@ -34,10 +34,10 @@ void AddBackoff(fst::MutableFst<Arc>* fst,
 {
   using namespace fst;
   typedef typename Arc::StateId StateId;
-  for(MutableArcIterator< MutableFst<Arc> > ait(fst, state);
+  for (MutableArcIterator< MutableFst<Arc> > ait(fst, state);
       !ait.Done(); ait.Next()) {
     StateId next_backoff_state;
-    if(state == backoff_state) {
+    if (state == backoff_state) {
       next_backoff_state = backoff_state;
     }
     else {
@@ -49,7 +49,7 @@ void AddBackoff(fst::MutableFst<Arc>* fst,
       Matcher< Fst<Arc> > matcher(sorted, MATCH_INPUT);
       matcher.SetState(backoff_state);
       bool found = matcher.Find(label);
-      if(!found) {
+      if (!found) {
         std::cerr << "Error at state " << state << ": Could not find label " << label
                   << " at " << backoff_state
                   << ". Is bigram '? " << label
@@ -59,7 +59,7 @@ void AddBackoff(fst::MutableFst<Arc>* fst,
       assert(found);
       next_backoff_state = matcher.Value().nextstate;
     }
-    if(util::HasOutArcs(*fst, ait.Value().nextstate)) {
+    if (util::HasOutArcs(*fst, ait.Value().nextstate)) {
       AddBackoff(fst, ait.Value().nextstate, next_backoff_state, kPhiLabel);
     }
     else {
@@ -68,7 +68,7 @@ void AddBackoff(fst::MutableFst<Arc>* fst,
       ait.SetValue(arc);
     }
   }
-  if(state != backoff_state) {
+  if (state != backoff_state) {
     fst->AddArc(state,
                 Arc(kPhiLabel, kPhiLabel, Arc::Weight::One(), backoff_state));
   }
@@ -98,9 +98,9 @@ void ConvertTrieToModel(const int64 kStartLabel,
 
   // creates a new start state
   StateId delete_state = fst->AddState();
-  for(MutableArcIterator< MutableFst<Arc> > ait(fst, fst->Start());
+  for (MutableArcIterator< MutableFst<Arc> > ait(fst, fst->Start());
       !ait.Done(); ait.Next()) {
-    if(ait.Value().ilabel == kStartLabel){
+    if (ait.Value().ilabel == kStartLabel) {
       Arc arc = ait.Value();
       StateId new_start_state = fst->AddState();
       fst->AddArc(new_start_state,
@@ -118,13 +118,13 @@ void ConvertTrieToModel(const int64 kStartLabel,
 
   // creates a new final state
   StateId final_state = fst->AddState();
-  for(StateIterator<MutableFst<Arc> > sit(*fst);
+  for (StateIterator<MutableFst<Arc> > sit(*fst);
       !sit.Done(); sit.Next()) {
     StateId s = sit.Value();
     fst->SetFinal(s, Arc::Weight::Zero());
-    for(MutableArcIterator< MutableFst<Arc> > ait(fst, s);
+    for (MutableArcIterator< MutableFst<Arc> > ait(fst, s);
         !ait.Done(); ait.Next()) {
-      if(ait.Value().ilabel == kEndLabel){
+      if (ait.Value().ilabel == kEndLabel) {
         Arc arc = ait.Value();
         arc.nextstate = final_state;
         ait.SetValue(arc);

@@ -43,8 +43,8 @@ void CreateAllSymsFst(const fst::SymbolTable& syms,
   const int64 kPhiLabel = syms.Find("phi");
   SymbolTableIterator it(syms);
   it.Next(); // ignore eps
-  for(; !it.Done(); it.Next()) {
-    if(it.Value() != kPhiLabel) {
+  for (; !it.Done(); it.Next()) {
+    if (it.Value() != kPhiLabel) {
       result->AddArc(s, LogArc(it.Value(), it.Value(), Weight::One(), s));
     }
   }
@@ -136,7 +136,7 @@ int main(int ac, char** av) {
     delete the_fst;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

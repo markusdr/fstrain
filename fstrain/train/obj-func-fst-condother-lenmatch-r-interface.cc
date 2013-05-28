@@ -29,7 +29,7 @@ extern "C" {
 
     std::ifstream list_file_in(*list_file);
     std::vector<std::string>* list = new std::vector<std::string>();
-    while(!list_file_in.eof()) {
+    while (!list_file_in.eof()) {
       std::string line;
       std::getline(list_file_in, line);
       std::cerr << line << std::endl;

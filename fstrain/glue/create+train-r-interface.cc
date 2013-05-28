@@ -71,15 +71,15 @@ void InitFeatureNamesTable() {
 }
 
 void PopulateFeatureNamesTable(const std::string& filename) {
-  if(!feature_names){
+  if (!feature_names) {
     // exception bad if called from R?
     FSTR_GLUE_EXCEPTION("Please call InitFeatureNamesTable first");
   }
   std::cerr << "InitFeatureNamesTable("<<filename<<")" << std::endl;
-  if(filename.length()){
+  if (filename.length()) {
     std::ifstream namesfile(filename.c_str());
     std::string featname;
-    while(std::getline(namesfile, featname)){
+    while (std::getline(namesfile, featname)) {
       // int64 id =
       feature_names->AddSymbol(featname);
       // std::cerr << "featid("<<featname<<") = " << id << std::endl;
@@ -90,7 +90,7 @@ void PopulateFeatureNamesTable(const std::string& filename) {
 template<class Arc>
 fst::Fst<Arc>* ReadFst(const std::string& name) {
   fst::Fst<Arc>* ret = fstrain::util::GetVectorFst<Arc>(name);
-  if(ret == NULL){
+  if (ret == NULL) {
     FSTR_GLUE_EXCEPTION("Could not find " << name);
   }
   return ret;
@@ -146,7 +146,7 @@ extern "C" {
   }
 
   void SetMemoryLimitInGb(double* limit_gb) {
-    if(*limit_gb > 0.0) {
+    if (*limit_gb > 0.0) {
       std::cerr << "# Setting memory limit " << *limit_gb << " GB" << std::endl;
       fstrain::util::options["memory-limit-bytes"] = *limit_gb * pow(1024.0, 3.0); // GB -> B
     }
@@ -191,7 +191,7 @@ extern "C" {
     std::string features_init_filestem_str(*features_init_filestem);
     MutableFst<MDExpectationArc>* fst = new VectorFst<MDExpectationArc>();
     InitFeatureNamesTable();
-    if(features_init_filestem_str.length()) {
+    if (features_init_filestem_str.length()) {
       PopulateFeatureNamesTable(features_init_filestem_str);
     }
     else {
@@ -251,7 +251,7 @@ extern "C" {
     std::string features_init_filestem_str(*features_init_filestem);
 
     Fst<StdArc>* align_fst_obj = NULL;
-    if(align_fst_file_str == "simple"){
+    if (align_fst_file_str == "simple") {
       std::cerr << "Using simple alignments with no epsilons" << std::endl;
       const StdArc::Label kSigmaLabel = -2;
       util::options["sigma_label"] = kSigmaLabel;
@@ -265,7 +265,7 @@ extern "C" {
               << " MB." << std::endl;
 
     InitFeatureNamesTable();
-    if(features_init_filestem_str.length()) {
+    if (features_init_filestem_str.length()) {
       PopulateFeatureNamesTable(features_init_filestem_str);
       std::cerr << "# Using " << util::MemoryInfo::instance().getSizeInMB()
                 << " MB after storing feature names." << std::endl;
@@ -283,7 +283,7 @@ extern "C" {
     const bool new_scoring_fsa = false; // experimental new FSA that
     // uses phi and needs projup
     // etc. during training
-    if(use_noepshist_topology) {
+    if (use_noepshist_topology) {
       std::cerr << "WARNING: Using experimental noepshist scoring machine" << std::endl;
       noepshist::CreateNgramFstFromBestAlign(*ngram_order,
                                              *max_insertions, *num_conjugations, *num_change_regions,
@@ -295,7 +295,7 @@ extern "C" {
                                              fst);
     }
 
-    //    else if(new_scoring_fsa) {
+    //    else if (new_scoring_fsa) {
     //      std::cerr << "WARNING: Using new experimental proj up/down scoring FSA"
     //                << std::endl;
     //      using namespace fstrain::util;
@@ -321,7 +321,7 @@ extern "C" {
     //                                                proj_up, proj_down,
     //                                                fst);
     //      const int64 kPhiLabel = pruned_align_syms->Find("phi");
-    //      if(kPhiLabel == kNoLabel){
+    //      if (kPhiLabel == kNoLabel) {
     //        throw std::runtime_error("phi not found");       // TODO: prob. not ok to throw?
     //      }
     //      MutableFst<StdArc>* prune_fst = new VectorFst<StdArc>();
@@ -371,7 +371,7 @@ extern "C" {
 
     else {
       PruneFct* prune_fct = NULL;
-      if(*do_prune){
+      if (*do_prune) {
         prune_fct = new DefaultPruneFct(fst::StdArc::Weight(-log(*prune_weight_threshold)),
                                         *prune_state_factor);
       }

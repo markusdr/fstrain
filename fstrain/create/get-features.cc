@@ -21,14 +21,14 @@ int GetNumPartsAndPrepareString(const std::string& str, std::string* result) {
   std::string symbol;
   int max_num = 0;
   std::vector<std::string> symbols_vec;
-  while(std::getline(ss, symbol, ' ')){ // symbol="S|S" or "a|x-c1" or
+  while (std::getline(ss, symbol, ' ')) { // symbol="S|S" or "a|x-c1" or
     // "a|--c1" etc.
     int num = 1; // "a|x"
-    if(symbol.length() > 3 && symbol[3] == '-'){
+    if (symbol.length() > 3 && symbol[3] == '-') {
       std::string la = symbol.substr(4);
       std::stringstream la_parts(la);
       std::string part;
-      while(std::getline(la_parts, part, '-')){ // part="c1" or "g3"
+      while (std::getline(la_parts, part, '-')) { // part="c1" or "g3"
 	++num;
       }
     }
@@ -36,11 +36,11 @@ int GetNumPartsAndPrepareString(const std::string& str, std::string* result) {
     symbols_vec.push_back(symbol);
   }
   std::string pseudo_la;
-  for(int i = 0; i < max_num; ++i){
+  for (int i = 0; i < max_num; ++i) {
     pseudo_la += "-??";
   }
-  for(int i = 0; i < symbols_vec.size(); ++i){
-    if(symbols_vec[i].length() < 4){
+  for (int i = 0; i < symbols_vec.size(); ++i) {
+    if (symbols_vec[i].length() < 4) {
       symbols_vec[i] += pseudo_la;
     }
     *result += symbols_vec[i] +
@@ -53,13 +53,13 @@ void ChangeHyphensInSymbol(DecodeType type, std::string* symbol) {
   std::string::size_type separator_pos = symbol->find('|');
   char from = (type == ENCODE ? '-' : ' ');
   char to = (type == ENCODE ? ' ' : '-');
-  if(separator_pos != std::string::npos) {
-    if(separator_pos != 0
-       && (*symbol)[separator_pos - 1] == from){
+  if (separator_pos != std::string::npos) {
+    if (separator_pos != 0
+       && (*symbol)[separator_pos - 1] == from) {
       (*symbol)[separator_pos - 1] = to;
     }
-    if(separator_pos + 1 < symbol->length()
-      && (*symbol)[separator_pos + 1] == from){
+    if (separator_pos + 1 < symbol->length()
+      && (*symbol)[separator_pos + 1] == from) {
       (*symbol)[separator_pos + 1] = to;
     }
   }

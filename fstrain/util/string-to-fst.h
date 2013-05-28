@@ -40,11 +40,11 @@ namespace fstrain { namespace util {
     StateId next_state = kNoStateId;
     std::stringstream ss(str);
     std::string token;
-    while(ss >> token){
+    while (ss >> token) {
       next_state = ofst->AddState();
       int64 label = syms.Find(token);
-      if(label == -1) {
-        if(delete_unknown) {
+      if (label == -1) {
+        if (delete_unknown) {
           std::cerr << "Warning: Removed unknown token '" << token
                     << "' from " << str << "." << std::endl;
           label = 0; // replace with eps
@@ -57,7 +57,7 @@ namespace fstrain { namespace util {
       ofst->AddArc(prevState, Arc(label, label, Weight::One(), next_state));
       prevState = next_state;
     }
-    if(next_state != kNoStateId){
+    if (next_state != kNoStateId) {
       ofst->SetFinal(next_state, final_weight);
     }
   }

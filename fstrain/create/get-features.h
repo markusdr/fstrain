@@ -54,18 +54,18 @@ void GetFeatures(const std::string& str0, TSet* featset) {
   std::string str;
   int num_parts = GetNumPartsAndPrepareString(str0, &str);
   int bit_pattern = (int)pow(2.0, (double)num_parts) - 1; // all bits on
-  while(bit_pattern > 0){
+  while (bit_pattern > 0) {
     std::stringstream tokenizer1(str);
     std::vector<std::string> feature;
-    while(std::getline(tokenizer1, symbol, ' ')) { // e.g. a|--c1
+    while (std::getline(tokenizer1, symbol, ' ')) { // e.g. a|--c1
       ChangeHyphensInSymbol(ENCODE, &symbol);
       std::stringstream tokenizer2(symbol);
       std::string symbol_part;
       int bitnum = 0;
       bool first = true;
       std::string modified_symbol;
-      while(std::getline(tokenizer2, symbol_part, '-')) {
-	if(bit_pattern & (int)pow(2.0, (double)bitnum)){
+      while (std::getline(tokenizer2, symbol_part, '-')) {
+	if (bit_pattern & (int)pow(2.0, (double)bitnum)) {
           ChangeHyphensInSymbol(DECODE, &symbol_part);
           modified_symbol += (!first ? "-" : "") + symbol_part;
           first = false;
@@ -75,11 +75,11 @@ void GetFeatures(const std::string& str0, TSet* featset) {
       feature.push_back(modified_symbol);
     }
     std::vector<std::string>::iterator it = feature.begin();
-    for(; it != feature.end(); ++it){
+    for (; it != feature.end(); ++it) {
       std::stringstream ss;
       //std::copy(it, feature.end(), std::ostream_iterator<std::string>(ss, " "));
       bool first = true;
-      for(std::vector<std::string>::iterator cur = it; cur != feature.end(); ++cur){
+      for (std::vector<std::string>::iterator cur = it; cur != feature.end(); ++cur) {
         ss << (first ? "" : " ") << *cur;
         first = false;
       }

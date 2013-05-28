@@ -33,15 +33,15 @@ void AddUnobservedUnigrams(const fst::SymbolTable& syms,
   typedef typename Arc::Weight Weight;
   StateId start = trie->Start();
   std::set<int64> have_syms;
-  for(fst::ArcIterator<fst::Fst<Arc> > ait(*trie, start);
-      !ait.Done(); ait.Next()){
+  for (fst::ArcIterator<fst::Fst<Arc> > ait(*trie, start);
+      !ait.Done(); ait.Next()) {
     have_syms.insert(ait.Value().ilabel);
   }
   fst::SymbolTableIterator sit(syms);
   sit.Next();  // ignore eps
-  for(; !sit.Done(); sit.Next()){
+  for (; !sit.Done(); sit.Next()) {
     int64 label = sit.Value();
-    if(have_syms.find(label) == have_syms.end()) {
+    if (have_syms.find(label) == have_syms.end()) {
       StateId new_state = trie->AddState();
       trie->SetFinal(new_state, Weight::One());
       trie->AddArc(start,

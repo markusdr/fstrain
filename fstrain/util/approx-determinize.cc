@@ -24,7 +24,7 @@
 
 namespace fstrain { namespace util {
 
-void approxDeterminize(const fst::Fst<fst::StdArc>& ifst, fst::MutableFst<fst::StdArc>* ofst, int k, float delta){
+void approxDeterminize(const fst::Fst<fst::StdArc>& ifst, fst::MutableFst<fst::StdArc>* ofst, int k, float delta) {
   using namespace fst;
   VectorFst<StdArc> bestpaths;
   ShortestPath(ifst, &bestpaths, k);
@@ -36,7 +36,7 @@ void approxDeterminize(const fst::Fst<fst::StdArc>& ifst, fst::MutableFst<fst::S
   Map<LogArc, StdArc, LogToStdMapper >(determinized, ofst, LogToStdMapper());
 }
 
-void approxDeterminize(const fst::Fst<fst::LogArc>& ifst, fst::MutableFst<fst::LogArc>* ofst, int k, float delta){
+void approxDeterminize(const fst::Fst<fst::LogArc>& ifst, fst::MutableFst<fst::LogArc>* ofst, int k, float delta) {
   using namespace fst;
 
   LogToStdMapper toStdMapper;

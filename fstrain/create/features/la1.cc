@@ -15,7 +15,7 @@ extern "C" {
                        IFeatureSet* featset) {
     const bool anchored = true;
     LatentAnnotationFeatures f(window, anchored);
-    for(LatentAnnotationFeatures::const_iterator it = f.begin();
+    for (LatentAnnotationFeatures::const_iterator it = f.begin();
         it != f.end(); ++it) {
       featset->insert(*it);
     }

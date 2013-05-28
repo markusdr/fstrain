@@ -42,25 +42,25 @@ ObjectiveFunctionFst* CreateObjectiveFunctionFst(
     double variance)
 {
   ObjectiveFunctionFst* result = NULL;
-  if(type == OBJ_JOINT){
+  if (type == OBJ_JOINT) {
     result = new ObjectiveFunctionFstJoint(fst,
 					   new fstrain::util::Data(data_filename),
 					   isymbols, osymbols,
 					   variance);
   }
-  else if(type == OBJ_CONDITIONAL){
+  else if (type == OBJ_CONDITIONAL) {
     result = new ObjectiveFunctionFstConditional(fst,
 						 new fstrain::util::Data(data_filename),
 						 isymbols, osymbols,
 						 variance);
   }
-  else if(type == OBJ_CONDITIONAL_LENMATCH){
+  else if (type == OBJ_CONDITIONAL_LENMATCH) {
     result = new ObjectiveFunctionFstConditionalLenmatch(fst,
 							 new fstrain::util::Data(data_filename),
 							 isymbols, osymbols,
 							 variance);
   }
-  else if(type == OBJ_CONDOTHER_LENMATCH){
+  else if (type == OBJ_CONDOTHER_LENMATCH) {
     result = new ObjectiveFunctionFstCondotherLenmatch(fst,
 						       new fstrain::util::Data(data_filename),
 						       isymbols, osymbols,

@@ -16,8 +16,8 @@ extern "C" {
     bool first = true;
     while (ss >> token) {
       std::string::size_type sep_pos = token.find(sep);
-      if(sep_pos != std::string::npos) {
-        if(!first) {
+      if (sep_pos != std::string::npos) {
+        if (!first) {
           output << " ";
         }
         output << "?" << token.substr(sep_pos);
@@ -31,7 +31,7 @@ extern "C" {
                         IFeatureSet* featset) {
     featset->insert(window);
     std::string::const_iterator s = window.begin();
-    while((s = find_if(s, window.end(), isblank)) != window.end()){
+    while ((s = find_if (s, window.end(), isblank)) != window.end()) {
       std::string backoff_feat(++s, window.end());
       featset->insert(backoff_feat);
     }

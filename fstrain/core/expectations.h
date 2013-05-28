@@ -61,10 +61,10 @@ class MDExpectations {
     char delims[] = ",";
     char* token = 0;
     token = strtok( (char*)s.c_str(), delims );
-    while( token != 0 ) { // e.g. 1=0.70711
+    while ( token != 0 ) { // e.g. 1=0.70711
       std::string entryStr = token;
       std::string::size_type equalSignPos = entryStr.find("=");
-      if(equalSignPos != std::string::npos){
+      if (equalSignPos != std::string::npos) {
         std::string indexStr = entryStr.substr(0,equalSignPos);
         int index = stringToUnsignedLong(indexStr);
         std::string vStr = entryStr.substr(equalSignPos+1);
@@ -80,7 +80,7 @@ class MDExpectations {
 
   NeglogNum operator[] (unsigned index) const {
     const_iterator found = expectations_.find(index);
-    if(found != expectations_.end()){
+    if (found != expectations_.end()) {
       return found->second;
     }
     return NeglogNum(kPosInfinity);
@@ -92,7 +92,7 @@ class MDExpectations {
 
   void update(int i, NeglogNum d) {
     expectations_.erase(i);
-    if(d != kPosInfinity){
+    if (d != kPosInfinity) {
       expectations_.insert(std::make_pair(i,d));
     }
   }
@@ -103,7 +103,7 @@ class MDExpectations {
   }
 
   void insert(int i, NeglogNum d) {
-    if(d == kPosInfinity){
+    if (d == kPosInfinity) {
       expectations_.erase(i);
     }
     else {
@@ -128,11 +128,11 @@ class MDExpectations {
   unsigned size() const { return expectations_.size(); }
 
   std::ostream& print(std::ostream& out) const {
-    if(expectations_.size()){
+    if (expectations_.size()) {
       out << "[";
       bool start = true;
-      for(const_iterator it = expectations_.begin(); it != expectations_.end(); ++it){
-        if(!start){
+      for (const_iterator it = expectations_.begin(); it != expectations_.end(); ++it) {
+        if (!start) {
           out << ",";
         }
         out << it->first << "=" << it->second;
@@ -148,7 +148,7 @@ class MDExpectations {
   static void timesValue(const MDExpectations& e,
                          const NeglogNum& d,
                          MDExpectations& result) {
-    for(const_iterator it = e.begin(); it != e.end(); ++it){
+    for (const_iterator it = e.begin(); it != e.end(); ++it) {
       result.insert(it->first, NeglogTimes(it->second, d));
     }
   }
@@ -156,7 +156,7 @@ class MDExpectations {
   static void divideBy(const MDExpectations& e,
                        const NeglogNum& d,
                        MDExpectations& result) {
-    for(const_iterator it = e.begin(); it != e.end(); ++it){
+    for (const_iterator it = e.begin(); it != e.end(); ++it) {
       result.insert(it->first, NeglogDivide(it->second, d));
     }
   }
@@ -165,14 +165,14 @@ class MDExpectations {
 
   unsigned incCount() { return __sync_add_and_fetch(&count_, 1); }
   unsigned decCount() {
-    if(count_ > 0)
+    if (count_ > 0)
       __sync_sub_and_fetch(&count_, 1);
     return count_;
   }
 
-//  unsigned incCount(){ return ++count_; }
-//  unsigned decCount(){
-//    if(count_ > 0){
+//  unsigned incCount() { return ++count_; }
+//  unsigned decCount() {
+//    if (count_ > 0) {
 //      --count_;
 //    }
 //    return count_;
@@ -207,7 +207,7 @@ inline bool ApproxEqual(const MDExpectations& e1,
     return false;
   }
   MDExpectations::const_iterator found;
-  for(MDExpectations::const_iterator i1 = e1.begin(); i1 != e1.end(); ++i1) {
+  for (MDExpectations::const_iterator i1 = e1.begin(); i1 != e1.end(); ++i1) {
     found = e2.find(i1->first);
     if (found == e2.end() || !ApproxEqual(i1->second, found->second, delta)) {
       return false;

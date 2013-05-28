@@ -44,7 +44,7 @@ void ParseBackoffDescription(const std::string& str,
   typedef features::ExtractFeaturesFct::Ptr ExtractFctPtr;
   std::string name;
   std::stringstream ss(str); // e.g. "tlm/collapsed,vc"
-  while(std::getline(ss, name, ',')) {
+  while (std::getline(ss, name, ',')) {
     std::vector<string> tokens;
     boost::split(tokens, name, boost::is_any_of("/")); // split "vc/la/3"
     const std::string backoff_name = tokens[0];

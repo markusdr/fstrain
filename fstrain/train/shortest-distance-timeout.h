@@ -302,7 +302,7 @@ typename Arc::Weight ShortestDistance(const Fst<Arc> &fst) {
   if (Weight::Properties() & kRightSemiring) {
     ShortestDistance(fst, &distance, false);
     Weight sum = Weight::Zero();
-    for(StateId s = 0; s < distance.size(); ++s)
+    for (StateId s = 0; s < distance.size(); ++s)
       sum = Plus(sum, Times(distance[s], fst.Final(s)));
     return sum;
   } else {

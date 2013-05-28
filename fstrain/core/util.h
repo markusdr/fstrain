@@ -72,22 +72,22 @@ static inline double mymax2(double x, double y)
  * standard logplus defined as log(e^x + e^y)
  */
 static inline double log_add(double x, double y) {
-  if(x == kNegInfinity)
+  if (x == kNegInfinity)
     return y;
-  if(y == kNegInfinity)
+  if (y == kNegInfinity)
     return x;
   return mymax2(x, y) + log1p(exp( -fabs(x - y) ));
 }
 
 static inline double log_subtract(double x, double y) {
-  if(x < y)
+  if (x < y)
     FSTR_CORE_EXCEPTION("Error: log of negative number");
-  if(y == kNegInfinity)
+  if (y == kNegInfinity)
     return x;
   return x + log1p( -exp(y - x) );
 }
 
-inline int round(double x){
+inline int round(double x) {
   return int(std::floor(x < 0 ? x - 0.5 : x + 0.5));
 }
 
@@ -101,9 +101,9 @@ inline int round(double x){
  */
 inline double decreasingSchedule(int currTime, int targetTime,
                                  double initVal,
-                                 double searchTime = 1.0, bool linear = false){
+                                 double searchTime = 1.0, bool linear = false) {
   const double targetTime0 = targetTime + 10e-32;
-  if(linear){
+  if (linear) {
     const double targetVal = initVal / 2.0;
     return initVal - currTime * (initVal - targetVal) / targetTime0;
   }
@@ -119,8 +119,8 @@ inline double decreasingSchedule(int currTime, int targetTime,
  * @param VN Value at time step N
  * @param N Last time step.
  */
-inline double decreasingSchedule2(double i, double V0, double VN, double N){
-  if(VN == 0){
+inline double decreasingSchedule2(double i, double V0, double VN, double N) {
+  if (VN == 0) {
     VN = 10e-15;
   }
   return V0 * pow(VN / V0, i / N);
@@ -133,7 +133,7 @@ inline double decreasingSchedule2(double i, double V0, double VN, double N){
  * @param VN Value at time step N
  * @param N Last time step.
  */
-inline double decreasingSchedule3(double i, double V0, double VN, double N){
+inline double decreasingSchedule3(double i, double V0, double VN, double N) {
   return V0 - i * (V0 - VN) / N;
 }
 
@@ -146,7 +146,7 @@ void tokenize(const std::string& str,
  * General converter w/o checks
  */
 template <class out_type, class in_value>
-out_type convert(const in_value & t){
+out_type convert(const in_value & t) {
   std::stringstream stream;
   stream << t;
   out_type result;
@@ -155,12 +155,12 @@ out_type convert(const in_value & t){
 }
 
 template<class T>
-void writeVectorToFile(const std::vector<T>& vec, const std::string& filename){
+void writeVectorToFile(const std::vector<T>& vec, const std::string& filename) {
   std::ofstream out(filename.c_str());
-  if(!out.is_open()){
+  if (!out.is_open()) {
     FSTR_CORE_EXCEPTION("Could not write file " << filename);
   }
-  for(typename std::vector<T>::const_iterator it = vec.begin(); it != vec.end(); ++it){
+  for (typename std::vector<T>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
     out << *it << std::endl;
   }
 }

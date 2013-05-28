@@ -43,7 +43,7 @@ extern "C" {
   void GetGradients(double* x, double* result) {
     const double* gr = obj->GetGradients();
     size_t n = obj->GetNumParameters();
-    for(size_t i = 0; i < n; ++i){
+    for (size_t i = 0; i < n; ++i) {
       result[i] = gr[i];
     }
   }

@@ -18,9 +18,9 @@
 
 namespace fstrain { namespace util {
 
-void ThrowExceptionIfFileNotFound(const std::string& filename){
+void ThrowExceptionIfFileNotFound(const std::string& filename) {
   std::ifstream file(filename.c_str());
-  if(!file.is_open()){
+  if (!file.is_open()) {
     FSTR_UTIL_EXCEPTION("Could not open file '" << filename << "'");
   }
   file.close();

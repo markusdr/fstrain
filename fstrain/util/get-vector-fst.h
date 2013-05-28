@@ -37,30 +37,30 @@ template<class Arc>
     FSTR_UTIL_EXCEPTION("Could not read " << filename);
   }
   fst::FstHeader hdr;
-  if(!hdr.Read(*strm, filename)) {
+  if (!hdr.Read(*strm, filename)) {
     FSTR_UTIL_EXCEPTION("Could not read " << filename << " (format error?)");
   }
   const std::string arc_type = hdr.ArcType();
-  if(arc_type == Arc::Type()){
+  if (arc_type == Arc::Type()) {
     result = fst::VectorFst<Arc>::Read(filename);
   }
   else {
     result = new fst::VectorFst<Arc>();
-    if(arc_type == "standard") {
+    if (arc_type == "standard") {
       FSTR_UTIL_DBG_MSG(10, "Converting from StdArc" << std::endl);
       typedef fst::WeightConvertMapper<fst::StdArc, Arc> Mapper;
       fst::MutableFst<fst::StdArc>* tmp = fst::VectorFst<fst::StdArc>::Read(filename);
       *result = fst::MapFst<fst::StdArc, Arc, Mapper>(*tmp, Mapper());
       delete tmp;
     }
-    else if(arc_type == "log") {
+    else if (arc_type == "log") {
       FSTR_UTIL_DBG_MSG(10, "Converting from LogArc" << std::endl);
       typedef fst::WeightConvertMapper<fst::LogArc, Arc> Mapper;
       fst::MutableFst<fst::LogArc>* tmp = fst::VectorFst<fst::LogArc>::Read(filename);
       *result = fst::MapFst<fst::LogArc, Arc, Mapper>(*tmp, Mapper());
       delete tmp;
     }
-    else if(arc_type == "expectation") {
+    else if (arc_type == "expectation") {
       FSTR_UTIL_DBG_MSG(10, "Converting from fst::MDExpectationArc" << std::endl);
       typedef fst::WeightConvertMapper<fst::MDExpectationArc, Arc> Mapper;
       fst::MutableFst<fst::MDExpectationArc>* tmp = fst::VectorFst<fst::MDExpectationArc>::Read(filename);

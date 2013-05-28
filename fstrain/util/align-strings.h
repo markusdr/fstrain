@@ -54,12 +54,12 @@ struct AlignStringsDefaultOutputStream {
     syms->AddSymbol("eps", 0);
   }
   // for std::endl:
-  OutputStream& operator<<(OutputStream& (*f)(OutputStream&)){
+  OutputStream& operator<<(OutputStream& (*f)(OutputStream&)) {
     return f(*out_);
   }
   OutputStream& operator<<(const std::string& str) {
     (*out_) << str;
-    if(str != "" && str != " " && str != "\n"){
+    if (str != "" && str != " " && str != "\n") {
       syms_->AddSymbol(str);
     }
     return *out_;
@@ -92,7 +92,7 @@ void AlignStrings(const util::Data& data,
   print_arc_fct.separator = opts.separator;
   ArcSortFst<Arc, ILabelCompare<Arc> > sorted_fst(fst, ILabelCompare<Arc>());
 
-  for(int i = 0; i < data.size(); ++i) {
+  for (int i = 0; i < data.size(); ++i) {
     const std::pair<std::string, std::string>& d = data[i];
     MutableFst<Arc>* in_fst = new VectorFst<Arc>();
     util::ConvertStringToFst(d.first, isymbols, in_fst);
@@ -120,12 +120,12 @@ void AlignStrings(const util::Data& data,
     ShortestPath(mapped, &best_path, opts.n_best_alignments);
     delete in_fst;
     delete out_fst;
-    if(best_path.Start() == fst::kNoStateId || best_path.NumStates() == 0) {
+    if (best_path.Start() == fst::kNoStateId || best_path.NumStates() == 0) {
       std::cerr << "Cannot align example: " << d.first << " / " << d.second
                 << std::endl;
       continue;
     }
-    if(opts.n_best_alignments == 1){
+    if (opts.n_best_alignments == 1) {
       PrintPath(best_path, print_arc_fct);
       // (*out) << std::endl;     // TODO: why doesn't this compile?
       (*out) << "" << std::endl;  // workaround

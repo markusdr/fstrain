@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE( BackoffIterator_1a ) {
   want.insert("c|");
   want.insert("|");
   int cnt = 0;
-  for(int i = 0; i < want.size(); ++i){
+  for (int i = 0; i < want.size(); ++i) {
     std::string result = it.Value();
     bool result_ok = want.find(result) != want.end();
     BOOST_CHECK_EQUAL(result_ok, true);
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_CASE( CreateScoringFst ) {
                        &hist_filter, &features, &fst);
   fstrain::util::printAcceptor(&fst, &align_syms, std::cerr);
   std::cerr << "FEATURES:" << std::endl;
-  for(SymbolTableIterator sit(features); !sit.Done(); sit.Next()){
+  for (SymbolTableIterator sit(features); !sit.Done(); sit.Next()) {
     std::cerr << sit.Value() << "\t" << sit.Symbol() << std::endl;
   }
 }
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE( CreateScoringFst_2 ) {
   fstrain::util::printAcceptor(&fst, &align_syms, std::cerr);
   // BOOST_CHECK_EQUAL(allowed_hists.NumSymbols(), fst.NumStates());
   std::cerr << "FEATURES:" << std::endl;
-  for(SymbolTableIterator sit(features); !sit.Done(); sit.Next()){
+  for (SymbolTableIterator sit(features); !sit.Done(); sit.Next()) {
     std::cerr << sit.Value() << "\t" << sit.Symbol() << std::endl;
   }
 }

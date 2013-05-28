@@ -55,13 +55,13 @@ bool TimedShortestDistance(const fst::Fst<Arc>& fst,
 			   double kDelta,
 			   long* timelimit_ms) {
   using util::LogDArc;
-  if(*timelimit_ms >= 0 && *timelimit_ms < 100){
+  if (*timelimit_ms >= 0 && *timelimit_ms < 100) {
     FSTR_TRAIN_DBG_MSG(10, "Resetting time limit to " << 100 << std::endl);
     *timelimit_ms = 100;
   }
   Timeout timeout(*timelimit_ms);
   ShortestDistance(fst, result, reverse, kDelta, &timeout);
-  if(timeout()){
+  if (timeout()) {
     std::cerr << *timelimit_ms << " ms reached." << std::endl;
     // bool ok = util::CheckConvergence(fst);
     typedef fst::WeightConvertMapper<Arc, LogDArc> Map_AL;
@@ -70,7 +70,7 @@ bool TimedShortestDistance(const fst::Fst<Arc>& fst,
     util::CheckConvergenceOptions opts;
     fst::MapFst<Arc, LogDArc, Map_AL> mapped_fst(fst, Map_AL(), map_opts);
     bool ok = util::CheckConvergence(mapped_fst, opts);
-    if(!ok){
+    if (!ok) {
       std::cerr << "DIVERGE" << std::endl;
       return false;
     }
@@ -78,7 +78,7 @@ bool TimedShortestDistance(const fst::Fst<Arc>& fst,
     std::cerr << "Rerun without time limit" << std::endl;
     timeout = Timeout(-1);
     const std::string matrix_opt = "use-matrix-distance";
-    if(util::options.has(matrix_opt) && util::options.get<bool>(matrix_opt)) {
+    if (util::options.has(matrix_opt) && util::options.get<bool>(matrix_opt)) {
       util::ShortestDistanceM(fst, result, reverse, 1e-5, 100, 10000);
     }
     else {
@@ -95,13 +95,13 @@ bool TimedShortestDistance(const fst::Fst<Arc>& fst,
 
 template<class ArrayT>
 void ResetArray(ArrayT* array, int array_size, boost::mutex* mutex = NULL) {
-  if(mutex != NULL) {
+  if (mutex != NULL) {
     mutex->lock();
   }
-  for(int i = 0; i < array_size; ++i){
+  for (int i = 0; i < array_size; ++i) {
     (*array)[i] = 0.0;
   }
-  if(mutex != NULL) {
+  if (mutex != NULL) {
     mutex->unlock();
   }
 }
@@ -135,38 +135,38 @@ DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
 
   bool success1 = TimedShortestDistance(mapped, &alphas, false, kDelta, timelimit_ms);
   // TODO: handle mutex
-  if(!success1) {
+  if (!success1) {
     ResetArray(array, array_size, mutex_gradient_access);
     return fstrain::core::kNegInfinity;
   }
   assert(alphas.size() > 0);
 
   bool success2 = TimedShortestDistance(mapped, &betas, true, kDelta, timelimit_ms);
-  if(!success2){
+  if (!success2) {
     ResetArray(array, array_size, mutex_gradient_access);
     return fstrain::core::kNegInfinity;
   }
   const bool no_paths_fst = (betas.size() == 0);
-  if(no_paths_fst){
+  if (no_paths_fst) {
     throw std::runtime_error("no paths: bad fst");
   }
 
   MDExpectations feat_expectations;
-  for (fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter(fst); !siter.Done(); siter.Next()){
+  for (fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter(fst); !siter.Done(); siter.Next()) {
     StateId in = siter.Value();
     assert(alphas.size() > in);
-    for (fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter(fst, in); !aiter.Done(); aiter.Next()){
+    for (fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter(fst, in); !aiter.Done(); aiter.Next()) {
       StateId out = aiter.Value().nextstate;
-      if(betas.size() > out && betas[out] != LogDWeight::Zero()
+      if (betas.size() > out && betas[out] != LogDWeight::Zero()
          && betas[out].Value() == betas[out].Value()) { // fails for NaN
         const MDExpectations& e = aiter.Value().weight.GetMDExpectations();
-        for(MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it){
+        for (MDExpectations::const_iterator it = e.begin(); it != e.end(); ++it) {
           const int index = it->first;
           const NeglogNum& expectation = it->second;
 	  NeglogNum addval = NeglogTimes(NeglogTimes(alphas[in].Value(), expectation),
 					 betas[out].Value());
 	  MDExpectations::iterator found = feat_expectations.find(index);
-	  if(found != feat_expectations.end()) {
+	  if (found != feat_expectations.end()) {
 	    found->second = NeglogPlus(found->second, addval);
 	  }
 	  else {
@@ -178,16 +178,16 @@ DoubleT GetFeatureMDExpectations(const fst::Fst<fst::MDExpectationArc>& fst,
   }
 
   // TODO: use DoubleT
-  if(mutex_gradient_access != NULL) {
+  if (mutex_gradient_access != NULL) {
     mutex_gradient_access->lock();
   }
-  for(MDExpectations::const_iterator it = feat_expectations.begin();
-      it != feat_expectations.end(); ++it){
+  for (MDExpectations::const_iterator it = feat_expectations.begin();
+      it != feat_expectations.end(); ++it) {
     int index = it->first;
     double expected_count = GetOrigNum(NeglogDivide(it->second, betas[start_state].Value()));
     (*array)[index] += factor * (negate ? -expected_count : expected_count);
   }
-  if(mutex_gradient_access != NULL) {
+  if (mutex_gradient_access != NULL) {
     mutex_gradient_access->unlock();
   }
 

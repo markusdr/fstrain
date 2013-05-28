@@ -134,14 +134,14 @@ class DeterminizedUnion {
       while (true) {
 
         if (ait1.Done()) {
-          while(!ait2.Done()) {
+          while (!ait2.Done()) {
             arcs_to_add.push_back(ait2.Value());
             ait2.Next();
           }
           break;
         }
         if (ait2.Done()) {
-          while(!ait1.Done()) {
+          while (!ait1.Done()) {
             Arc arc = ait1.Value();
             arc.weight = Times(q.first.weight, arc.weight);
             ait1.SetValue(arc);
@@ -170,7 +170,7 @@ class DeterminizedUnion {
           Weight v2 = Divide(vw2, new_arc.weight).Quantize(delta_);
           Subset ss(Element(ait1.Value().nextstate, v1),
                     Element(ait2.Value().nextstate, v2));
-          if(already_processed.find(ss) == already_processed.end()) {
+          if (already_processed.find(ss) == already_processed.end()) {
             the_queue.push(ss);
             already_processed.insert(ss);
             Weight vr1 = Times(v1, fst1->Final(ait1.Value().nextstate));

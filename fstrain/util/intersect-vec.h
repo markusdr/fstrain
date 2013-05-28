@@ -31,7 +31,7 @@ void MyIntersect(const fst::Fst<Arc>& ifst1,
                  fst::MutableFst<Arc>* ofst,
                  bool do_determinize) {
   fst::Intersect(ifst1, ifst2, ofst);
-  if(do_determinize){
+  if (do_determinize) {
     fst::RmEpsilon(ofst);
     fstrain::util::Determinize(ofst);
     fst::Minimize(ofst);
@@ -42,10 +42,10 @@ template<class Arc>
 void Intersect_vec(const std::vector<fst::Fst<Arc>*>& ifsts,
                    fst::MutableFst<Arc>* ofst,
                    bool determinizeIntermediate = true) {
-  if(ifsts.size() == 0){
+  if (ifsts.size() == 0) {
     return;
   }
-  if(ifsts.size() == 1){
+  if (ifsts.size() == 1) {
     *ofst = *(ifsts[0]);
     return;
   }
@@ -54,7 +54,7 @@ void Intersect_vec(const std::vector<fst::Fst<Arc>*>& ifsts,
               *ifsts[1],
               ofst,
               determinizeIntermediate);
-  for(int i = 2; i < ifsts.size(); ++i){
+  for (int i = 2; i < ifsts.size(); ++i) {
     MyArcSortFst ofst_sorted(*ofst, fst::OLabelCompare<Arc>());
     MyIntersect(ofst_sorted, *ifsts[i], ofst, determinizeIntermediate);
   }

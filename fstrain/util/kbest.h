@@ -60,11 +60,11 @@ class KbestStrings {
   void Normalize() {
     typedef fst::LogArc::Weight LogWeight;
     LogWeight sum = LogWeight::Zero();
-    for(Container::const_iterator it = kbest_entries_.begin();
+    for (Container::const_iterator it = kbest_entries_.begin();
         it != kbest_entries_.end(); ++it) {
       sum = Plus(sum, LogWeight(it->second));
     }
-    for(Container::iterator it = kbest_entries_.begin();
+    for (Container::iterator it = kbest_entries_.begin();
         it != kbest_entries_.end(); ++it) {
       it->second -= sum.Value();
     }
@@ -83,8 +83,8 @@ class KbestStrings {
                    StateId s,
                    std::string path,
                    Weight w,
-                   KbestMap* the_map){
-    for (fst::ArcIterator<fst::Fst<A> > aiter(f, s); !aiter.Done(); aiter.Next()){
+                   KbestMap* the_map) {
+    for (fst::ArcIterator<fst::Fst<A> > aiter(f, s); !aiter.Done(); aiter.Next()) {
       const A& a = aiter.Value();
       const std::string expanded_path = path +
           (a.ilabel > 0
@@ -93,11 +93,11 @@ class KbestStrings {
       ExpandState(f, symbols, a.nextstate, expanded_path, fst::Times(w, a.weight),
                   the_map);
     }
-    if(f.Final(s) != Weight::Zero()){
+    if (f.Final(s) != Weight::Zero()) {
       // kbest_entries_.push_back(std::make_pair(path, w.Value()));
       KbestMap::iterator found = the_map->find(path);
       const bool did_find = found != the_map->end();
-      if(did_find) {
+      if (did_find) {
         found->second = fst::Plus(found->second, fst::LogWeight(w.Value()));
       }
       else {
@@ -106,7 +106,7 @@ class KbestStrings {
     }
   }
 
-  void Init(const fst::Fst<A>& f, const fst::SymbolTable& symbols, unsigned kMax){
+  void Init(const fst::Fst<A>& f, const fst::SymbolTable& symbols, unsigned kMax) {
     fst::VectorFst<A> kbestFst;
     const bool unique = false; // true not implemented by OpenFst
     fst::ShortestPath(f, &kbestFst, kMax, unique);
@@ -114,7 +114,7 @@ class KbestStrings {
     Weight zero = Weight::One();
     KbestMap the_map;
     ExpandState(kbestFst, symbols, kbestFst.Start(), emptyPath, zero, &the_map);
-    for(KbestMap::const_iterator it = the_map.begin(); it != the_map.end(); ++it) {
+    for (KbestMap::const_iterator it = the_map.begin(); it != the_map.end(); ++it) {
       kbest_entries_.push_back(std::make_pair(it->first, it->second.Value()));
     }
     std::sort(kbest_entries_.begin(), kbest_entries_.end(), SmallerValuePred);

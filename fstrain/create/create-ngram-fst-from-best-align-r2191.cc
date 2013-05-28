@@ -109,7 +109,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
   // Creates combined backoff scoring machine, e.g. for target LM and vowel/consonant
   std::vector<Fst<MDExpectationArc>*> backoff_model_fsts;
   backoff_model_fsts.reserve(backoff.size());
-  for(std::size_t i = 0; i < backoff.size(); ++i) {
+  for (std::size_t i = 0; i < backoff.size(); ++i) {
     BackoffSymsFct::Ptr backoff_syms_fct = boost::get<0>(backoff[i]);
     features::ExtractFeaturesFct::Ptr backoff_feats_fct = boost::get<1>(backoff[i]);
     std::size_t backoff_ngram_order = boost::get<2>(backoff[i]);
@@ -125,7 +125,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
     backoff_model_fsts.push_back(backoff_model_fst);
   }
 
-  if(max_insertions > -1) {
+  if (max_insertions > -1) {
     MutableFst<MDExpectationArc>* limit_fst = new VectorFst<MDExpectationArc>();
     getLimitMachine(limit_fst, align_syms, max_insertions);
     limit_fst->SetInputSymbols(NULL);
@@ -134,7 +134,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
   }
 
   MutableFst<MDExpectationArc>* combined_backoff_model = NULL;
-  if(!backoff_model_fsts.empty()) {
+  if (!backoff_model_fsts.empty()) {
     fprintf(stderr, "Adding backoff / insertion limit [%2.2f MB]\n",
             util::MemoryInfo::instance().getSizeInMB());
     combined_backoff_model = new VectorFst<MDExpectationArc>();
@@ -147,7 +147,7 @@ void CreateNgramFstFromBestAlign_r2191(size_t ngram_order,
 
   FSTR_CREATE_DBG_EXEC(10,
                        std::cerr << "FEATURES:" << std::endl;
-                       for(SymbolTableIterator sit(*feature_names); !sit.Done(); sit.Next()) {
+                       for (SymbolTableIterator sit(*feature_names); !sit.Done(); sit.Next()) {
                          std::cerr << sit.Value() << " " << sit.Symbol() << std::endl;
                        });
 

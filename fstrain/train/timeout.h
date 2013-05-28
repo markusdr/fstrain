@@ -45,10 +45,10 @@ class Timeout : public ITimeout {
   }
 
   bool operator()() {
-    if(time_limit_ != -1){
+    if (time_limit_ != -1) {
       long elapsed_time = GetElapsedTime();
       // std::cerr << elapsed_time << "ms < " << time_limit_ << "ms" << std::endl;
-      if(elapsed_time >= time_limit_){
+      if (elapsed_time >= time_limit_) {
 	std::cerr << "Timeout." << std::endl;
         return true;
       }

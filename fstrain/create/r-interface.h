@@ -26,10 +26,10 @@ extern "C" {
   boost::shared_ptr<fst::SymbolTable> feature_names;
 
   void WriteFeatureNames(char** filename) {
-    if(feature_names) {
+    if (feature_names) {
       std::ofstream out(*filename);
       // feature_names->WriteText(out);
-      for(fst::SymbolTableIterator it(*feature_names); !it.Done(); it.Next()) {
+      for (fst::SymbolTableIterator it(*feature_names); !it.Done(); it.Next()) {
         out << it.Symbol() << std::endl;
       }
     }

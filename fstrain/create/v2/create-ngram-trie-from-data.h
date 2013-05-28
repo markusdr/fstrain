@@ -32,8 +32,8 @@ void CreateNgramTrieFromData(
   using util::Data;
   NgramCounter<Arc>* ngram_counter = new NgramCounter<Arc>(ngram_order);
   int cnt = 0;
-  for(Data::const_iterator it = data.begin(); it != data.end(); ++it, ++cnt){
-    if(cnt % 1000 == 0){
+  for (Data::const_iterator it = data.begin(); it != data.end(); ++it, ++cnt) {
+    if (cnt % 1000 == 0) {
       std::cerr << cnt << std::endl;
     }
     VectorFst<Arc> input;

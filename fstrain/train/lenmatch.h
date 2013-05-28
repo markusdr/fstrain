@@ -74,12 +74,12 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   bool success1 = TimedShortestDistance(fst_mapped, &alphas, false,
                                         opts.fst_delta,
                                         opts.shortestdistance_timelimit);
-  if(!success1) {
+  if (!success1) {
     SetAllGradientsTo(opts.gradients, opts.num_params, 0.0);
     opts.expected_lengths->insert(0, NeglogNum(core::kNegInfinity));
     return core::kPosInfinity; // infinite length -> infinite cost
   }
-  if(alphas.size() == 0){
+  if (alphas.size() == 0) {
     throw std::runtime_error("no paths: bad fst");
   }
 
@@ -89,12 +89,12 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   bool success2 = TimedShortestDistance(fst_mapped, &betas, true,
                                         opts.fst_delta,
                                         opts.shortestdistance_timelimit);
-  if(!success2){
+  if (!success2) {
     SetAllGradientsTo(opts.gradients, opts.num_params, 0.0);
     opts.expected_lengths->insert(0, NeglogNum(core::kNegInfinity));
     return core::kPosInfinity;
   }
-  if(betas.size() == 0){
+  if (betas.size() == 0) {
     throw std::runtime_error("no paths: bad fst");
   }
 
@@ -112,8 +112,8 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   MDExpectations::divideBy(betas[start_state].GetMDExpectations(), pathsum,
                          *opts.expected_lengths);
 
-  for(MDExpectations::const_iterator it = opts.expected_lengths->begin();
-      it != opts.expected_lengths->end(); ++it){
+  for (MDExpectations::const_iterator it = opts.expected_lengths->begin();
+      it != opts.expected_lengths->end(); ++it) {
     assert(it->second.sign_x); // length is positive
     retval = NeglogPlus(retval, it->second);
   }
@@ -123,25 +123,25 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
   fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter1(model_fst);
   fst::StateIterator< fst::Fst<fst::MDExpectationArc> > siter2(fst_mapped);
   typedef fst::LogArc::StateId StateId;
-  for (; !siter1.Done(); siter1.Next(), siter2.Next()){
+  for (; !siter1.Done(); siter1.Next(), siter2.Next()) {
     StateId in = siter1.Value();
     FSTR_TRAIN_DBG_MSG(10, "FROM STATE " << in << std::endl);
     bool in_state_ok = alphas.size() > in && alphas[in].Value() != core::kPosInfinity
 	&& alphas[in].Value() == alphas[in].Value(); // fails for NaN
-    if(!in_state_ok) {
+    if (!in_state_ok) {
       // std::cerr << "Warning (lenmatch.h): State " << in << " not reachable."
       //           << std::endl;
       continue;
     }
     fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter1(model_fst, in);
     fst::ArcIterator<fst::Fst<fst::MDExpectationArc> > aiter2(fst_mapped, in);
-    for (; !aiter1.Done(); aiter1.Next(), aiter2.Next()){
+    for (; !aiter1.Done(); aiter1.Next(), aiter2.Next()) {
       StateId out = aiter1.Value().nextstate;
       StateId out2 = aiter2.Value().nextstate;
       assert(out == out2);
       bool out_state_ok = betas.size() > out && betas[out].Value() != core::kPosInfinity
 	&& betas[out].Value() == betas[out].Value(); // fails for NaN
-      if(out_state_ok) {
+      if (out_state_ok) {
 	Weight expected_lengths_w = Times(Times(alphas[in], aiter2.Value().weight), betas[out]);
         const MDExpectations& expected_lengths0 = expected_lengths_w.GetMDExpectations();
         MDExpectations expected_lengths;
@@ -154,14 +154,14 @@ double AddLengthRegularization(const fst::Fst<fst::MDExpectationArc>& model_fst,
 	MDExpectations feat_expectations;
 	MDExpectations::divideBy(feat_expectations0, NeglogNum(aiter1.Value().weight.Value()),
 			       feat_expectations);
-        for(MDExpectations::const_iterator it = feat_expectations.begin();
-            it != feat_expectations.end(); ++it){
+        for (MDExpectations::const_iterator it = feat_expectations.begin();
+            it != feat_expectations.end(); ++it) {
           int feat_index = it->first;
           double feat_fire_cnt = GetOrigNum(it->second);
 	  NeglogNum fp(NeglogTimes(p, -log(feat_fire_cnt)));
 	  FSTR_TRAIN_DBG_MSG(10, "feat_fire_cnt["<<feat_index<<"]=" << feat_fire_cnt << std::endl);
-          for(MDExpectations::const_iterator it2 = opts.expected_lengths->begin();
-              it2 != opts.expected_lengths->end(); ++it2){
+          for (MDExpectations::const_iterator it2 = opts.expected_lengths->begin();
+              it2 != opts.expected_lengths->end(); ++it2) {
 	    double length_diff_overall = GetOrigNum((*opts.expected_lengths)[it2->first])
 	      - GetOrigNum(opts.empirical_lengths[it2->first]);
 	    FSTR_TRAIN_DBG_MSG(10, "E[len thru this arc] = " << GetOrigNum(expected_lengths[it2->first]) << std::endl);

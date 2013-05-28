@@ -59,7 +59,7 @@ const double* ObjectiveFunctionFst::GetParameters() const {
 void ObjectiveFunctionFst::SquashFunction() {
   double changed_val = value_ + 1;
   double divide_by = changed_val * changed_val;
-  for(int i = 0; i < num_params_; ++i){
+  for (int i = 0; i < num_params_; ++i) {
     gradients_[i] /= divide_by;
   }
   value_ /= changed_val;

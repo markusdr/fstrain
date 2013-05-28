@@ -14,7 +14,7 @@ extern "C" {
                        IFeatureSet* featset) {
     // GetFeatures(window, featset);
     LatentAnnotationFeatures f(window);
-    for(LatentAnnotationFeatures::const_iterator it = f.begin();
+    for (LatentAnnotationFeatures::const_iterator it = f.begin();
         it != f.end(); ++it) {
       featset->insert(*it);
     }

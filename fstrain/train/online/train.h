@@ -90,12 +90,12 @@ class SgdTrainer {
 
   void Train() {
     int k = 0;
-    for(int pass = 0; pass < num_passes_; ++pass) {
+    for (int pass = 0; pass < num_passes_; ++pass) {
       std::cerr << "PASS " << pass << std::endl;
-      for(batches_.Init(); !batches_.Done(); batches_.Next()) {
+      for (batches_.Init(); !batches_.Done(); batches_.Next()) {
         const double eta = learning_rate_fct_(k);
         Batches::Map batch_gradients = batches_.Value();
-        for(Batches::Map::const_iterator it = batch_gradients.begin();
+        for (Batches::Map::const_iterator it = batch_gradients.begin();
             it != batch_gradients.end(); ++it) {
           (*weights_)[it->first] += eta * it->second;
         }
@@ -140,22 +140,22 @@ class CumulativeL1Trainer {
 
   void Train() {
     int k = 0;
-    for(int pass = 0; pass < num_passes_; ++pass) {
+    for (int pass = 0; pass < num_passes_; ++pass) {
       util::Timer timer;
       std::cerr << "PASS " << pass << std::endl;
       int cnt = 1;
-      for(batches_.Init(); !batches_.Done(); batches_.Next(), ++cnt) {
-        if(cnt % 1000 == 0) {
+      for (batches_.Init(); !batches_.Done(); batches_.Next(), ++cnt) {
+        if (cnt % 1000 == 0) {
           std::cerr << cnt << " ..." << std::endl;
         }
         const double eta = learning_rate_fct_(k);
         u_ += eta * C_ / batch_size_;
         Batches::Map batch_gradients = batches_.Value();
-        for(Batches::Map::const_iterator it = batch_gradients.begin();
+        for (Batches::Map::const_iterator it = batch_gradients.begin();
             it != batch_gradients.end(); ++it) {
           (*weights_)[it->first] += eta * it->second;
           ApplyPenalty(it->first);
-          if((*weights_)[it->first] == 0.0) {
+          if ((*weights_)[it->first] == 0.0) {
             zero_weights_.insert(it->first);
           }
         }
@@ -175,10 +175,10 @@ class CumulativeL1Trainer {
   void ApplyPenalty(int i) {
     double& w_i = (*weights_)[i];
     double z = w_i;
-    if(w_i > 0) {
+    if (w_i > 0) {
       w_i = std::max(0.0, w_i - (u_ + q_[i]));
     }
-    else if(w_i < 0) {
+    else if (w_i < 0) {
       w_i = std::min(0.0, w_i + (u_ - q_[i]));
     }
     q_[i] += (w_i - z);

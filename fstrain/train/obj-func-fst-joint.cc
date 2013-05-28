@@ -67,20 +67,20 @@ void ObjectiveFunctionFstJoint::ComputeGradientsAndFunctionValue(const double* x
   double* gradients = GetGradients();
 
   SetFunctionValue(0.0);
-  for(size_t i = 0; i < num_params; ++i){
+  for (size_t i = 0; i < num_params; ++i) {
     gradients[i] = 0.0;
   }
 
   // regularize
   double norm = 0.0;
-  for(int i = 0; i < num_params; ++i){
+  for (int i = 0; i < num_params; ++i) {
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
   }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
-  for(size_t i = 0; i < data_->size(); ++i) {
-    if(exclude_data_indices_.find(i) != exclude_data_indices_.end()){
+  for (size_t i = 0; i < data_->size(); ++i) {
+    if (exclude_data_indices_.find(i) != exclude_data_indices_.end()) {
       continue;
     }
     const std::pair<std::string, std::string>& inout = (*data_)[i];
@@ -112,7 +112,7 @@ void ObjectiveFunctionFstJoint::ComputeGradientsAndFunctionValue(const double* x
   fprintf(stderr, "\t[%2.2f ms, %2.2f MB]\n",
           timer.get_elapsed_time_millis(), util::MemoryInfo::instance().getSizeInMB());
 
-  if(GetFunctionValue() == NeglogNum(core::kPosInfinity)){
+  if (GetFunctionValue() == NeglogNum(core::kPosInfinity)) {
     SetFunctionValue(1.0);
     return;
   }

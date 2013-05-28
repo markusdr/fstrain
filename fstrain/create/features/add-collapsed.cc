@@ -12,7 +12,7 @@ extern "C" {
                         IFeatureSet* featset) {
     featset->insert(window);
     std::string::const_iterator s = window.begin();
-    while((s = find_if(s, window.end(), isblank)) != window.end()){
+    while ((s = find_if (s, window.end(), isblank)) != window.end()) {
       std::string backoff_feat(++s, window.end());
       featset->insert(backoff_feat);
     }
@@ -21,11 +21,11 @@ extern "C" {
   std::string CollapseString(const std::string& str) {
     std::string collapsed;
     collapsed.reserve(str.size());
-    for(std::size_t i = 0; i < str.size(); ++i) {
-      if(str[i] == '-') {
+    for (std::size_t i = 0; i < str.size(); ++i) {
+      if (str[i] == '-') {
         ++i; // ignore next blank in "- a" or "a - x"
       }
-      else if(i == str.size() - 2 && str[i] == ' ' && str[i+1] == '-') { // "a -"
+      else if (i == str.size() - 2 && str[i] == ' ' && str[i+1] == '-') { // "a -"
         break;
       }
       else {
@@ -39,7 +39,7 @@ extern "C" {
                        IFeatureSet* featset) {
     ExtractFeatures_(window, featset);
     std::string collapsed = CollapseString(window);
-    if(!collapsed.empty() && collapsed != window) {
+    if (!collapsed.empty() && collapsed != window) {
       ExtractFeatures_(collapsed, featset);
     }
   }

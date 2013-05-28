@@ -20,7 +20,7 @@
 #include "fstrain/core/neg-log-of-signed-num.h"
 
 void Test(bool b) {
-  if(b){
+  if (b) {
     std::cout << "OK" << std::endl;
   }
   else {
@@ -44,7 +44,7 @@ void TestDivide(double a, double b) {
   double factor = result.sign_x ? 1.0 : -1.0;
   double exp_result = factor * exp(-result.lx);
   Test(ApproxEqual(exp_result, a/b));
-  if(exp_result != 0 && a/b != 0){
+  if (exp_result != 0 && a/b != 0) {
     Test(!ApproxEqual(exp_result, -a/b)); // test the sign too
   }
 }
@@ -58,7 +58,7 @@ void TestTimes(double a, double b) {
   double factor = result.sign_x ? 1.0 : -1.0;
   double exp_result = factor * exp(-result.lx);
   Test(ApproxEqual(exp_result, a*b));
-  if(exp_result != 0 && a*b != 0){
+  if (exp_result != 0 && a*b != 0) {
     Test(!ApproxEqual(exp_result, -a*b)); // test the sign too
   }
 }
@@ -74,12 +74,12 @@ void TestPlus(double a, double b) {
   std::cout << exp_result << " == " << a+b << std::endl;
   std::cout << "result=" << result << std::endl;
   Test(ApproxEqual(exp_result, a+b));
-  if(exp_result != 0 && a+b != 0){
+  if (exp_result != 0 && a+b != 0) {
     Test(!ApproxEqual(exp_result, -(a+b))); // test the sign too
   }
 }
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
   try{
     TestDivide(1, 2);
     TestDivide(-1, 2);
@@ -113,7 +113,7 @@ int main(int argc, char** argv){
     TestPlus(1/3.0, 0.0);
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

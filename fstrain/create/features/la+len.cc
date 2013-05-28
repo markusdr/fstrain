@@ -21,15 +21,15 @@ extern "C" {
                        IFeatureSet* featset) {
     // GetFeatures(window, featset);
     LatentAnnotationFeatures f(window);
-    for(LatentAnnotationFeatures::const_iterator it = f.begin();
+    for (LatentAnnotationFeatures::const_iterator it = f.begin();
         it != f.end(); ++it) {
       featset->insert(*it);
     }
 
     std::size_t start_last_symbol = 0;
     std::string::size_type last_blank = window.find_last_of(' ');
-    if(last_blank != std::string::npos) {
-      if(last_blank == window.size() - 1) {
+    if (last_blank != std::string::npos) {
+      if (last_blank == window.size() - 1) {
         FSTR_CREATE_EXCEPTION("window " << window << " end with blank");
       }
       start_last_symbol = last_blank + 1;

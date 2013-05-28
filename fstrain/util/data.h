@@ -46,7 +46,7 @@ namespace fstrain { namespace util {
 
     Data() {}
 
-    Data(const std::string& filename){
+    Data(const std::string& filename) {
       init(filename.c_str());
     }
 

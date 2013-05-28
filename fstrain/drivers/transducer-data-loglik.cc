@@ -57,7 +57,7 @@ class MultipleAnswersCompare {
     std::list<std::string> tok_list;
     boost::iter_split(tok_list, truths, boost::first_finder(separator_));
     BOOST_FOREACH(std::string token, tok_list) {
-      if(hypothesis == token){
+      if (hypothesis == token) {
         return true;
       }
     }
@@ -77,7 +77,7 @@ struct DecodeDataOptions {
 LogArc::Weight GetPathsum(const Fst<LogArc>& fst) {
   std::vector<LogArc::Weight> betas;
   ShortestDistance(fst, &betas, true); // reverse
-  if(betas.size() == 0){
+  if (betas.size() == 0) {
     return LogWeight::Zero();
   }
   return betas[0];
@@ -88,7 +88,7 @@ LogArc::Weight GetLoglik(const Fst<LogArc>& input_fst,
                          const Fst<LogArc>& model_fst) {
   ComposeFst<LogArc> denominator(input_fst, model_fst);
   LogWeight denominator_sum = GetPathsum(denominator);
-  if(denominator_sum == LogWeight::Zero()){
+  if (denominator_sum == LogWeight::Zero()) {
     std::cerr << "WARNING: Even input received 0 prob" << std::endl;
   }
   VectorFst<LogArc> composed;
@@ -106,7 +106,7 @@ void DecodeData(const util::Data& data,
   int num_correct = 0;
   LogWeight corpus_loglik(LogWeight::One());
   int excluded_count = 0;
-  for(util::Data::const_iterator it = data.begin(); it != data.end(); ++it){
+  for (util::Data::const_iterator it = data.begin(); it != data.end(); ++it) {
     const std::string input_string = it->first;
     const std::string output_string = it->second;
     LogWeight best_of_multiple(LogWeight::Zero());
@@ -128,12 +128,12 @@ void DecodeData(const util::Data& data,
                   << input_string << " / " << output_alternative << std::endl;
       }
       LogWeight loglik = GetLoglik(input_fst, output_fst, model_fst);
-      if(loglik.Value() < best_of_multiple.Value()){ // neg.loglik: smaller cost
+      if (loglik.Value() < best_of_multiple.Value()) { // neg.loglik: smaller cost
         best_of_multiple = loglik;
       }
       ++cnt;
     }
-    if(best_of_multiple != LogWeight::Zero()){
+    if (best_of_multiple != LogWeight::Zero()) {
       corpus_loglik = Times(corpus_loglik, best_of_multiple);
     }
     else {
@@ -146,7 +146,7 @@ void DecodeData(const util::Data& data,
             << std::endl;
 }
 
-int main(int ac, char** av){
+int main(int ac, char** av) {
   try{
 
     po::options_description generic("Allowed options");
@@ -178,7 +178,7 @@ int main(int ac, char** av){
     store(po::command_line_parser(ac, av).
 	  options(cmdline_options).positional(p).run(), vm);
 
-    if(vm.count("config-file")){
+    if (vm.count("config-file")) {
       ifstream ifs(vm["config-file"].as<std::string>().c_str());
       store(parse_config_file(ifs, config_file_options), vm);
       notify(vm);
@@ -218,7 +218,7 @@ int main(int ac, char** av){
     util::Data data(data_filename);
     const Fst<LogArc>* fst = util::GetVectorFst<LogArc>(fst_filename);
     DecodeDataOptions opts(*isymbols, *osymbols);
-    if(vm["multiple-truths"].as<bool>()) {
+    if (vm["multiple-truths"].as<bool>()) {
       const std::string separator = " ### ";
       DecodeData(data, *fst, MultipleAnswersCompare(separator), opts);
     }
@@ -232,7 +232,7 @@ int main(int ac, char** av){
     delete osymbols;
 
   }
-  catch(std::exception& e){
+  catch(std::exception& e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

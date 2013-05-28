@@ -50,7 +50,7 @@ struct ProcessInputOutputPair_Fct {
                              int iteration_)
       : obj(obj_), data(data_), first(first_), last(last_), iteration(iteration_) {}
   void operator()() {
-    for(std::size_t i = first; i <= last; ++i) {
+    for (std::size_t i = first; i <= last; ++i) {
       const std::pair<std::string, std::string>& inout = data[i];
       obj->ProcessInputOutputPair(inout.first, inout.second, iteration);
       boost::this_thread::interruption_point();
@@ -67,8 +67,8 @@ struct AbortThreadsOnDivergentObjective {
       : obj(obj_), watched_threads(watched_threads_), stop(false) {}
   void Stop() {stop = true;}
   void operator()() {
-    while(!stop) {
-      if(obj->GetFunctionValue() == core::kPosInfinity) {
+    while (!stop) {
+      if (obj->GetFunctionValue() == core::kPosInfinity) {
         std::cerr << "Divergence. Aborting other threads." << std::endl;
         BOOST_FOREACH(boost::shared_ptr<boost::thread> t_ptr, watched_threads) {
           t_ptr->interrupt();
@@ -98,19 +98,19 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
   double* gradients = GetGradients();
 
   SetFunctionValue(0.0);
-  for(size_t i = 0; i < num_params; ++i){
+  for (size_t i = 0; i < num_params; ++i) {
     gradients[i] = 0.0;
   }
 
   // regularize
   double norm = 0.0;
-  for(int i = 0; i < num_params; ++i){
+  for (int i = 0; i < num_params; ++i) {
     norm += (x[i] * x[i]);
     gradients[i] += x[i] / variance_;
   }
   SetFunctionValue(GetFunctionValue() + norm / (2.0 * variance_));
 
-  if(GetNumThreads() == 1) {
+  if (GetNumThreads() == 1) {
     ProcessInputOutputPair_Fct f(this, *data_, 0, data_->size() - 1, call_counter);
     f();
   }
@@ -119,7 +119,7 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
     const int num_threads = std::min(GetNumThreads(), (int)data_->size()); // TEST
     int prev_last = -1;
     int block_size = data_->size() / num_threads;
-    for(int i = 0; i < num_threads; ++i) {
+    for (int i = 0; i < num_threads; ++i) {
       const std::size_t first = prev_last + 1;
       const std::size_t last = i < num_threads - 1 ? prev_last + block_size : data_->size() - 1;
       prev_last = last;
@@ -145,11 +145,11 @@ void ObjectiveFunctionFstConditional::ComputeGradientsAndFunctionValue(const dou
           timer.get_elapsed_time_millis(),
           util::MemoryInfo::instance().getSizeInMB());
 
-  if(GetFunctionValue() == core::kPosInfinity){
+  if (GetFunctionValue() == core::kPosInfinity) {
     double* gradients = GetGradients();
     // already done in GetFeatureMDExpectations, but not sure due to threads
     const int num_params = GetNumParameters();
-    for(std::size_t i = 0; i < num_params; ++i) {
+    for (std::size_t i = 0; i < num_params; ++i) {
       gradients[i] = 0.0;
     }
     SetFunctionValue(1.0);
@@ -185,7 +185,7 @@ void ObjectiveFunctionFstConditional::ProcessInputOutputPair(
         GetFstDelta(), &timelimit, &mutex_gradient_access_);
   }
   catch(...) {
-    if(iteration == 0) {
+    if (iteration == 0) {
       std::cerr << "Ignoring example: " << in << " / " << out << std::endl;
     }
     return;

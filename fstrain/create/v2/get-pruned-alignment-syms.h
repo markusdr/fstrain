@@ -13,11 +13,11 @@ namespace fstrain { namespace create {
 
 void AddIdentityCharacters(const fst::SymbolTable& isyms,
                            const fst::SymbolTable& osyms,
-                           fst::SymbolTable* align_syms){
+                           fst::SymbolTable* align_syms) {
   fst::SymbolTableIterator sit(isyms);
   sit.Next(); // ignore eps
-  for(; !sit.Done(); sit.Next()){
-    if(osyms.Find(sit.Symbol()) != fst::kNoLabel){
+  for (; !sit.Done(); sit.Next()) {
+    if (osyms.Find(sit.Symbol()) != fst::kNoLabel) {
       std::stringstream ss;
       ss << sit.Symbol() << "|" << sit.Symbol();
       align_syms->AddSymbol(ss.str());
@@ -39,18 +39,18 @@ class StreamAndSymbolTableWriter {
     source_syms_ = source_syms;
   }
   // for std::endl:
-  OutputStream& operator<<(OutputStream& (*f)(OutputStream&)){
+  OutputStream& operator<<(OutputStream& (*f)(OutputStream&)) {
     return f(*out_);
   }
   OutputStream& operator<<(const std::string& str) {
     *out_ << str;
-    if(str != "" && str != " " && str != "\n"){
-      if(source_syms_ == NULL){
+    if (str != "" && str != " " && str != "\n") {
+      if (source_syms_ == NULL) {
         target_syms_ ->AddSymbol(str);
       }
       else {
         int64 label = source_syms_->Find(str);
-        if(label == fst::kNoLabel){
+        if (label == fst::kNoLabel) {
           FSTR_CREATE_EXCEPTION("Could not find symbol '" << str
                                 << "' in source alignment symbols table");
         }
@@ -73,7 +73,7 @@ void GetPrunedAlignmentSyms(const util::Data& data,
   // writer.SetSourceSyms(all_align_syms);
   util::AlignStringsOptions opts;
   opts.n_best_alignments = 1; // one-best
-  if(fstrain::util::options.has("sigma_label")){
+  if (fstrain::util::options.has("sigma_label")) {
     opts.sigma_label = fstrain::util::options.get<int>("sigma_label");
   }
   util::AlignStrings(data, isyms, osyms, align_fst, &writer, opts);

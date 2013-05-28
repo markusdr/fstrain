@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_SUITE(create2)
   fstrain::util::printAcceptor(&scoring_fsa, &align_syms, std::cout);
 
   std::cout << "FEATURES:" << std::endl;
-  for(SymbolTableIterator sit(feature_names); !sit.Done(); sit.Next()) {
+  for (SymbolTableIterator sit(feature_names); !sit.Done(); sit.Next()) {
     std::cout << sit.Symbol() << " " << sit.Value() << std::endl;
   }
 
