@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef OBJ_FUNC_R_INTERFACE_H
-#define OBJ_FUNC_R_INTERFACE_H
+#ifndef FSTRAIN_TRAIN_OBJ_FUNC_R_INTERFACE_H
+#define FSTRAIN_TRAIN_OBJ_FUNC_R_INTERFACE_H
 
 #include <iostream>
 #include "fstrain/train/obj-func.h"

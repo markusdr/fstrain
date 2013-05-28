@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef OBJ_FUNC_FST_CONDITIONAL_H
-#define OBJ_FUNC_FST_CONDITIONAL_H
+#ifndef FSTRAIN_TRAIN_OBJ_FUNC_FST_CONDITIONAL_H
+#define FSTRAIN_TRAIN_OBJ_FUNC_FST_CONDITIONAL_H
 
 #include <set>
 #include <string>

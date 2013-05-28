@@ -12,8 +12,8 @@
 //
 // Author: markus.dreyer@gmail.com (Markus Dreyer)
 //
-#ifndef OBJ_FUNC_FST_FACTORY_H
-#define OBJ_FUNC_FST_FACTORY_H
+#ifndef FSTRAIN_TRAIN_OBJ_FUNC_FST_FACTORY_H
+#define FSTRAIN_TRAIN_OBJ_FUNC_FST_FACTORY_H
 
 #include <cstddef>
 #include "fst/fst.h"
