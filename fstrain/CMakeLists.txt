@@ -16,7 +16,7 @@ message(STATUS "Current build type: ${CMAKE_BUILD_TYPE}")
 ## Find Boost
 # set(Boost_DEBUG 1) 
 if(DEFINED BOOST_ROOT)
-  message("Will look for Boost in ${BOOST_ROOT}")
+  message(STATUS "Will look for Boost in ${BOOST_ROOT}")
   set(Boost_NO_SYSTEM_PATHS ON)
   set(Boost_FIND_OPTIONS NO_CMAKE_SYSTEM_PATH)
 endif()
