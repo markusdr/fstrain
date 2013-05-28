@@ -23,7 +23,7 @@ Build Instructions
         make -C test
 
     If your OpenFst is not installed in a standard system directory
-    (like `/usr/local` or similar) then cmake cannot find it. In that
+    (like `/usr/local` or similar) then `cmake` cannot find it. In that
     case, use this `cmake` command:
 
         cmake -DOPENFST_ROOT=/my/path/to/openfst ../fstrain
