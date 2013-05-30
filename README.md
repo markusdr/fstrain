@@ -1,7 +1,7 @@
 fstrain
 =======
 
-A toolkit for training finite-state models
+A toolkit for training finite-state models.
 
 Build Instructions
 ------------------
@@ -18,7 +18,8 @@ Build Instructions
         cd Release
         cmake ../fstrain
         make
-        export FSTRAIN_ROOT=$(pwd)
+        export FSTRAIN_HOME=$(pwd)
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(FSTRAIN_HOME)/core:$(FSTRAIN_HOME)/create
         cd ..
         make -C test
 
